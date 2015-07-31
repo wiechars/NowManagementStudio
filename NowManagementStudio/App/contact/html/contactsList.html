@@ -1,0 +1,57 @@
+﻿
+    <!-- Basic Setup -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Contacts</h3>
+
+            <div class="panel-options">
+                <a href="#" data-toggle="panel">
+                    <span class="collapse-icon">&ndash;</span>
+                    <span class="expand-icon">+</span>
+                </a>
+                <a href="#" data-toggle="remove">&times;
+						</a>
+            </div>
+        </div>
+    <div class="panel-body">
+            <script type="text/javascript">
+                jQuery(document).ready(function ($) {
+                    $("#example-1").dataTable({
+                        aLengthMenu: [
+                            [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]
+                        ]
+                    });
+                });
+					</script>
+
+        <div class="col-md-6">
+            <a class="btn btn-primary" href="#/mycontacts/newcontact"><i class="glyphicon glyphicon-file"></i>New</a>
+        </div>
+
+        <table id="example-1" datatable="ng" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+                <tr role="row">
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+            </tfoot>
+            <tbody>
+                <tr ng-repeat="contact in contacts | filter:search_txt ">
+                    <td>{{contact.name}}</td>
+                    <td>{{contact.email}}</td>
+                    <td>{{contact.mobile}}</td>
+                    <td>
+                        <a class="btn btn-primary" href="#/mycontacts/{{contact.id}}">
+                            <i class="glyphicon glyphicon-edit">Edit</i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        </div>
+    </div>
+
