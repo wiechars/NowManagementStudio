@@ -11,8 +11,8 @@ namespace NowManagementStudio
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/jquery.dataTables.js",
-                                           "~/Scripts/datatables/yadcf/jquery.dataTables.yadcf.js",
-                    "~/Scripts/datatables/tabletools/dataTables.tableTools.min.js"));
+                         "~/Scripts/datatables/angular-datatables.js"
+                        ));
 
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
@@ -37,6 +37,12 @@ namespace NowManagementStudio
                       "~/Scripts/Angular1.3.5/angular-ui-bootstrap.js",
                       "~/App/nmsApp.js",
                       "~/App/directives/ui-bootstrap-tpls-0.13.1.js",
+                      "~/App/directives/angular-datatables.directive.js",
+                      "~/App/services/angular-datatables.factory.js",
+                      "~/App/services/angular-datatables.instances.js",
+                      "~/App/services/angular-datatables.options.js",
+                      "~/App/services/angular-datatables.renderer.js",
+                      "~/App/services/angular-datatables.util.js",
                       "~/App/clientRoute.js",
                       "~/App/DataService/contactDataService.js",
                       "~/App/contact/controller/contactController.js"
@@ -50,8 +56,8 @@ namespace NowManagementStudio
                       "~/Content/xenon-forms.css",        
                       "~/Content/xenon-skins.css",
                       "~/Content/xenon.css",
-                      "~/Content/fonts2/linecons/css/linecons.css",
-                      "~/Content/fonts2/fontawesome/css/font-awesome.min.css"
+                      "~/Content/fonts/linecons/css/linecons.css",
+                      "~/Content/fonts/fontawesome/css/font-awesome.min.css"
                      ));
 
 
@@ -63,8 +69,8 @@ namespace NowManagementStudio
                       "~/Content/xenon-forms.css",
                       "~/Content/xenon-skins.css",
                       "~/Content/xenon.css",
-                      "~/Content/fonts2/linecons/css/linecons.css",
-                      "~/Content/fonts2/fontawesome/css/font-awesome.min.css"
+                      "~/Content/fonts/linecons/css/linecons.css",
+                      "~/Content/fonts/fontawesome/css/font-awesome.min.css"
                      ));
 
 
