@@ -11,6 +11,7 @@ namespace NowManagementStudio
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/jquery.dataTables.js",
+                        "~/Scripts/Angular1.3.5/angular.js",
                          "~/Scripts/datatables/angular-datatables.js"
                         ));
 
@@ -31,7 +32,7 @@ namespace NowManagementStudio
                       ));
 
             bundles.Add(new ScriptBundle("~/bundles/angularApp").Include(
-                      "~/Scripts/Angular1.3.5/angular.js",
+                      
                       "~/Scripts/Angular1.3.5/angular-route.js",
                       "~/Scripts/Angular1.3.5/angular-resource.js",
                       "~/Scripts/Angular1.3.5/angular-ui-bootstrap.js",
