@@ -36,6 +36,7 @@ namespace NowManagementStudio
                       "~/Scripts/Angular1.3.5/angular-resource.js",
                       "~/Scripts/Angular1.3.5/angular-ui-bootstrap.js",
                       "~/App/nmsApp.js",
+                      "~/App/directives/ui-bootstrap-tpls-0.13.1.js",
                       "~/App/clientRoute.js",
                       "~/App/DataService/contactDataService.js",
                       "~/App/contact/controller/contactController.js"

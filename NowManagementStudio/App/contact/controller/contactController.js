@@ -5,8 +5,11 @@ nmsApp.controller('contactController',
     ['$scope', 'contactDataService', '$location',
     function categoryController($scope, contactDataService) {
         $scope.contacts = [];
+        $scope.alerts = [];
 
-
+        $scope.closeAlert = function (index) {
+            $scope.alerts.splice(index, 1);
+        };
         
         loadContactData();
 
@@ -14,9 +17,11 @@ nmsApp.controller('contactController',
             contactDataService.getContacts()
             .then(function () {
                 $scope.contacts = contactDataService.contacts;
+                $scope.alerts.push({ type: 'success', msg: 'Successfully retrieved contacts' });
+
              },
                 function () {
-                    alert("error");
+                    $scope.alerts.push({ type: 'danger', msg: 'Error Retrieving Contacts.' });
                     //Error goes here...
                 })
                 .then(function () {

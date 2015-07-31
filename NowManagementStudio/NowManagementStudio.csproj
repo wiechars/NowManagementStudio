@@ -142,6 +142,7 @@
     <Content Include="App\clientRoute.js" />
     <Content Include="App\dashboard\html\dashboard.html" />
     <Content Include="App\datatables\html\datatables.html" />
+    <Content Include="App\directives\ui-bootstrap-tpls-0.13.1.js" />
     <Content Include="App\nmsApp.js" />
     <Content Include="App\contact\html\contactForm.html" />
     <Content Include="App\contact\html\contactsList.html" />
