@@ -6,6 +6,7 @@ nmsApp.controller('contactController',
     function categoryController($scope, contactDataService) {
         $scope.contacts = [];
         $scope.alerts = [];
+        $scope.message = "";
 
         $scope.closeAlert = function (index) {
             $scope.alerts.splice(index, 1);

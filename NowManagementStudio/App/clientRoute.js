@@ -8,6 +8,10 @@
         templateUrl: "app/Home/about.html"
     }),
 
+        $routeProvider.when('/chat', {
+            templateUrl: "app/Home/chat.html"
+        }),
+
     $routeProvider.when('/dashboard', {
         templateUrl: "app/dashboard/html/dashboard.html"
     }),
