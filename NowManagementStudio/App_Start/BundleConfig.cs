@@ -40,6 +40,7 @@ namespace NowManagementStudio
                       "~/App/nmsApp.js",
                       "~/App/directives/ui-bootstrap-tpls-0.13.1.js",
                       "~/App/directives/angular-datatables.directive.js",
+                       "~/App/directives/*.js",
                       "~/App/services/angular-datatables.factory.js",
                       "~/App/services/angular-datatables.instances.js",
                       "~/App/services/angular-datatables.options.js",

@@ -12,7 +12,7 @@ namespace NowManagementStudio.Controllers
     public class ContactController : JsonController
     {
         private ContactContext ContactsDB = new ContactContext();
-        
+
         /// <summary>
         /// Returns a list of contacts in the system
         /// </summary>
@@ -36,11 +36,12 @@ namespace NowManagementStudio.Controllers
             {
                 //ContactsDB.Contacts.Add(_Contact);
                 //ContactsDB.SaveChanges();
-                ContactsDB.EditContact(_Contact);
+                ContactsDB.AddContact(_Contact);
                 return new HttpStatusCodeResult(HttpStatusCode.Created);  // OK = 200
-            } catch
+            }
+            catch
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); 
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
 
@@ -55,10 +56,11 @@ namespace NowManagementStudio.Controllers
             {
 
                 ContactsDB.EditContact(_Contact);
-                return new HttpStatusCodeResult(HttpStatusCode.Accepted); 
-            } catch
+                return new HttpStatusCodeResult(HttpStatusCode.Accepted);
+            }
+            catch
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); 
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
 
@@ -70,15 +72,16 @@ namespace NowManagementStudio.Controllers
         public ActionResult DeleteContact(int id)
         {
             var _Contact = ContactsDB.Contacts.First(r => r.Id == id);
-            try {
+            try
+            {
                 ContactsDB.Contacts.Remove(_Contact);
                 ContactsDB.SaveChanges();
                 return new HttpStatusCodeResult(HttpStatusCode.OK);  // OK = 200
             }
             catch
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); 
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
-	}
+    }
 }

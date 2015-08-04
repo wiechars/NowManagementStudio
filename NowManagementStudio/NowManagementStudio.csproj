@@ -159,11 +159,13 @@
     <Compile Include="Helpers\JsonController.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\ContactContext.cs" />
+    <Compile Include="Models\ContactHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\clientRoute.js" />
+    <Content Include="App\directives\ngScrollTo.js" />
     <Content Include="App\dashboard\html\dashboard.html" />
     <Content Include="App\datatables\html\datatables.html" />
     <Content Include="App\directives\angular-datatables.directive.js" />

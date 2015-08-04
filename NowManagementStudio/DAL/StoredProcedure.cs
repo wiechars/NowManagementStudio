@@ -134,6 +134,55 @@ namespace NowManagementStudio.DAL
             }
         }
 
+        // run a stored procedure that takes a parameter
+        public void AddContact(string name, string email, string phoneNumber)
+        {
+
+            MySqlConnection conn = null;
+            MySqlDataReader rdr = null;
+
+            try
+            {
+
+                // create and open a connection object
+                conn = new
+                        MySqlConnection("Server=10.1.1.60;uid=root;pwd=Glasgow931;database=nms;");
+                conn.Open();
+
+                // 1. create a command object identifying
+                // the stored procedure
+                MySqlCommand cmd = new MySqlCommand(
+                    "NMS_InsertContact", conn);
+
+                // 2. set the command object so it knows
+                // to execute a stored procedure
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                // 3. add parameter to command, which
+                // will be passed to the stored procedure
+                cmd.Parameters.Add(
+    new MySqlParameter("@name", name));
+                cmd.Parameters.Add(
+    new MySqlParameter("@email", email));
+                cmd.Parameters.Add(
+    new MySqlParameter("@phoneNumber", phoneNumber));
+
+                // execute the command
+                cmd.ExecuteNonQuery();
+
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
+            }
+        }
         // run a simple stored procedure
         public void RunStoredProc()
         {
