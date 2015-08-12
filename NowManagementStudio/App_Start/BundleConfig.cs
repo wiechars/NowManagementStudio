@@ -108,7 +108,8 @@ namespace NowManagementStudio
                       //"~/client/assets/fonts/linecons/css/linecons.css",
                       "~/xenon/assets/css/fonts/linecons/css/linecons.css",
                       //"~/client/assets/fonts/fontawesome/css/font-awesome.min.css"
-                      "~/xenon/assets/css/fonts/fontawesome/css/font-awesome.min.css"
+                      "~/xenon/assets/css/fonts/fontawesome/css/font-awesome.min.css",
+                      "~/xenon/assets/js/datatables/css/jquery.dataTables.min.css"
                      ));
 
 
