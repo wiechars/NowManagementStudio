@@ -7,8 +7,23 @@ app.controller('contactController',
         $scope.contacts = [];
         $scope.alerts = [];
         $scope.message = "";
-
+        $scope.saveEditTitle = "Save/Edit Contact";
+        hideButtons();
         loadContactData();
+
+        /**************************************
+        ***        Hide Buttons              ***
+        **************************************/
+        function hideButtons() {
+            $scope.disableTagButton = { 'visibility': 'hidden' }; 
+        }
+
+        /**************************************
+        ***        Show Buttons              ***
+        **************************************/
+        function showButtons() {
+            $scope.disableTagButton = { 'visibility': 'visible' };
+        }
 
         /**************************************
         ***        Alert Popup              ***
@@ -21,6 +36,8 @@ app.controller('contactController',
         ***        Add Contact             ***
         **************************************/
         $scope.add = function () {
+            $scope.saveEditTitle = "Add Contact";
+            showButtons();
             $scope.contact = {};
             $scope.isEdit = false;
 
@@ -31,6 +48,13 @@ app.controller('contactController',
         **************************************/
         $scope.cancel = function () {
             $scope.contact = [];
+            $scope.isEdit = false;
+            //When Cancelling reset form validation
+            $scope.contactForm.$setPristine();
+            lFirstChange = true;
+            hideButtons();
+          
+
 
         };
 
@@ -39,9 +63,10 @@ app.controller('contactController',
         ***        Edit Contact             ***
         **************************************/
         $scope.edit = function (id) {
-
+            showButtons();
             $scope.contact = {};
             $scope.isEdit = true;
+            $scope.saveEditTitle = "Edit Contact";
             var lFirstChange = true;
 
             if (id) {
@@ -185,7 +210,11 @@ app.controller('contactEditController',
         }
 
         $scope.cancel = function () {
-            $window.location = "#/mycontacts";
+            //reset validation
+            $scope.contactForm.$setUntouched();
+            $scope.isEdit = false;
+            $scope.contact = [];
+           // $window.location = "#/mycontacts";
         };
 
         $scope.modalDelete = function (size, contact) {
