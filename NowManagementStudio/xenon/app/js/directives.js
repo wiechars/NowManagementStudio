@@ -48,7 +48,7 @@ angular.module('xenon.directives', []).
 	directive('sidebarProfile', function(){
 		return {
 			restrict: 'E',
-			replace: true,
+			replace: false,
 			templateUrl: appHelper.templatePath('layout/sidebar-profile')
 		};
 	}).
