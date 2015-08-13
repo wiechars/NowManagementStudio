@@ -29,7 +29,7 @@ app.run(function () {
 
 app.config(function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, ASSETS) {
 
-    $urlRouterProvider.otherwise('/app/ui-blockquotes');
+    $urlRouterProvider.otherwise('/app/contacts');
 
     $stateProvider.
 		// Main Layout Structure
@@ -45,7 +45,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, AS
 		    }
 		}).
        
-
+        // Contacts
+		state('app.contacts', {
+		    url: '/contacts',
+		    templateUrl: appHelper.templatePath('contacts/contacts'),
+		}).
 		// Dashboards
 		state('app.dashboard-variant-1', {
 		    url: '/dashboard-variant-1',
@@ -121,11 +125,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, AS
 		    url: '/layout-and-skins',
 		    templateUrl: appHelper.templatePath('layout-and-skins'),
 		}).
-        		// Contacts
-		state('app.contacts', {
-		    url: '/contacts',
-		    templateUrl: appHelper.templatePath('contacts/contacts'),
-		}).
+
 
 		// UI Elements
 		state('app.ui-panels', {
