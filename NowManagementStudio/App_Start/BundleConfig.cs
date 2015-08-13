@@ -10,8 +10,8 @@ namespace NowManagementStudio
         {
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/xenon/assets/js/bootstrap.min.js",                    
-                      "~/xenon/assets/js/joinable.js"
+                      "~/xenon/assets/js/bootstrap.min.js"                
+                      
                       ));
 
             bundles.Add(new ScriptBundle("~/bundles/angularApp").Include(
@@ -47,6 +47,7 @@ namespace NowManagementStudio
                         "~/xenon/assets/js/resizeable.js",
                         "~/xenon/assets/js/xenon-api.js",
                         "~/xenon/assets/js/xenon-toggles.js",
+                        "~/xenon/assets/js/joinable.js",
                         "~/xenon/app/components/contacts/*.js",
                         "~/xenon/app/shared/*.js"
                       ));

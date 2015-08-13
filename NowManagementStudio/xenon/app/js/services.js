@@ -85,6 +85,7 @@ angular.module('xenon.services', []).
 		{
 		    //var contacts = this.addItem('Contacts', '/app/contacts', 'fa-users');
 		    var contacts = this.addItem('Contacts', '/app/contacts', 'fa-user');
+		    var useraccounts = this.addItem('User Accounts', '/app/admin-users', 'fa-book');
 			var dashboard    = this.addItem('Dashboard', 		'/app/dashboard', 			'linecons-cog');
 			var layouts      = this.addItem('Layout & Skins',	'/app/layout-and-skins',	'linecons-desktop');
 			var ui_elements  = this.addItem('UI Elements', 		'/app/ui', 					'linecons-note');

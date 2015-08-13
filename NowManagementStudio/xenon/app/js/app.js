@@ -60,7 +60,33 @@ app.config(function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, AS
         		}
         	}
         }).
-
+        //Admin Users
+        state('app.admin-users', {
+            url: '/admin-users',
+            templateUrl: appHelper.templatePath('admin/users'),
+            resolve: {
+                jQueryValidate: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([ASSETS.forms.jQueryValidate, ]);
+                },
+                datepicker: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([ASSETS.forms.datepicker, ]);
+                },
+                jqui: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        files: ASSETS.core.jQueryUI
+                    });
+                },
+                inputmask: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([ASSETS.forms.inputmask, ]);
+                },
+                select2: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([ASSETS.forms.select2, ]);
+                },
+                deps: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([ASSETS.tables.rwd, ASSETS.tables.scrollTableBody, ]);
+                }
+            }
+        }).
 		// Dashboards
 		state('app.dashboard-variant-1', {
 		    url: '/dashboard-variant-1',

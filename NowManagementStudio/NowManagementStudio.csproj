@@ -1990,6 +1990,7 @@
     <Content Include="xenon\app\js\widgets.js" />
     <Content Include="xenon\app\js\xenon-custom.js" />
     <Content Include="xenon\app\shared\ngScrollToDirective.js" />
+    <Content Include="xenon\app\tpls\admin\users.html" />
     <Content Include="xenon\app\tpls\charts\bar-gauges.html" />
     <Content Include="xenon\app\tpls\charts\bars.html" />
     <Content Include="xenon\app\tpls\charts\gauges-linear.html" />
