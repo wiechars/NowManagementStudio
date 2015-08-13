@@ -44,12 +44,23 @@ app.config(function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, AS
 		        $rootScope.isMainPage = true;
 		    }
 		}).
-       
+
         // Contacts
-		state('app.contacts', {
-		    url: '/contacts',
-		    templateUrl: appHelper.templatePath('contacts/contacts'),
-		}).
+
+        state('app.contacts', {
+        	url: '/contacts',
+        	templateUrl: appHelper.templatePath('contacts/contacts'),
+        	resolve: {
+        		deps: function ($ocLazyLoad) {
+        		    return $ocLazyLoad.load([
+                        ASSETS.tables.rwd,
+                        //ASSETS.contacts.controller,
+                       // ASSETS.contacts.dataService,
+        		    ]);
+        		}
+        	}
+        }).
+
 		// Dashboards
 		state('app.dashboard-variant-1', {
 		    url: '/dashboard-variant-1',
@@ -827,6 +838,10 @@ app.config(function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, AS
 
 
 app.constant('ASSETS', {
+    'contacts': {
+        'controller': appHelper.appPath('components/contacts/contactController.js'),
+        'dataService': appHelper.appPath('components/contacts/contactDataService.js')
+    },
     'core': {
         'bootstrap': appHelper.assetPath('js/bootstrap.min.js'), // Some plugins which do not support angular needs this
 

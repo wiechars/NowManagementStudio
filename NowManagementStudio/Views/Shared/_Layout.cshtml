@@ -9,7 +9,8 @@
 	    var appHelper = {
 	        // Vars (paths without trailing slash)
 	        templatesDir: 'xenon/app/tpls',
-	        assetsDir: 'assets',
+	        assetsDir: 'xenon/assets',
+            appDir: 'xenon/app',
 
 	        // Methods
 	        templatePath: function (view_name) {
@@ -18,6 +19,10 @@
 
 	        assetPath: function (file_path) {
 	            return this.assetsDir + '/' + file_path;
+	        },
+
+	        appPath: function (file_path) {
+	            return this.appDir + '/' + file_path;
 	        }
 	    };
 	</script>
