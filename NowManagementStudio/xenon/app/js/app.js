@@ -24,9 +24,11 @@ app.run(function () {
 });
 
 
-app.config(function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, ASSETS) {
+app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLoadProvider, ASSETS) {
 
-    $urlRouterProvider.otherwise('/login2');
+    $httpProvider.interceptors.push('authInterceptorService');
+
+    $urlRouterProvider.otherwise('/login');
 
     $stateProvider.
 		// Main Layout Structure
@@ -43,8 +45,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, AS
 		}).
 
        // Logins and Lockscreen
-		state('login2', {
-		    url: '/login2',
+		state('login', {
+		    url: '/login',
 		    templateUrl: appHelper.templatePath('login/login'),
 		    controller: 'loginController',
 		    resolve: {
@@ -832,20 +834,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, AS
 		    }
 		}).
 
-		// Logins and Lockscreen
-		state('login', {
-		    url: '/login',
-		    templateUrl: appHelper.templatePath('login'),
-		    controller: 'LoginCtrl',
-		    resolve: {
-		        resources: function ($ocLazyLoad) {
-		            return $ocLazyLoad.load([
-						ASSETS.forms.jQueryValidate,
-						ASSETS.extra.toastr,
-		            ]);
-		        },
-		    }
-		}).
+
 		state('login-light', {
 		    url: '/login-light',
 		    templateUrl: appHelper.templatePath('login-light'),

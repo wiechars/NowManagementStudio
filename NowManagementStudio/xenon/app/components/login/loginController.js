@@ -19,4 +19,10 @@ app.controller('loginController', ['$scope', '$location', 'authService', functio
          });
     };
 
+    $scope.logout = function () {
+        authService.logOut();
+        $location.path('/login');
+
+    };
+
 }]);

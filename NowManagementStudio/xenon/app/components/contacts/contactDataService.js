@@ -4,7 +4,7 @@ function ($http, $q) {
 
     var _getContacts = function () {
         var deferred = $q.defer();
-        var controllerQuery = "contact/GetContacts";
+        var controllerQuery = "api/Contacts";
 
         $http.get(controllerQuery)
           .then(function (result) {

@@ -2033,7 +2033,6 @@
     <Content Include="xenon\app\js\common\services\angular-datatables.options.js" />
     <Content Include="xenon\app\js\common\services\angular-datatables.renderer.js" />
     <Content Include="xenon\app\js\common\services\angular-datatables.util.js" />
-    <Content Include="xenon\app\js\common\services\authService.js" />
     <Content Include="xenon\app\js\controllers.js" />
     <Content Include="xenon\app\js\directives.js" />
     <Content Include="xenon\app\js\factory.js" />

@@ -154,7 +154,7 @@ app.controller('contactController',
 
             },
                 function () {
-                    $scope.alerts.push({ type: 'danger', msg: 'Error Retrieving Contacts.' });
+                    $scope.alerts.push({ type: 'danger', msg: 'Error Retrieving Contacts.'});
                     //Error goes here...
                 })
                 .then(function () {
