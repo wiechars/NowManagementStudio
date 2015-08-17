@@ -41,6 +41,7 @@ namespace NowManagementStudio
                         "~/xenon/app/js/services.js",
                         "~/xenon/app/js/factory.js",
                         "~/xenon/app/js/angular-fullscreen.js",
+                        "~/xenon/app/js/angular-local-storage.min.js",
                         "~/xenon/assets/js/TweenMax.min.js",
                         "~/xenon/assets/js/TweenLite.min.js",
                         "~/xenon/assets/js/TweenMax.min.js",
@@ -49,6 +50,7 @@ namespace NowManagementStudio
                         "~/xenon/assets/js/xenon-toggles.js",
                         "~/xenon/assets/js/joinable.js",
                         "~/xenon/app/components/contacts/*.js",
+                        "~/xenon/app/components/login/*.js",
                         "~/xenon/app/shared/*.js"
                       ));
 

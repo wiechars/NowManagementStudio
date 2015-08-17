@@ -1256,6 +1256,10 @@
     <Content Include="DAL\Sprocs\Security\SEC_GetUsers.sql" />
     <Content Include="xenon\app\components\contacts\contactController.js" />
     <Content Include="xenon\app\components\contacts\contactDataService.js" />
+    <Content Include="xenon\app\js\angular-local-storage.min.js" />
+    <Content Include="xenon\app\shared\authInterceptorService.js" />
+    <Content Include="xenon\app\tpls\login\login.html" />
+    <Content Include="xenon\app\components\login\loginController.js" />
     <Content Include="xenon\app\index.html" />
     <Content Include="xenon\app\js\angular-datatables\angular-datatables.directive.js" />
     <Content Include="xenon\app\js\angular-datatables\angular-datatables.factory.js" />
@@ -2046,6 +2050,7 @@
     <Content Include="xenon\app\js\services.js" />
     <Content Include="xenon\app\js\widgets.js" />
     <Content Include="xenon\app\js\xenon-custom.js" />
+    <Content Include="xenon\app\shared\authService.js" />
     <Content Include="xenon\app\shared\ngScrollToDirective.js" />
     <Content Include="xenon\app\tpls\admin\users.html" />
     <Content Include="xenon\app\tpls\charts\bar-gauges.html" />

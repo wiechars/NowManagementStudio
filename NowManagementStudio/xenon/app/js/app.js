@@ -5,15 +5,12 @@ var app = angular.module('app', [
     'datatables',
 	'ui.router',
 	'ui.bootstrap',
-
 	'oc.lazyLoad',
-
 	'xenon.controllers',
 	'xenon.directives',
 	'xenon.factory',
 	'xenon.services',
-
-	// Added in v1.3
+    'LocalStorageModule',
 	'FBAngular'
 ]);
 
@@ -29,7 +26,7 @@ app.run(function () {
 
 app.config(function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, ASSETS) {
 
-    $urlRouterProvider.otherwise('/app/contacts');
+    $urlRouterProvider.otherwise('/login2');
 
     $stateProvider.
 		// Main Layout Structure
@@ -45,6 +42,20 @@ app.config(function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, AS
 		    }
 		}).
 
+       // Logins and Lockscreen
+		state('login2', {
+		    url: '/login2',
+		    templateUrl: appHelper.templatePath('login/login'),
+		    controller: 'loginController',
+		    resolve: {
+		        resources: function ($ocLazyLoad) {
+		            return $ocLazyLoad.load([
+						ASSETS.forms.jQueryValidate,
+						ASSETS.extra.toastr,
+		            ]);
+		        },
+		    }
+		}).
         // Contacts
 
         state('app.contacts', {
@@ -861,6 +872,10 @@ app.config(function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, AS
 		    }
 		});
 });
+
+app.run(['authService', function (authService) {
+    authService.fillAuthData();
+}]);
 
 
 app.constant('ASSETS', {
