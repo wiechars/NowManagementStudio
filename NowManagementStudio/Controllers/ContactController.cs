@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System;
 
 namespace NowManagementStudio.Controllers
 {
@@ -39,8 +40,10 @@ namespace NowManagementStudio.Controllers
                 ContactsDB.AddContact(_Contact);
                 return new HttpStatusCodeResult(HttpStatusCode.Created);  // OK = 200
             }
-            catch
+            catch (Exception ex)
+
             {
+                //TODO : Error handling
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }

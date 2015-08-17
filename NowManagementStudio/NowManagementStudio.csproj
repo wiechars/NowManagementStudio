@@ -11,7 +11,7 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NowManagmentSTudio</RootNamespace>
+    <RootNamespace>NowManagementStudio</RootNamespace>
     <AssemblyName>NowManagementStudio</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
@@ -72,6 +72,9 @@
     <Reference Include="Microsoft.Owin">
       <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Owin.Cors">
+      <HintPath>..\packages\Microsoft.Owin.Cors.2.1.0\lib\net45\Microsoft.Owin.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin.Host.SystemWeb">
       <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
@@ -105,10 +108,16 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Cors">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.0.0\lib\net45\System.Web.Cors.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -197,6 +206,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DAL\StoredProcedure.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -205,13 +215,15 @@
     <Compile Include="Helpers\ChatHub.cs" />
     <Compile Include="Helpers\JsonController.cs" />
     <Compile Include="Helpers\MySqlInitalizer.cs" />
+    <Compile Include="Helpers\Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\MySqlHistoryContext.cs" />
     <Compile Include="Models\AuthContext.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\ContactContext.cs" />
     <Compile Include="Models\ContactHub.cs" />
-    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\UserContext.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Startup_REM_SIGNALR.cs" />
   </ItemGroup>
@@ -1241,6 +1253,7 @@
     <Content Include="client\assets\scripts\datatables\tabletools\dataTables.tableTools.min.js" />
     <Content Include="client\assets\scripts\datatables\yadcf\jquery.dataTables.yadcf.js" />
     <Content Include="client\assets\scripts\joinable.js" />
+    <Content Include="DAL\Sprocs\Security\SEC_GetUsers.sql" />
     <Content Include="xenon\app\components\contacts\contactController.js" />
     <Content Include="xenon\app\components\contacts\contactDataService.js" />
     <Content Include="xenon\app\index.html" />
