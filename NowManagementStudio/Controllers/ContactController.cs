@@ -1,6 +1,7 @@
 ﻿using NowManagementStudio.Models;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Web.Http;
 
 namespace NowManagementStudio.Controllers
@@ -8,6 +9,9 @@ namespace NowManagementStudio.Controllers
     [RoutePrefix("api/Contacts")]
     public class ContactController : ApiController
     {
+        //Here is the once-per-class call to initialize the log object
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private ContactContext ContactsDB = new ContactContext();
 
         /// <summary>
@@ -18,59 +22,71 @@ namespace NowManagementStudio.Controllers
         [Route("")]
         public IHttpActionResult GetContacts()
         {
+            try
+            {
+                var contacts = ContactsDB.Contacts;
+                return Ok(ContactsDB.Contacts);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error Getting Contacts : ", ex);
+                return NotFound();
+            }
 
-            var contacts = ContactsDB.Contacts;
-            return Ok(ContactsDB.Contacts);
-            //return Json(contacts, JsonRequestBehavior.AllowGet);
         }
 
-        ///// <summary>
-        ///// Add a contact to the system
-        ///// </summary>
-        ///// <param name="_Contact"></param>
-        ///// <returns></returns>
-        //public ActionResult AddContact(Contact _Contact)
-        //{
-        //    try
-        //    {
-        //        //ContactsDB.Contacts.Add(_Contact);
-        //        //ContactsDB.SaveChanges();
-        //        ContactsDB.AddContact(_Contact);
-        //        return new HttpStatusCodeResult(HttpStatusCode.Created);  // OK = 200
-        //    }
-        //    catch (Exception ex)
+        /// <summary>
+        /// Add a contact to the system
+        /// </summary>
+        /// <param name="_Contact"></param>
+        /// <returns></returns>
+        [Authorize]
+        [Route("AddContact")]
+        public IHttpActionResult AddContact(Contact _Contact)
+        {
+            try
+            {
+                ContactsDB.AddContact(_Contact);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error Adding Contact : ", ex);
+                return BadRequest();
+             }
+        }
 
-        //    {
-        //        //TODO : Error handling
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //}
+        /// <summary>
+        /// Update the current contact
+        /// </summary>
+        /// <param name="_Contact"></param>
+        /// <returns></returns>
+        [Authorize]
+        [Route("UpdateContact")]
+        public IHttpActionResult UpdateContact(Contact _Contact)
+        {
+            try
+            {
 
-        ///// <summary>
-        ///// Update the current contact
-        ///// </summary>
-        ///// <param name="_Contact"></param>
-        ///// <returns></returns>
-        //public ActionResult UpdateContact(Contact _Contact)
-        //{
-        //    try
-        //    {
+                ContactsDB.EditContact(_Contact);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error Editing Contact : ", ex);
+                return NotFound();
+            }
+        }
 
-        //        ContactsDB.EditContact(_Contact);
-        //        return new HttpStatusCodeResult(HttpStatusCode.Accepted);
-        //    }
-        //    catch
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Delete a contact form the system
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //public ActionResult DeleteContact(int id)
+        /// <summary>
+        /// Delete a contact form the system
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize]
+        [Route("DeleteContact")]
+        public IHttpActionResult DeleteContact(int id)
+        {
         //{
         //    var _Contact = ContactsDB.Contacts.First(r => r.Id == id);
         //    try
@@ -81,8 +97,8 @@ namespace NowManagementStudio.Controllers
         //    }
         //    catch
         //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            return NotFound();
         //    }
-        //}
+        }
     }
 }

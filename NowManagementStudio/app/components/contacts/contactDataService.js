@@ -21,7 +21,7 @@ function ($http, $q) {
 
     var _addContact = function (_contact) {
         var deferred = $q.defer();
-        var controllerQuery = "contact/AddContact";
+        var controllerQuery = "api/Contacts/AddContact";
 
         $http.post(controllerQuery, _contact)
           .then(function (result) {
@@ -38,7 +38,7 @@ function ($http, $q) {
 
     var _updateContact = function (_contact) {
         var deferred = $q.defer();
-        var controllerQuery = "contact/UpdateContact";
+        var controllerQuery = "api/Contacts/UpdateContact";
 
         $http.post(controllerQuery, _contact)
           .then(function (result) {
@@ -54,7 +54,7 @@ function ($http, $q) {
 
     var _deleteContact = function (id) {
         var deferred = $q.defer();
-        var controllerQuery = "contact/DeleteContact/" + id;
+        var controllerQuery = "api/Contacts/DeleteContact" + id;
 
         $http.post(controllerQuery)
           .then(function (result) {
