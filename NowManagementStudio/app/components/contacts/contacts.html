@@ -28,9 +28,9 @@
             })(jQuery);
         </script>
 
-
+      
         <div class="col-md-6">
-            <a class="btn btn-primary" ng-click="add()" scroll-to="screenBottom"><i class="fa-user"></i>&nbsp;New</a>
+            <a class="btn btn-primary" ng-click="add()" scroll-to="screenBottom"><i class="fa-user"></i>&nbsp;New</a>            
         </div>
         <div class="col-md-6">
 
@@ -38,7 +38,8 @@
 						</alert>
 
         </div>
-        <div class="table-responsive" data-pattern="priority-columns" data-focus-btn-icon="fa-asterisk" data-sticky-table-header="true" data-add-display-all-btn="true" data-add-focus-btn="true">
+         <div class="loadingIndicator col-md-4" ng-show="loading"></div>
+        <div class="table-responsive" data-pattern="priority-columns" data-focus-btn-icon="fa-asterisk" data-sticky-table-header="true" data-add-display-all-btn="true" data-add-focus-btn="true" ng-hide="loading">
             <table id="contactsTable" datatable="ng" class="hover table table-small-font table-bordered table-striped" cellspacing="0" width="100%">
                 <thead>
                     <tr role="row">
@@ -65,7 +66,7 @@
 
     <!--- Edit Grid --->
 
-    <div class="panel panel-default">
+    <div class="panel panel-default" ng-hide="loading">
         <div class="panel-heading">
             <div id="screenBottom"></div>
             <h3 class="panel-title">{{saveEditTitle}}</h3>
@@ -127,4 +128,5 @@
     </div>
 
 </div>
+
 

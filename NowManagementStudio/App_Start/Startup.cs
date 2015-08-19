@@ -20,6 +20,8 @@ namespace NowManagementStudio.API
             WebApiConfig.Register(config);
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
+            // Any connection or hub wire up and configuration should go here
+            app.MapSignalR();
         }
 
         /// <summary>

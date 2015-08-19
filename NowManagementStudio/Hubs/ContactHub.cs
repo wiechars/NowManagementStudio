@@ -8,9 +8,11 @@ using Newtonsoft.Json;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace NowManagementStudio.Models
 {
+    [HubName("contactHub")]
     public class ContactHub : Hub
     {
         private static ContactContext _db = new ContactContext();
@@ -23,7 +25,7 @@ namespace NowManagementStudio.Models
             System.Collections.Generic.List<Contact> result = new List<Contact>();
             NowManagementStudio.DAL.StoredProcedure sproc = new StoredProcedure();
             var contacts = _db.Contacts;
-            await Clients.Caller.all( contacts);
+            await Clients.Caller.all(contacts);
         }
 
         public override async Task OnReconnected()
@@ -33,13 +35,21 @@ namespace NowManagementStudio.Models
         }
 
 
+        //public override async Task OnDisconnected()
+        //{
+        //    int removed;
+        //    if (_locks.TryRemove(Context.ConnectionId, out removed))
+        //    {
+        //        await Clients.All.allLocks(_locks.Values);
+        //    }
+        //}
 
-        public void Add(Contact value)
+        public void Update(Contact value)
         {
             _db.EditContact(value);
 
             var contact = _db.Contacts;
-            Clients.All.add(contact, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            Clients.All.update(value);
         }
 
       

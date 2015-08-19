@@ -34,6 +34,8 @@ namespace NowManagementStudio
                         "~/app/shared/xenon/angular/angular-cookies.min.js",
                         "~/app/shared/xenon/oc-lazyload/ocLazyLoad.min.js",
                         "~/app/shared/xenon/angular-ui/angular-ui-router.min.js",
+                        "~/app/shared/signalr/signalr-hub.js",
+                         "~/app/shared/signalr/odata.js",
                         "~/assets/js/xenon-custom.js",
                         "~/assets/js/xenon-widgets.js",
                         "~/app/shared/xenon/controllers.js",

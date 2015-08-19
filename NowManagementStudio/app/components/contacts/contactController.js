@@ -6,10 +6,11 @@ app.controller('contactController',
     function categoryController($scope, contactDataService) {
         $scope.contacts = [];
         $scope.alerts = [];
-        $scope.message = "";
+        $scope.message = "";        
         $scope.saveEditTitle = "Save/Edit Contact";
         hideButtons();
         loadContactData();
+        
 
         /**************************************
         ***        Hide Buttons              ***
@@ -147,21 +148,23 @@ app.controller('contactController',
         ***        Get Contact             ***
         **************************************/
         function loadContactData() {
+            $scope.loading = true;
             contactDataService.getContacts()
             .then(function () {
                 $scope.contacts = contactDataService.contacts;
-
+                $scope.loading = false;
 
             },
                 function () {
                     $scope.alerts.push({ type: 'danger', msg: 'Error Retrieving Contacts.'});
-                    //Error goes here...
+                    $scope.loading = false;
                 })
                 .then(function () {
                     $scope.isBusy = false;
                 });
+            
         };
-
+        
     }]);
 
 /**************************************
