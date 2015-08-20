@@ -1,4 +1,5 @@
-﻿using NowManagementStudio.Models;
+﻿using NowManagementStudio.Hubs;
+using NowManagementStudio.Models;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -7,7 +8,7 @@ using System.Web.Http;
 namespace NowManagementStudio.Controllers
 {
     [RoutePrefix("api/Contacts")]
-    public class ContactController : ApiController
+    public class ContactController : ApiControllerWithHub<ContactHub>
     {
         //Here is the once-per-class call to initialize the log object
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -25,6 +26,8 @@ namespace NowManagementStudio.Controllers
             try
             {
                 var contacts = ContactsDB.Contacts;
+                var subscribed = Hub.Clients.Group("Contact");
+                subscribed.getContacts(ContactsDB.Contacts);
                 return Ok(ContactsDB.Contacts);
             }
             catch (Exception ex)
@@ -69,6 +72,8 @@ namespace NowManagementStudio.Controllers
             {
 
                 ContactsDB.EditContact(_Contact);
+                var subscribed = Hub.Clients.Group("contact");
+                subscribed.updateItem(_Contact);
                 return Ok();
             }
             catch (Exception ex)

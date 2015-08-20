@@ -5107,7 +5107,7 @@
 			$(settings.nTable).trigger( e+'.dt', args );
 		}
 		
-		console.log( e );
+		//console.log( e );
 	
 		return ret;
 	}

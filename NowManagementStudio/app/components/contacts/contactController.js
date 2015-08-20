@@ -6,11 +6,12 @@ app.controller('contactController',
     function categoryController($scope, contactDataService) {
         $scope.contacts = [];
         $scope.alerts = [];
-        $scope.message = "";        
+        $scope.message = "";
         $scope.saveEditTitle = "Save/Edit Contact";
         hideButtons();
         loadContactData();
-        
+
+        hub = $.connection.contactHub; // create a proxy to signalr hub on web server
 
         /**************************************
         ***        Hide Buttons              ***
@@ -65,7 +66,8 @@ app.controller('contactController',
         **************************************/
         $scope.edit = function (id) {
             showButtons();
-            $scope.contact = {};
+            $scope.contact = {};  //Pre Edit
+            $scope.contactEdit = {}; //One that will be edited.
             $scope.isEdit = true;
             $scope.saveEditTitle = "Edit Contact";
             var lFirstChange = true;
@@ -73,6 +75,7 @@ app.controller('contactController',
             if (id) {
 
                 $scope.contact = contactDataService.findContactById(id);
+                $scope.contactEdit = $scope.contact;
                 $scope.$watchCollection('contact', function () {
                     if (!lFirstChange) {
                         $('#deleteButton').hide(400);
@@ -88,9 +91,9 @@ app.controller('contactController',
         $scope.saveContact = function () {
             if ($scope.contactForm.$invalid) return;
             if ($scope.isEdit) {
-                contactDataService.updateContact($scope.contact)
+                contactDataService.updateContact($scope.contactEdit)
                 .then(function () {
-                    $scope.alerts.push({ type: 'success', msg: 'Successfully updated contact: ' + $scope.contact.name });
+                    $scope.alerts.push({ type: 'success', msg: 'Successfully updated contact: ' + $scope.contactEdit.name });
                 },
                 function () {
                     $scope.alerts.push({ type: 'danger', msg: 'Failed to edit contact: ' + $scope.contact.name });
@@ -152,6 +155,7 @@ app.controller('contactController',
             contactDataService.getContacts()
             .then(function () {
                 $scope.contacts = contactDataService.contacts;
+               
                 $scope.loading = false;
 
             },
@@ -164,7 +168,25 @@ app.controller('contactController',
                 });
             
         };
-        
+
+        /**************************************
+         ***   Signalr Client Functions     ***
+         **************************************/
+
+        hub.client.updateItem = function (item) {
+            var array = $scope.contacts;
+            for (var i = array.length - 1; i >= 0; i--) {
+                if (array[i].id === item.Id) {
+                    array[i].name = item.Name;
+                    $scope.$apply();
+                }
+            }
+        }
+
+        // connect to signalr hub
+      //  $.connection.hub.start()
+       //    .done(function () { hub.server.subscribe("contact"); });
+
     }]);
 
 /**************************************
@@ -191,7 +213,7 @@ app.controller('contactAddController',
         };
     }]);
 
-/**************************************
+/************************************** 
 ***        Edit Contact             ***
 **************************************/
 app.controller('contactEditController',

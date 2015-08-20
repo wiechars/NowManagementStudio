@@ -211,6 +211,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApiControllerWithHub.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -223,12 +224,12 @@
     <Compile Include="Helpers\JsonController.cs" />
     <Compile Include="Helpers\MySqlInitalizer.cs" />
     <Compile Include="Helpers\Providers\SimpleAuthorizationServerProvider.cs" />
+    <Compile Include="Hubs\ContactHub.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\MySqlHistoryContext.cs" />
     <Compile Include="Models\AuthContext.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\ContactContext.cs" />
-    <Compile Include="Hubs\ContactHub.cs" />
     <Compile Include="Models\UserContext.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

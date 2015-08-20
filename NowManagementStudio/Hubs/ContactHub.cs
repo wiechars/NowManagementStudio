@@ -1,57 +1,23 @@
-﻿using NowManagementStudio.Helpers;
-using NowManagementStudio.Models;
-using NowManagementStudio.DAL;
-using System.Web.Mvc;
-using System.Net;
+﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.Collections.Concurrent;
-using System.Threading.Tasks;
+using System.Linq;
+using System.Web;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 
-namespace NowManagementStudio.Models
+namespace NowManagementStudio.Hubs
 {
     [HubName("contactHub")]
     public class ContactHub : Hub
     {
-        private static ContactContext _db = new ContactContext();
-        private static ConcurrentDictionary<string, int> _locks = new ConcurrentDictionary<string, int>();
-        private static object _lock = new object();
-
-        public override async Task OnConnected()
+        public void Subscribe(string contactGroup)
         {
-
-            System.Collections.Generic.List<Contact> result = new List<Contact>();
-            NowManagementStudio.DAL.StoredProcedure sproc = new StoredProcedure();
-            var contacts = _db.Contacts;
-            await Clients.Caller.all(contacts);
+            Groups.Add(Context.ConnectionId, contactGroup);
         }
 
-        public override async Task OnReconnected()
+        public void Unsubscribe(string contactID)
         {
-            // Refresh as other users could update data while we were offline
-            await OnConnected();
+            Groups.Remove(Context.ConnectionId, contactID);
         }
-
-
-        //public override async Task OnDisconnected()
-        //{
-        //    int removed;
-        //    if (_locks.TryRemove(Context.ConnectionId, out removed))
-        //    {
-        //        await Clients.All.allLocks(_locks.Values);
-        //    }
-        //}
-
-        public void Update(Contact value)
-        {
-            _db.EditContact(value);
-
-            var contact = _db.Contacts;
-            Clients.All.update(value);
-        }
-
-      
     }
 }

@@ -17,6 +17,7 @@ namespace NowManagementStudio
             bundles.Add(new ScriptBundle("~/bundles/angularApp").Include(
                         "~/assets/js/jquery-1.11.1.min.js",
                         "~/assets/js/jquery.signalR-2.2.0.min.js",
+                       // "~/signalr/hubs",
                         "~/assets/js/datatables/js/jquery.dataTables.js",
                         "~/app/shared/xenon/angular/angular.js",
                         "~/app/shared/xenon/angular-datatables/angular-datatables.js",
@@ -35,7 +36,7 @@ namespace NowManagementStudio
                         "~/app/shared/xenon/oc-lazyload/ocLazyLoad.min.js",
                         "~/app/shared/xenon/angular-ui/angular-ui-router.min.js",
                         "~/app/shared/signalr/signalr-hub.js",
-                         "~/app/shared/signalr/odata.js",
+                        "~/signalr/hubs",
                         "~/assets/js/xenon-custom.js",
                         "~/assets/js/xenon-widgets.js",
                         "~/app/shared/xenon/controllers.js",
