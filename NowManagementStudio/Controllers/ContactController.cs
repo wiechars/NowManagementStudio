@@ -50,6 +50,8 @@ namespace NowManagementStudio.Controllers
             try
             {
                 ContactsDB.AddContact(_Contact);
+                var subscribed = Hub.Clients.Group("contact");
+                subscribed.addItem(_Contact);
                 return Ok();
             }
             catch (Exception ex)

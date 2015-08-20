@@ -101,11 +101,9 @@ app.controller('contactController',
             }
 
             if (!$scope.isEdit) {
-                contactDataService.addContact($scope.contact)
+                contactDataService.addContact($scope.contactEdit)
                 .then(function () {
-                    //Push to scope so it appears in the table without having to reload gird
-                    $scope.contacts.push($scope.contact);
-                    $scope.alerts.push({ type: 'success', msg: 'Successfully added contact: ' + $scope.contact.name });
+                     $scope.alerts.push({ type: 'success', msg: 'Successfully added contact: ' + $scope.contactEdit.name });
                 },
                 function () {
                     $scope.alerts.push({ type: 'danger', msg: 'Failed to create contact: ' + $scope.contact.name });
@@ -170,19 +168,29 @@ app.controller('contactController',
         };
 
         /**************************************
-         ***   Signalr Client Functions     ***
+         ***  Signalr Push Updated Contact  ***
          **************************************/
 
-        hub.client.updateItem = function (item) {
+        hub.client.updateItem = function (contact) {
             var array = $scope.contacts;
             for (var i = array.length - 1; i >= 0; i--) {
-                if (array[i].id === item.Id) {
-                    array[i].name = item.Name;
-                    array[i].email = item.Email;
-                    array[i].mobile = item.Mobile;
+                if (array[i].id === contact.Id) {
+                    array[i].name = contact.Name;
+                    array[i].email = contact.Email;
+                    array[i].mobile = contact.Mobile;
                     $scope.$apply();
                 }
             }
+        }
+
+        /**************************************
+         ***  Signalr Push Updated Contact  ***
+         **************************************/
+
+        hub.client.addItem = function (contact) {
+            alert(contact.Name);
+            $scope.contacts.push(contact);
+            $scope.$apply();
         }
 
         // connect to signalr hub
