@@ -178,14 +178,16 @@ app.controller('contactController',
             for (var i = array.length - 1; i >= 0; i--) {
                 if (array[i].id === item.Id) {
                     array[i].name = item.Name;
+                    array[i].email = item.Email;
+                    array[i].mobile = item.Mobile;
                     $scope.$apply();
                 }
             }
         }
 
         // connect to signalr hub
-      //  $.connection.hub.start()
-       //    .done(function () { hub.server.subscribe("contact"); });
+        $.connection.hub.start()
+           .done(function () { hub.server.subscribe("contact"); });
 
     }]);
 
