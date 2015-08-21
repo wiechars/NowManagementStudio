@@ -233,7 +233,6 @@
     <Compile Include="Models\UserContext.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Helpers\Startup_REM_SIGNALR.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\shared\signalr\odata.js" />
