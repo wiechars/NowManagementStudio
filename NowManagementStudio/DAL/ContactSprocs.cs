@@ -20,7 +20,7 @@ namespace NowManagementStudio.DAL
         public List<Contact> GetContacts()
         {
             StoredProcedure sproc = new StoredProcedure();
-            MySqlCommand cmd = sproc.Command("NMS_GetContacts", null);
+            MySqlCommand cmd = sproc.Command("NMS_GetContacts", null, null);
             MySqlDataReader rdr = null;
 
             rdr = cmd.ExecuteReader();
@@ -39,6 +39,44 @@ namespace NowManagementStudio.DAL
             return results;
         }
 
+        /// <summary>
+        /// Get Specific Contact
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="email"></param>
+        /// <param name="phoneNumber"></param>
+        public Contact GetContact(int id)
+        {
+            Contact contact = new Contact();
+            try
+            {
+                StoredProcedure sproc = new StoredProcedure();
+                MySqlDataReader rdr = null;
+                var list = new List<KeyValuePair<string, string>>();
+                //Add Parameters
+                list.Add(new KeyValuePair<string, string>("@contactID", id.ToString()));
+                MySqlCommand cmd = sproc.Command("NMS_UpdateContact", list, null);
+                // execute the command
+                rdr = cmd.ExecuteReader();
+
+
+                // iterate through results, printing each to console
+                while (rdr.Read())
+                {
+                    contact.Id = Convert.ToInt32(rdr["id"]);
+                    contact.Email = rdr["email"].ToString();
+                    contact.Mobile = rdr["phone_number"].ToString();
+                    contact.Name = rdr["name"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error Editing Contacts : " + ex);
+            }
+            return contact;
+
+        }
 
         /// <summary>
         /// Edits an Individual Contact
@@ -59,7 +97,7 @@ namespace NowManagementStudio.DAL
                 list.Add(new KeyValuePair<string, string>("@name", name));
                 list.Add(new KeyValuePair<string, string>("@email", email));
                 list.Add(new KeyValuePair<string, string>("@phoneNumber", phoneNumber));
-                MySqlCommand cmd = sproc.Command("NMS_UpdateContact", list);
+                MySqlCommand cmd = sproc.Command("NMS_UpdateContact", list, null);
                 // execute the command
                 cmd.ExecuteNonQuery();
             }
@@ -76,27 +114,30 @@ namespace NowManagementStudio.DAL
         /// <param name="name"></param>
         /// <param name="email"></param>
         /// <param name="phoneNumber"></param>
-        public void AddContact(string name, string email, string phoneNumber)
+        public int AddContact(string name, string email, string phoneNumber)
         {
 
             try
             {
                 StoredProcedure sproc = new StoredProcedure();
                 var list = new List<KeyValuePair<string, string>>();
+                string outputParam = "@id";
                 //Add Parameters
                 list.Add(new KeyValuePair<string, string>("@name", name));
                 list.Add(new KeyValuePair<string, string>("@email", email));
                 list.Add(new KeyValuePair<string, string>("@phoneNumber", phoneNumber));
-                MySqlCommand cmd = sproc.Command("NMS_InsertContact", list);
+                MySqlCommand cmd = sproc.Command("NMS_InsertContact", list, outputParam);
 
                 // execute the command
                 cmd.ExecuteNonQuery();
+                return Convert.ToInt32(cmd.Parameters[outputParam].Value.ToString());
             }
             catch (Exception ex)
             {
                 log.Error("Error Editing Contacts : " + ex);
             }
 
+            return -1;
         }
 
 

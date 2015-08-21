@@ -10,7 +10,7 @@ BEGIN
 `phone_number`,
 `last_modified`
 FROM `nms_cur_contacts`
-WHERE `is_deleted` = 0 and id > 6120 Limit 200;
+WHERE `is_deleted` = 0 and id > 6130 Limit 200;
 END
 
 $$

@@ -184,10 +184,11 @@ app.controller('contactController',
         }
 
         /**************************************
-         ***  Signalr Push Updated Contact  ***
+         ***  Signalr Push Added Contact    ***
          **************************************/
 
         hub.client.addItem = function (contact) {
+            alert(contact.Id);
             alert(contact.Name);
             $scope.contacts.push(contact);
             $scope.$apply();

@@ -28,9 +28,9 @@ namespace NowManagementStudio.DAL
         /// Method for Generated the MySQL Command for the reader
         /// </summary>
         /// <param name="sprocName"></param>
-        /// <param name="parameters"></param>
+        /// <param name="inputParameters"></param>
         /// <returns></returns>
-        public MySqlCommand Command(string sprocName, List<KeyValuePair<string,string>> parameters)
+        public MySqlCommand Command(string sprocName, List<KeyValuePair<string,string>> inputParameters, string outputParameter)
         {
             MySqlCommand cmd = new MySqlCommand();
             try
@@ -43,13 +43,20 @@ namespace NowManagementStudio.DAL
                 cmd = new MySqlCommand(sprocName, nmsConnection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 //Add parameters to Sproc 
-                if (parameters != null)
+
+                if (inputParameters != null)
                 {
-                    foreach (var item in parameters)
+                    foreach (var item in inputParameters)
                     {
                         cmd.Parameters.Add(
                            new MySqlParameter(item.Key.ToString(), item.Value.ToString()));
+                        
                     }
+                }
+                if (outputParameter != null)
+                {
+                    cmd.Parameters.AddWithValue(outputParameter, MySqlDbType.Int32);
+                    cmd.Parameters[outputParameter].Direction = ParameterDirection.Output;
                 }
             }
             catch (Exception e)

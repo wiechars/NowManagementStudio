@@ -16,6 +16,13 @@ namespace NowManagementStudio.Models
             }
         }
 
+        public Contact GetContact(int id)
+        {
+            ContactSprocs sproc = new ContactSprocs();
+            return sproc.GetContact(id);
+
+        }
+
         public void EditContact(Contact contact)
         {
             ContactSprocs sproc = new ContactSprocs();
@@ -23,10 +30,10 @@ namespace NowManagementStudio.Models
 
         }
 
-        public void AddContact(Contact contact)
+        public int AddContact(Contact contact)
         {
             ContactSprocs sproc = new ContactSprocs();
-            sproc.AddContact(contact.Name, contact.Email, contact.Mobile);
+            return sproc.AddContact(contact.Name, contact.Email, contact.Mobile);
 
         }
 

@@ -47,9 +47,10 @@ namespace NowManagementStudio.Controllers
         [Route("AddContact")]
         public IHttpActionResult AddContact(Contact _Contact)
         {
+            int newID;
             try
             {
-                ContactsDB.AddContact(_Contact);
+                _Contact.Id = ContactsDB.AddContact(_Contact); 
                 var subscribed = Hub.Clients.Group("contact");
                 subscribed.addItem(_Contact);
                 return Ok();
