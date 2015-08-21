@@ -12,23 +12,22 @@ namespace NowManagementStudio.Models
         {
             get
             {
-
-                StoredProcedure sproc = new StoredProcedure();
+                ContactSprocs sproc = new ContactSprocs();
                 return sproc.GetContacts();
             }
         }
 
         public void EditContact(Contact contact)
         {
-            StoredProcedure sproc = new StoredProcedure();
-            sproc.EditContacts(contact.Id, contact.Name, contact.Email, contact.Mobile);
+            //StoredProcedure sproc = new StoredProcedure();
+            //sproc.EditContacts(contact.Id, contact.Name, contact.Email, contact.Mobile);
 
         }
 
         public void AddContact(Contact contact)
         {
-            StoredProcedure sproc = new StoredProcedure();
-            sproc.AddContact(contact.Name, contact.Email, contact.Mobile);
+            //StoredProcedure sproc = new StoredProcedure();
+            //sproc.AddContact(contact.Name, contact.Email, contact.Mobile);
 
         }
 
