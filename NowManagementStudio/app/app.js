@@ -863,7 +863,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyL
 });
 
 app.run(['authService', function (authService) {
-    authService.fillAuthData();
+    authService.fillAuthData(); 
 }]);
 
 

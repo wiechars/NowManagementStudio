@@ -9,6 +9,11 @@ app.factory('authService', ['$http', '$q', 'localStorageService', function ($htt
         userName: ""
     };
 
+    var _currentUser = {
+        userName: "",
+        role: ""
+    };
+
     /************************************************
     ***        _saveRegistration                  ***
     *** Returns a promise which will be resolved  ***
@@ -80,10 +85,25 @@ app.factory('authService', ['$http', '$q', 'localStorageService', function ($htt
 
     }
 
+    /************************************************
+    ***        _getCurrentUser                      ***
+    *** Gets the locally stored auth data         ***
+    ************************************************/
+    var _currentUser = function () {
+
+        var authData = localStorageService.get('authorizationData');
+        if (authData) {
+            _currentUser.userName = authData.userName;
+            _currentUser.role = "PlaceHolder";
+        }
+        return _currentUser;
+    }
+
     authServiceFactory.saveRegistration = _saveRegistration;
     authServiceFactory.login = _login;
     authServiceFactory.logOut = _logOut;
     authServiceFactory.fillAuthData = _fillAuthData;
+    authServiceFactory.getCurrentUser = _currentUser;
     authServiceFactory.authentication = _authentication;
 
     return authServiceFactory;
