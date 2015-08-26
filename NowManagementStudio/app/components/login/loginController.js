@@ -1,7 +1,7 @@
 ﻿'use strict';
 app.controller('loginController', ['$scope', '$location', 'authService', function ($scope, $location, authService) {
     $scope.currentUser = "";
-    $scope.currentRole = "Admininstrator";
+    $scope.currentRole = "";
     $scope.loginData = {
         userName: "",
         password: ""
@@ -19,10 +19,16 @@ app.controller('loginController', ['$scope', '$location', 'authService', functio
     $scope.login = function () {
      
         authService.login($scope.loginData).then(function (response) {
-            $location.path('/app/contacts');   
+            $location.path('/app/contacts');
+            //Remove Light theme - this is a hack due to our custom login screen
+            //instead of burying this deep in the xenon controller.js
+            $('body').removeClass('login-page login-light');
+           
         },
          function (err) {
-             $scope.message = err.error_description;
+             $('.page-loading-overlay').addClass('loaded');
+             $scope.message = err.error_description
+             
          });
     };
 

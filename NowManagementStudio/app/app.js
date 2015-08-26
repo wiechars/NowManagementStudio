@@ -53,7 +53,6 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyL
 		        resources: function ($ocLazyLoad) {
 		            return $ocLazyLoad.load([
 						ASSETS.forms.jQueryValidate,
-						ASSETS.extra.toastr,
 		            ]);
 		        },
 		    }

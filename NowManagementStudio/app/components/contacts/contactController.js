@@ -153,9 +153,7 @@ app.controller('contactController',
             contactDataService.getContacts()
             .then(function () {
                 $scope.contacts = contactDataService.contacts;
-               
                 $scope.loading = false;
-
             },
                 function () {
                     $scope.alerts.push({ type: 'danger', msg: 'Error Retrieving Contacts.'});
@@ -164,7 +162,7 @@ app.controller('contactController',
                 .then(function () {
                     $scope.isBusy = false;
                 });
-            
+            $('.page-loading-overlay').addClass('loaded');
         };
 
         /**************************************
