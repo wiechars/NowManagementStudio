@@ -881,7 +881,7 @@ app.constant('ASSETS', {
 
         'moment': appHelper.assetPath('js/moment.min.js'),
 
-        'googleMapsLoader': appHelper.assetPath('app/js/angular-google-maps/load-google-maps.js')
+        'googleMapsLoader': appHelper.appPath('shared/xenon/angular-google-maps/load-google-maps.js')
     },
 
     'charts': {
