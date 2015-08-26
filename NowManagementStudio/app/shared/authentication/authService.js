@@ -6,7 +6,8 @@ app.factory('authService', ['$http', '$q', 'localStorageService', function ($htt
 
     var _authentication = {
         isAuth: false,
-        userName: ""
+        userName: "",
+        userRoles: ""
     };
 
     var _currentUser = {
@@ -42,11 +43,10 @@ app.factory('authService', ['$http', '$q', 'localStorageService', function ($htt
 
         $http.post(serviceBase + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
 
-            localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName });
-
+            localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, userRoles: response.roles });
             _authentication.isAuth = true;
             _authentication.userName = loginData.userName;
-
+            _authentication.userRoles = response.roles;
             deferred.resolve(response);
 
         }).error(function (err, status) {
@@ -94,7 +94,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', function ($htt
         var authData = localStorageService.get('authorizationData');
         if (authData) {
             _currentUser.userName = authData.userName;
-            _currentUser.role = "PlaceHolder";
+            _currentUser.role = authData.userRoles;
         }
         return _currentUser;
     }
