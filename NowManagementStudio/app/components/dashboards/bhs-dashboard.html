@@ -1,0 +1,609 @@
+<script type="text/javascript">
+
+    setTimeout(function () {
+        var $ = jQuery;
+        if (!$.isFunction($.fn.dxChart))
+            return;
+
+        var gaugesPalette = ['#8dc63f', '#40bbea', '#ffba00', '#cc3f44'];
+
+
+        // Data Sources for all charts
+        var reqs_per_second_data = [
+			{ time: new Date("December 05, 2014 18:00:00"), reqs: 107 },
+			{ time: new Date("December 05, 2014 19:00:00"), reqs: 141 },
+			{ time: new Date("December 05, 2014 20:00:00"), reqs: 118 },
+			{ time: new Date("December 05, 2014 21:00:00"), reqs: 24 },
+			{ time: new Date("December 05, 2014 22:00:00"), reqs: 98 },
+			{ time: new Date("December 05, 2014 23:00:00"), reqs: 171 },
+			{ time: new Date("December 06, 2014 00:00:00"), reqs: 26 },
+			{ time: new Date("December 06, 2014 01:00:00"), reqs: 167 },
+			{ time: new Date("December 06, 2014 02:00:00"), reqs: 124 },
+			{ time: new Date("December 06, 2014 03:00:00"), reqs: 78 },
+			{ time: new Date("December 06, 2014 04:00:00"), reqs: 130 },
+			{ time: new Date("December 06, 2014 05:00:00"), reqs: 120 },
+			{ time: new Date("December 06, 2014 06:00:00"), reqs: 26 },
+			{ time: new Date("December 06, 2014 07:00:00"), reqs: 70 },
+			{ time: new Date("December 06, 2014 08:00:00"), reqs: 108 },
+			{ time: new Date("December 06, 2014 09:00:00"), reqs: 60 },
+			{ time: new Date("December 06, 2014 10:00:00"), reqs: 139 },
+			{ time: new Date("December 06, 2014 11:00:00"), reqs: 145 },
+			{ time: new Date("December 06, 2014 12:00:00"), reqs: 15 },
+			{ time: new Date("December 06, 2014 13:00:00"), reqs: 36 },
+			{ time: new Date("December 06, 2014 14:00:00"), reqs: 73 },
+			{ time: new Date("December 06, 2014 15:00:00"), reqs: 125 },
+			{ time: new Date("December 06, 2014 16:00:00"), reqs: 25 },
+			{ time: new Date("December 06, 2014 17:00:00"), reqs: 122 },
+        ];
+
+        var jam_rate_data = [
+			{ time: new Date("December 05, 2014 18:00:00"), usage: 0 },
+			{ time: new Date("December 05, 2014 19:00:00"), usage: 1 },
+			{ time: new Date("December 05, 2014 20:00:00"), usage: 1 },
+			{ time: new Date("December 05, 2014 21:00:00"), usage: 1 },
+			{ time: new Date("December 05, 2014 22:00:00"), usage: 1 },
+			{ time: new Date("December 05, 2014 23:00:00"), usage: 1 },
+			{ time: new Date("December 06, 2014 00:00:00"), usage: 1 },
+			{ time: new Date("December 06, 2014 01:00:00"), usage: 1 },
+			{ time: new Date("December 06, 2014 02:00:00"), usage: 1 },
+			{ time: new Date("December 06, 2014 03:00:00"), usage: 1 },
+			{ time: new Date("December 06, 2014 04:00:00"), usage: 1 },
+			{ time: new Date("December 06, 2014 05:00:00"), usage: 1 },
+			{ time: new Date("December 06, 2014 06:00:00"), usage: 1 },
+			{ time: new Date("December 06, 2014 07:00:00"), usage: 1 },
+			{ time: new Date("December 06, 2014 08:00:00"), usage: 1 },
+			{ time: new Date("December 06, 2014 09:00:00"), usage: 1 },
+			{ time: new Date("December 06, 2014 10:00:00"), usage: 1 },
+			{ time: new Date("December 06, 2014 11:00:00"), usage: 0 },
+			{ time: new Date("December 06, 2014 12:00:00"), usage: 1 },
+			{ time: new Date("December 06, 2014 13:00:00"), usage: 1 },
+			{ time: new Date("December 06, 2014 14:00:00"), usage: 0 },
+			{ time: new Date("December 06, 2014 15:00:00"), usage: 1 },
+			{ time: new Date("December 06, 2014 16:00:00"), usage: 0 },
+			{ time: new Date("December 06, 2014 17:00:00"), usage: 1 },
+        ];
+
+        var memory_usage_data = [
+			{ time: new Date("December 05, 2014 18:00:00"), used: 73 },
+			{ time: new Date("December 05, 2014 19:00:00"), used: 90 },
+			{ time: new Date("December 05, 2014 20:00:00"), used: 93 },
+			{ time: new Date("December 05, 2014 21:00:00"), used: 91 },
+			{ time: new Date("December 05, 2014 22:00:00"), used: 86 },
+			{ time: new Date("December 05, 2014 23:00:00"), used: 79 },
+			{ time: new Date("December 06, 2014 00:00:00"), used: 70 },
+			{ time: new Date("December 06, 2014 01:00:00"), used: 86 },
+			{ time: new Date("December 06, 2014 02:00:00"), used: 73 },
+			{ time: new Date("December 06, 2014 03:00:00"), used: 82 },
+			{ time: new Date("December 06, 2014 04:00:00"), used: 74 },
+			{ time: new Date("December 06, 2014 05:00:00"), used: 73 },
+			{ time: new Date("December 06, 2014 06:00:00"), used: 88 },
+			{ time: new Date("December 06, 2014 07:00:00"), used: 77 },
+			{ time: new Date("December 06, 2014 08:00:00"), used: 73 },
+			{ time: new Date("December 06, 2014 09:00:00"), used: 86 },
+			{ time: new Date("December 06, 2014 10:00:00"), used: 90 },
+			{ time: new Date("December 06, 2014 11:00:00"), used: 86 },
+			{ time: new Date("December 06, 2014 12:00:00"), used: 93 },
+			{ time: new Date("December 06, 2014 13:00:00"), used: 73 },
+			{ time: new Date("December 06, 2014 14:00:00"), used: 86 },
+			{ time: new Date("December 06, 2014 15:00:00"), used: 90 },
+			{ time: new Date("December 06, 2014 16:00:00"), used: 73 },
+			{ time: new Date("December 06, 2014 17:00:00"), used: 93 },
+        ];
+
+
+
+        // Requests per second chart
+        $("#tracking-rate-chart").dxChart({
+            dataSource: reqs_per_second_data,
+            commonPaneSettings: {
+                border: {
+                    visible: true,
+                    color: '#f5f5f5'
+                }
+            },
+            commonSeriesSettings: {
+                type: "area",
+                argumentField: "time",
+                border: {
+                    color: '#68b828',
+                    width: 1,
+                    visible: true
+                }
+            },
+            series: [
+				{ valueField: "reqs", name: "Reqs per Second", color: '#68b828', opacity: .5 },
+            ],
+            commonAxisSettings: {
+                label: {
+                    visible: true
+                },
+                grid: {
+                    visible: true,
+                    color: '#f5f5f5'
+                }
+            },
+            argumentAxis: {
+                valueMarginsEnabled: false,
+                label: {
+                    customizeText: function (arg) {
+                        return date('h:i A', arg.value);
+                    }
+                },
+            },
+            legend: {
+                visible: false
+            }
+        });
+
+
+
+
+        // CPU Usage chart
+        $("#jam-rate-chart").dxChart({
+            dataSource: jam_rate_data,
+            commonPaneSettings: {
+                border: {
+                    visible: true,
+                    color: '#f5f5f5'
+                }
+            },
+            commonSeriesSettings: {
+                type: "area",
+                argumentField: "time",
+                border: {
+                    color: '#7c38bc',
+                    width: 1,
+                    visible: true
+                }
+            },
+            series: [
+				{ valueField: "usage", name: "Capacity used", color: '#7c38bc', opacity: .5 },
+            ],
+            commonAxisSettings: {
+                label: {
+                    visible: true
+                },
+                grid: {
+                    visible: true,
+                    color: '#f5f5f5'
+                }
+            },
+            argumentAxis: {
+                valueMarginsEnabled: false,
+                label: {
+                    customizeText: function (arg) {
+                        return date('h:i A', arg.value);
+                    }
+                },
+            },
+            legend: {
+                visible: false
+            }
+        });
+
+        // PLC Health
+        $("#plc-101-chart").dxChart({
+            dataSource: jam_rate_data,
+            commonPaneSettings: {
+                border: {
+                    visible: false,
+                    color: '#f5f5f5'
+                }
+            },
+            commonSeriesSettings: {
+                type: "area",
+                argumentField: "time",
+                border: {
+                    color: '#7c38bc',
+                    width: 1,
+                    visible: false
+                }
+            },
+            series: [
+				{ valueField: "usage", name: "Capacity used", color: '#68b828', opacity: .5 },
+            ],
+            commonAxisSettings: {
+                label: {
+                    visible: false
+                },
+                grid: {
+                    visible: true,
+                    color: '#f5f5f5'
+                }
+            },
+            argumentAxis: {
+                valueMarginsEnabled: false,
+                label: {
+                    customizeText: function (arg) {
+                        return date('h:i A', arg.value);
+                    }
+                },
+            },
+            legend: {
+                visible: false
+            }
+        });
+
+        $("#plc-102-chart").dxChart({
+            dataSource: jam_rate_data,
+            commonPaneSettings: {
+                border: {
+                    visible: false,
+                    color: '#f5f5f5'
+                }
+            },
+            commonSeriesSettings: {
+                type: "area",
+                argumentField: "time",
+                border: {
+                    color: '#7c38bc',
+                    width: 1,
+                    visible: false
+                }
+            },
+            series: [
+				{ valueField: "usage", name: "Capacity used", color: '#68b828', opacity: .5 },
+            ],
+            commonAxisSettings: {
+                label: {
+                    visible: false
+                },
+                grid: {
+                    visible: true,
+                    color: '#f5f5f5'
+                }
+            },
+            argumentAxis: {
+                valueMarginsEnabled: false,
+                label: {
+                    customizeText: function (arg) {
+                        return date('h:i A', arg.value);
+                    }
+                },
+            },
+            legend: {
+                visible: false
+            }
+        });
+
+        $("#plc-103-chart").dxChart({
+            dataSource: jam_rate_data,
+            commonPaneSettings: {
+                border: {
+                    visible: false,
+                    color: '#f5f5f5'
+                }
+            },
+            commonSeriesSettings: {
+                type: "area",
+                argumentField: "time",
+                border: {
+                    color: '#7c38bc',
+                    width: 1,
+                    visible: false
+                }
+            },
+            series: [
+				{ valueField: "usage", name: "Capacity used", color: '#68b828', opacity: .5 },
+            ],
+            commonAxisSettings: {
+                label: {
+                    visible: false
+                },
+                grid: {
+                    visible: true,
+                    color: '#f5f5f5'
+                }
+            },
+            argumentAxis: {
+                valueMarginsEnabled: false,
+                label: {
+                    customizeText: function (arg) {
+                        return date('h:i A', arg.value);
+                    }
+                },
+            },
+            legend: {
+                visible: false
+            }
+        });
+
+        $("#plc-104-chart").dxChart({
+            dataSource: jam_rate_data,
+            commonPaneSettings: {
+                border: {
+                    visible: false,
+                    color: '#f5f5f5'
+                }
+            },
+            commonSeriesSettings: {
+                type: "area",
+                argumentField: "time",
+                border: {
+                    color: '#7c38bc',
+                    width: 1,
+                    visible: false
+                }
+            },
+            series: [
+				{ valueField: "usage", name: "Capacity used", color: '#68b828', opacity: .5 },
+            ],
+            commonAxisSettings: {
+                label: {
+                    visible: false
+                },
+                grid: {
+                    visible: true,
+                    color: '#f5f5f5'
+                }
+            },
+            argumentAxis: {
+                valueMarginsEnabled: false,
+                label: {
+                    customizeText: function (arg) {
+                        return date('h:i A', arg.value);
+                    }
+                },
+            },
+            legend: {
+                visible: false
+            }
+        });
+
+        // Memory Usage chart
+        $("#memory-usage-chart").dxChart({
+            dataSource: memory_usage_data,
+            commonPaneSettings: {
+                border: {
+                    visible: true,
+                    color: '#f5f5f5'
+                }
+            },
+            commonSeriesSettings: {
+                type: "area",
+                argumentField: "time",
+                border: {
+                    color: '#40bbea',
+                    width: 1,
+                    visible: true
+                }
+            },
+            series: [
+				{ valueField: "used", name: "Megabytes occupied", color: '#40bbea', opacity: .5 },
+            ],
+            commonAxisSettings: {
+                label: {
+                    visible: true
+                },
+                grid: {
+                    visible: true,
+                    color: '#f5f5f5'
+                }
+            },
+            argumentAxis: {
+                valueMarginsEnabled: false,
+                label: {
+                    customizeText: function (arg) {
+                        return date('h:i A', arg.value);
+                    }
+                },
+            },
+            legend: {
+                visible: false
+            }
+        });
+
+
+        // Combine charts for filtering, grouped by time
+        var all_data_sources = [];
+
+        $.map(reqs_per_second_data, function (arg, i) {
+            all_data_sources.push({
+                time: arg.time,
+                requestsPerMinute: reqs_per_second_data[i].reqs,
+                cpuUsage: jam_rate_data[i].usage,
+                memoryUsed: memory_usage_data[i].used,
+                plcHealth: plc_health_data[i].used
+            });
+        });
+
+
+        // Range Filter
+        $("#range-chart").dxRangeSelector({
+            dataSource: all_data_sources,
+            size: {
+                height: 140
+            },
+            chart: {
+                series: [
+					{ argumentField: "time", valueField: "requestsPerMinute", color: '#68b828', opacity: .65 },
+					{ argumentField: "time", valueField: "cpuUsage", color: '#7c38bc', opacity: .65 },
+					{ argumentField: "time", valueField: "memoryUsed", color: '#40bbea', opacity: .65 },
+                    { argumentField: "time", valueField: "plcHealth", color: '#40bbea', opacity: .65 }
+                ]
+            },
+            selectedRange: {
+                startValue: all_data_sources[4].time,
+                endValue: all_data_sources[14].time
+            },
+            selectedRangeChanged: function (e) {
+                var filter = {
+                    reqsPerMinuteData: [],
+                    jamRateData: [],
+                    memoryUsageData: []
+                };
+
+                $.map(all_data_sources, function (arg, i) {
+                    if (date("U", e.startValue) <= date("U", arg.time) && date("U", e.endValue) >= date("U", arg.time)) {
+                        filter.reqsPerMinuteData.push({
+                            time: arg.time,
+                            reqs: arg.requestsPerMinute
+                        });
+
+                        filter.jamRateData.push({
+                            time: arg.time,
+                            usage: arg.cpuUsage
+                        });
+
+                        filter.memoryUsageData.push({
+                            time: arg.time,
+                            used: arg.memoryUsed
+                        });
+
+                        filter.plcHealthData.push({
+                            time: arg.time,
+                            used: arg.plcHealth
+                        });
+                    }
+                });
+
+                $('#tracking-rate-chart').dxChart('instance').option('dataSource', filter.reqsPerMinuteData);
+                $('#jam-rate-chart').dxChart('instance').option('dataSource', filter.jamRateData);
+                $('#memory-usage-chart').dxChart('instance').option('dataSource', filter.memoryUsageData);
+                $('#plc-101-chart').dxChart('instance').option('dataSource', filter.jamRateData);
+            }
+        });
+
+
+
+        // Resize charts
+        $(window).on('xenon.resize', function () {
+            $("#range-chart").data("dxRangeSelector").render();
+
+            $("#tracking-rate-chart").data("dxChart").render();
+            $("#jam-rate-chart").data("dxChart").render();
+            $("#memory-usage-chart").data("dxChart").render();
+            $("#plc-101-chart").data("dxChart").render();
+
+        });
+    });
+</script>
+
+
+<div class="panel panel-default col-sm-8">
+    <div class="panel-heading">
+        <h1>Key Performance Indicators</h1>
+    </div>
+    <div class="panel-body">
+
+        <div class="row text-center">
+            <div class="col-sm-3">
+                <p class="text-large">Tracking Rate</p>
+                <div class="super-large text-secondary" xe-counter data-count="this" data-from="90" data-to="100" data-duration="1.5">0</div>
+                <div id="tracking-rate-chart" style="height: 150px;"></div>
+            </div>
+            <div class="col-sm-3">
+                <p class="text-large">Jam Rate</p>
+                <div class="super-large text-purple" xe-counter data-count="this" data-from="0.1" data-to="5" data-duration="1000">0</div>
+                <div id="jam-rate-chart" style="height: 150px;"></div>
+            </div>
+            <div class="col-sm-3">
+                <p class="text-large">ATR Read Rate</p>
+                <div class="super-large text-info" xe-counter data-count="this" data-from="75" data-to="93" data-duration="1.5">0</div>
+                <div id="memory-usage-chart" style="height: 150px;"></div>
+            </div>
+            <div class="col-sm-3">
+                <ul class="list-unstyled">
+                    <li>
+                        <h2>Time In System</h2>
+                    </li>
+                    <li>
+                        <h1><b>53:49</b></h1>
+                    </li>
+                    <li>
+                        <h2>System Throughput</h2>
+                    </li>
+                    <li>
+                        <h1><b>300 bph</b></h1>
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="panel panel-default col-sm-3 pull-right">
+    <div class="panel-heading">
+        <h1>System Health</h1>
+    </div>
+    <div class="panel-body">
+
+        <div class="row text-center">
+            <div class="col-sm-6">
+                <p class="text-large">PLC 101</p>
+                <div id="plc-101-chart" style="height: 150px;"></div>
+            </div>
+            <div class="col-sm-6">
+                <p class="text-large">PLC 102</p>
+                <div id="plc-102-chart" style="height: 150px;"></div>
+            </div>
+            <div class="col-sm-6">
+                <p class="text-large">PLC 103</p>
+                <div id="plc-103-chart" style="height: 150px;"></div>
+            </div>
+            <div class="col-sm-6">
+                <p class="text-large">PLC 104</p>
+                <div id="plc-104-chart" style="height: 150px;"></div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default col-sm-8">
+    <div class="panel-heading">
+        <h1>System Overview</h1>
+    </div>
+</div>
+
+<div class="panel panel-default col-sm-3 pull-right">
+    <div class="panel-heading">
+        <h1>Daily Reminders</h1>
+    </div>
+    	<div class="xe-widget xe-todo-list">
+			<div class="xe-header">
+				<div class="xe-icon">
+					<i class="fa-file-text-o"></i>
+				</div>
+				<div class="xe-label">
+						<strong>Predictive Maintenance Tasks</strong>
+				</div>
+			</div>
+			<div class="xe-body">
+				
+				<ul class="list-unstyled">
+					<li class="done">
+						<label>
+							<input type="checkbox" class="cbr" checked />
+							<span>Check TC1-01</span>
+						</label>
+					</li>
+					<li>
+						<label>
+							<input type="checkbox" class="cbr" />
+							<span>Check TC1-02</span>
+						</label>
+					</li>
+					<li>
+						<label>
+							<input type="checkbox" class="cbr" />
+							<span>Check TC1-03</span>
+						</label>
+					</li>
+					<li>
+						<label>
+							<input type="checkbox" class="cbr" />
+							<span>Check CS1-01</span>
+						</label>
+					</li>
+				</ul>
+				
+			</div>
+			<div class="xe-footer">
+				<input type="text" class="form-control" placeholder="Add task..." />
+			</div>
+		</div>
+</div>

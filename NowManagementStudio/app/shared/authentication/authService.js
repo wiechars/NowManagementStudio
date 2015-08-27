@@ -93,7 +93,6 @@ app.factory('authService', ['$http', '$q', 'localStorageService', function ($htt
         if (authData) {
             _currentUser.userName = authData.userName;
             _currentUser.role = JSON.parse(authData.userRoles);
-            alert(_currentUser.role);
         }
         return _currentUser;
     }

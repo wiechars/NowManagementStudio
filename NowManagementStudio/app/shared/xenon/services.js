@@ -83,7 +83,7 @@ angular.module('xenon.services', []).
 
 		this.prepareSidebarMenu = function()
 		{
-		    //var contacts = this.addItem('Contacts', '/app/contacts', 'fa-users');
+		
 		    var contacts = this.addItem('Contacts', '/app/contacts', 'fa-user');
 		    var useraccounts = this.addItem('User Accounts', '/app/admin-users', 'fa-book');
 			var dashboard    = this.addItem('Dashboard', 		'/app/dashboard', 			'linecons-cog');
@@ -98,7 +98,8 @@ angular.module('xenon.services', []).
 			var menu_lvls  	 = this.addItem('Menu Levels', 		'', 						'linecons-cloud');
 
 
-				// Subitems of Dashboard
+		    // Subitems of Dashboard
+			    dashboard.addItem('BHS Now DashBoard', '-/bhs');
 				dashboard.addItem('Dashboard 1', 	'-/variant-1'); // "-/" will append parents link
 				dashboard.addItem('Dashboard 2', 	'-/variant-2');
 				dashboard.addItem('Dashboard 3', 	'-/variant-3');

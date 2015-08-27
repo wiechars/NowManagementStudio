@@ -57,20 +57,21 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyL
 		        },
 		    }
 		}).
+
         // Contacts
 
         state('app.contacts', {
-        	url: '/contacts',
-        	templateUrl: appHelper.templatePath('contacts/contacts'),
-        	resolve: {
-        		deps: function ($ocLazyLoad) {
-        		    return $ocLazyLoad.load([
+            url: '/contacts',
+            templateUrl: appHelper.templatePath('contacts/contacts'),
+            resolve: {
+                deps: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
                         ASSETS.tables.rwd,
                         //ASSETS.contacts.controller,
                        // ASSETS.contacts.dataService,
-        		    ]);
-        		}
-        	}
+                    ]);
+                }
+            }
         }).
         //Admin Users
         state('app.admin-users', {
@@ -100,6 +101,23 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyL
             }
         }).
 		// Dashboards
+        state('app.dashboard-bhs', {
+            url: '/dashboard-bhs',
+        	templateUrl: appHelper.templatePath('dashboards/bhs-dashboard'),
+        	resolve: {
+        		resources: function ($ocLazyLoad) {
+        		    return $ocLazyLoad.load([
+                        ASSETS.charts.dxGlobalize,
+                        ASSETS.extra.toastr,
+        		    ]);
+        		},
+        		dxCharts: function ($ocLazyLoad) {
+        		    return $ocLazyLoad.load([
+                        ASSETS.charts.dxCharts,
+        		    ]);
+        		},
+        	}
+        }).
 		state('app.dashboard-variant-1', {
 		    url: '/dashboard-variant-1',
 		    templateUrl: appHelper.templatePath('xenon/dashboards/variant-1'),
@@ -862,7 +880,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyL
 });
 
 app.run(['authService', function (authService) {
-    authService.fillAuthData(); 
+    authService.fillAuthData();
 }]);
 
 
