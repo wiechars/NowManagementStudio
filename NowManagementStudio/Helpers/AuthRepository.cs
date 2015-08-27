@@ -57,17 +57,13 @@ public class AuthRepository : IDisposable
     /// </summary>
     /// <param name="userID"></param>
     /// <returns></returns>
-    public List<string> UserRolesNames(IdentityUser user)
+    public IList<string> GetUserRoles(IdentityUser user)
     {
+        IList<string> roles = new List<string>();
 
-        List<string> roles = new List<string>();
         try
         {
-            foreach (var roleId in user.Roles)
-            {
-               
-                roles.Add(_roleManager.FindById(roleId.RoleId).ToString());
-            }
+             roles = _userManager.GetRoles(user.Id);
         }
         catch (Exception ex)
         {

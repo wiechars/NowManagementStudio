@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNet.Identity;
 using NowManagementStudio.Models;
+using System;
 
 namespace NowManagementStudio.Helpers.Providers
 {
@@ -44,7 +45,7 @@ namespace NowManagementStudio.Helpers.Providers
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
                 }
-                 var roles =  _repo.UserRolesNames(user);
+                var roles = _repo.GetUserRoles(user);
 
                 // If valid - create a "ClaimsIdentity" and pass authentication type to it.
                 // In our case "bearer token"
