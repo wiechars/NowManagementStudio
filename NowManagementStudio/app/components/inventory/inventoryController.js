@@ -6,21 +6,25 @@ app.controller('inventoryController',
     function categoryController($scope, inventoryDataService) {
         $scope.lots = [];
         $scope.locations = [];
+        $scope.locationSelected = [];
         $scope.types = [];
+        $scope.typeSelected = [];
         $scope.alerts = [];
         $scope.message = "";
         $scope.showEditForm = false;
-        
+
 
         loadInventory();
+        getLocations();
+        getMatTypes();
 
 
-        
+
         /**************************************
         ***        Hide Buttons              ***
         **************************************/
         function hideButtons() {
-            $scope.disableTagButton = { 'visibility': 'hidden' }; 
+            $scope.disableTagButton = { 'visibility': 'hidden' };
         }
 
         /**************************************
@@ -54,18 +58,14 @@ app.controller('inventoryController',
             showButtons();
             $scope.lot = [];
             $scope.isEdit = true;
-
             $scope.showEditForm = true;
 
-            
-          
-             var lFirstChange = true;
+            var lFirstChange = true;
 
-             if (id) {
+            if (id) {
 
-                 $scope.lot = inventoryDataService.findLotById(id);
-                 getLocations();
-                 getMatTypes();
+                $scope.lot = inventoryDataService.findLotById(id);
+                setSelectedOptions();
                 var editWatch = $scope.$watchCollection('lot', function () {
                     if (!lFirstChange) {
                         $('#deleteButton').hide(400);
@@ -73,7 +73,7 @@ app.controller('inventoryController',
 
                     }
                     lFirstChange = false;
-                    
+
                 });
             }
         };
@@ -96,12 +96,11 @@ app.controller('inventoryController',
         ***        Save Lot                 ***
         **************************************/
         $scope.saveLot = function () {
-           // if ($scope.editForm.$invalid) return;
+            // if ($scope.editForm.$invalid) return;
             if ($scope.isEdit) {
                 inventoryDataService.updateLot($scope.lot)
                 .then(function () {
                     $scope.alerts.push({ type: 'success', msg: 'Successfully updated lot: ' + $scope.lot.serialNo });
-                    loadInventory();
                     $scope.showEditForm = false;
                 },
                 function () {
@@ -126,7 +125,7 @@ app.controller('inventoryController',
         /**************************************
         ***        Load Inventory            ***
         **************************************/
-        function  loadInventory() {
+        function loadInventory() {
             $scope.loading = true;
             inventoryDataService.getLots()
             .then(function () {
@@ -134,7 +133,7 @@ app.controller('inventoryController',
                 $scope.loading = false;
             },
                 function () {
-                    $scope.alerts.push({ type: 'danger', msg: 'Error Retrieving Inventory.'});
+                    $scope.alerts.push({ type: 'danger', msg: 'Error Retrieving Inventory.' });
                     $scope.loading = false;
                 })
                 .then(function () {
@@ -147,11 +146,11 @@ app.controller('inventoryController',
         ***        Get Locations            ***
         **************************************/
         function getLocations() {
-          
+
             inventoryDataService.getLocations()
             .then(function () {
                 $scope.locations = inventoryDataService.locations;
-              },
+            },
                 function () {
                     $scope.alerts.push({ type: 'danger', msg: 'Error Retrieving Locations.' });
                 })
@@ -178,7 +177,37 @@ app.controller('inventoryController',
         };
 
 
+        /**************************************
+        ***        Update Location Select   ***
+        **************************************/
+        $scope.updateLocation = function () {
+            $scope.lot.locationId = $scope.locationSelected.id;
+            $scope.lot.location = $scope.locationSelected.location;
+        };
 
-    
+        /**************************************
+        ***        Update Category Select   ***
+        **************************************/
+        $scope.updateType = function () {
+            $scope.lot.typeId = $scope.typeSelected.id;
+            $scope.lot.type = $scope.typeSelected.type;
+        };
+
+        /**************************************
+        ***        Update Category Select   ***
+        **************************************/
+        function setSelectedOptions() {
+            $scope.typeSelected = lookup($scope.types, 'id', parseInt($scope.lot.typeId));
+            $scope.locationSelected = lookup($scope.locations, 'id',parseInt($scope.lot.locationId));
+        };
+
+        /**************************************
+          ***   Function to parse an array  ***
+         **************************************/
+        function lookup(array, prop, value) {
+            for (var i = 0, len = array.length; i < len; i++)
+                if (array[i][prop] === value) return array[i];
+        };
+
     }]);
 
