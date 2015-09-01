@@ -37,7 +37,7 @@ START TRANSACTION;
 			IF (CAST(@prevValue AS UNSIGNED INTEGER) <> newValue) THEN
 				-- Update Lot Operations
 				INSERT INTO inv_cur_lot_operations(inv_cur_lots_id, inv_cfg_lot_operations_id,prev_price,cur_price, user_name)
-					VALUES (SUBSTRING_INDEX(lotIDs, ',', 1), 7,  @prevValue , newValue, user);
+					VALUES (SUBSTRING_INDEX(lotIDs, ',', 1), 1,  @prevValue , newValue, user);
 				-- Update Lot Quantity
 				UPDATE  inv_cur_lots SET price = newValue WHERE id = lotID;
 			END IF;

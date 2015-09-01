@@ -1,8 +1,8 @@
 DROP procedure IF EXISTS `INV_InsertLot`;
 
 DELIMITER $$
-CREATE PROCEDURE `INV_InsertLot`(IN uomID INT,IN lotStatusID INT, IN locationID INT,IN brandID INT, IN typeID INT, IN serial_no VARCHAR(128), IN quantity VARCHAR(45)
-					,IN price VARCHAR(128), IN date_added DATETIME, IN expiration_date DATETIME, IN user_name VARCHAR(128), IN notes VARCHAR(256)
+CREATE PROCEDURE `INV_InsertLot`(IN uomID INT,IN lotStatusID INT, IN locationID INT,IN brandID INT, IN typeID INT, IN serialNo VARCHAR(128), IN quantity VARCHAR(45)
+					,IN price VARCHAR(128), IN dateAdded DATETIME, IN expirationDate DATETIME, IN userName VARCHAR(128), IN userNotes VARCHAR(256)
 					,IN propValsID VARCHAR(255), IN propVals VARCHAR(255), OUT insertID INT)
 BEGIN
 
@@ -25,18 +25,18 @@ BEGIN
 			,locationID
 			,brandID
 			,typeID
-			,serial_no
+			,serialNo
 			,quantity
 			,price
-			,date_added
-			,expiration_date
-			,user_name
-			,notes
+			,dateAdded
+			,expirationDate
+			,userName
+			,userNotes
 			,0);
 
 SET insertID = LAST_INSERT_ID();
 
-CALL `INV_UpdateLotCustomProps` (insertID, propValsID, propVals, user_name);
+CALL `INV_UpdateLotCustomProps` (insertID, propValsID, propVals, userName);
  
 
 

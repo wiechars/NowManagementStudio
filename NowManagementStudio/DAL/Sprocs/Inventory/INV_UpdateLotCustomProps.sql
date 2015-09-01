@@ -48,14 +48,13 @@ START TRANSACTION;
 			IF (@prevValue IS NULL OR @prevValue <> customPropVal) THEN
 
 			  -- Update Lot Operations
-				INSERT INTO inv_cur_lot_operations(inv_cur_lots_id, inv_cfg_lot_operations_id,inv_cfg_custom_props_id,prev_custom_prop_val,cur_custom_prop_val, user)
-					VALUES (lotID, 6, customPropID, @prevValue , customPropVal, user);
+				INSERT INTO inv_cur_lot_operations(inv_cur_lots_id, inv_cfg_lot_operations_id,inv_cfg_custom_props_id,prev_custom_prop_val,cur_custom_prop_val, user_name)
+				VALUES (lotID, 2, customPropID, @prevValue , customPropVal, user);
 				-- Update Custom Property if it exists, else insert
 
 				IF EXISTS (SELECT * FROM inv_cur_prop_vals WHERE inv_cur_lots_id = lotID AND inv_cfg_custom_props_id = customPropID)
 				THEN
 					UPDATE  inv_cur_prop_vals SET value = customPropVal WHERE inv_cur_lots_id = lotID AND inv_cfg_custom_props_id = customPropID;
-					Select 'Updating';
 				ELSE
 
 					INSERT INTO inv_cur_prop_vals (inv_cfg_custom_props_id, inv_cur_lots_id, value) 
@@ -76,6 +75,6 @@ START TRANSACTION;
 			END IF;
 		  END LOOP do_this;
 
-#COMMIT;
+COMMIT;
 END
 $$

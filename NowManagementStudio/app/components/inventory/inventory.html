@@ -1,0 +1,225 @@
+﻿<!--- Inventory Table --->
+<div class="panel panel-default" ng-controller="inventoryController">
+    <div id="screenTop"></div>
+    <div class="panel-heading">
+        <h3 class="panel-title">Material Categories</h3>
+
+        <div class="panel-options">
+            <a href="#" data-toggle="panel">
+                <span class="collapse-icon">&ndash;</span>
+                <span class="expand-icon">+</span>
+            </a>
+            <a href="#" data-toggle="remove">&times;
+            </a>
+        </div>
+    </div>
+    <div class="panel-body">
+
+        <script type="text/javascript">
+            jQuery(document).ready(function ($) {
+                $("#lotsTable").dataTable({
+                    aLengthMenu: [
+                        [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]
+                    ]
+                });
+            });
+            ; (function ($) {
+                $('.table-responsive').responsiveTable();
+            })(jQuery);
+        </script>
+
+
+        <div class="col-md-6">
+            <a class="btn btn-primary" ng-click="add()" scroll-to="screenEdit"><i class="fa-user"></i>&nbsp;Add Inventory</a>
+        </div>
+        <div class="col-md-6">
+
+            <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
+						</alert>
+
+        </div>
+        <div class="loadingIndicator col-md-4" ng-show="loading"></div>
+        <div class="table-responsive" data-pattern="priority-columns" data-focus-btn-icon="fa-asterisk" data-sticky-table-header="true" data-add-display-all-btn="true" data-add-focus-btn="true" ng-hide="loading">
+
+            <table id="lotsTable" datatable="ng" class="hover table table-small-font table-bordered table-striped" cellspacing="0" width="100%">
+                <thead>
+                    <tr role="row">
+                        <th data-priority="1">ID Tag</th>
+                        <th data-priority="1">Category</th>
+                        <th data-priority="1">Price</th>
+                        <th data-priority="1">Location</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                </tfoot>
+                <tbody>
+                    <tr ng-repeat="lot in lots | filter:search_txt " scroll-to="screenEdit">
+                        <td>{{lot.serialNo}}</td>
+                        <td>{{lot.typeId}}</td>
+                        <td>{{lot.price}}</td>
+                        <td>{{lot.location}}</td>
+                        <td><a class="btn btn-primary" ng-click="edit(lot.id)" scroll-to="screenEdit"><i class="fa-user"></i>&nbsp;Edit</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        Lot {{lot.typeId}}
+    </div>
+
+    <!-- Edit Form -->
+
+    <div class="panel-heading" ng-show="showEditForm">
+        <div id="screenEdit"></div>
+        <h3 class="panel-title">Edit Inventory Item</h3>
+        <div class="panel-options">
+            <a href="#" data-toggle="panel">
+                <span class="collapse-icon">&ndash;</span>
+                <span class="expand-icon">+</span>
+            </a>
+            <a href="#" data-toggle="remove">&times;
+            </a>
+        </div>
+    </div>
+    <div class="panel-body" ng-show="showEditForm">
+        <form class="form-horizontal" role="form" id="editForm" name="editForm">
+            <div class="form-group col-sm-6">
+                <label for="location" class="col-sm-3 control-label">Location</label>
+                <div class="col-sm-6">
+                    <select ng-model="lot.locationId" ng-selected="lot.location" ng-options="location.location for location in locations track by location.id ">
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group col-sm-6">
+                <label for="category" class="col-sm-3 control-label">Category</label>
+                <div class="col-sm-6">
+
+                    <select ng-model="lot.typeId" ng-options="type.id as type.type for type in types ">
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group col-sm-6">
+                <label for="id_tag" class="col-sm-3 control-label">ID Tag (CODE-128)</label>
+                <div class="col-sm-6">
+                    <input type="text" id="id_tag" name="id_tag" class="form-control"
+                        ng-model="lot.serialNo" ng-required="true" placeholder="ID Tag (CODE-128)" />
+                </div>
+            </div>
+
+            <div class="form-group col-sm-6">
+                <label for="notes" class="col-sm-3 control-label">Description</label>
+                <div class="col-sm-6">
+                    <input type="text" id="notes" name="notes" class="form-control"
+                        ng-model="lot.notes" placeholder="Description" />
+                </div>
+            </div>
+
+            <div class="form-group col-sm-6">
+
+                <label for="price" class="col-sm-3 control-label">Price</label>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input type="number" id="price" name="price" class="form-control"
+                            ng-model="lot.price" placeholder="Price" min="0" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-sm-6">
+                <label for="weight" class="col-sm-3 control-label">Weight</label>
+                <div class="col-sm-6">
+                    <div class="input-group">
+
+                        <input type="number" id="weight" name="weight" class="form-control"
+                            ng-model="lot.weight" placeholder="Weight" min="0" />
+                        <span class="input-group-addon">lbs</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-sm-6">
+                <label for="width" class="col-sm-3 control-label">Width</label>
+                <div class="col-sm-6">
+                    <div class="input-group">
+
+                        <input type="number" id="width" name="width" class="form-control"
+                            ng-model="lot.width" placeholder="Width" min="0" />
+                        <span class="input-group-addon">in.</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group col-sm-6">
+                <label for="height" class="col-sm-3 control-label">Height</label>
+                <div class="col-sm-6">
+                    <div class="input-group">
+
+                        <input type="number" id="height" name="height" class="form-control"
+                            ng-model="lot.height" placeholder="Height (inches)" min="0" />
+                        <span class="input-group-addon">in.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="volume" class="col-sm-3 control-label">Volume </label>
+                <div class="col-sm-6">
+                    <input type="number" id="volume" name="volume" class="form-control"
+                        ng-model="lot.volume" placeholder="Volume" min="0" />
+                </div>
+            </div>
+
+            <div class="form-group col-sm-6">
+                <label for="nextInvDate" class="col-sm-3 control-label">Next Inventory Date</label>
+                <div class="col-sm-6">
+                    <input type="date" id="nextInvDate" name="nextInvDate" class="form-control"
+                        ng-model="lot.nextInvDate" placeholder="Next Inventory Date" />
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="lastInvDate" class="col-sm-3 control-label">Last Inventory Date</label>
+                <div class="col-sm-6">
+                    <input type="date" id="lastInvDate" name="lastInvDate" class="form-control"
+                        ng-model="lot.lastInvDate" placeholder="Last Inventory Date" />
+                </div>
+            </div>
+
+
+
+            <div class="form-group col-sm-6">
+                <label for="expirationDate" class="col-sm-3 control-label">Expiry Date</label>
+                <div class="col-sm-6">
+                    <input type="date" id="expirationDate" name="expirationDate" class="form-control"
+                        ng-model="lot.expirationDate" placeholder="expiry Date" />
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="purchaseDate" class="col-sm-3 control-label">Purchase Date</label>
+                <div class="col-sm-6">
+                    <input type="date" id="purchaseDate" name="purchaseDate" class="form-control"
+                        ng-model="lot.purchaseDate" placeholder="Purchase Date" />
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="col-md-4 col-md-offset-3 col-sm-3 col-sm-offset-3 ">
+                    <button type="button" id="cancelSave" name="cancelSave" class="btn btn-warning"
+                        ng-click="cancel()" scroll-to="screenTop" ng-style="disableTagButton">
+                        <i class="fa-ban"></i>&nbsp;Cancel</button>
+                    <button id="submitButton" name="submitButton" class="btn btn-primary"
+                        ng-click="saveLot()" scroll-to="screenTop" ng-style="disableTagButton">
+                        <i class="fa-save"></i>&nbsp;Save</button>
+                    <button id="deleteButton" name="submitForm" class="btn btn-danger"
+                        ng-click="modalDelete('md',contact)" ng-style="disableTagButton">
+                        <i class="fa-trash-o"></i>&nbsp;Delete
+                   
+                    </button>
+                </div>
+        </form>
+
+    </div>

@@ -37,7 +37,7 @@ namespace NowManagementStudio.API
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(1),
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(60),
                 Provider = new SimpleAuthorizationServerProvider()
             };
 

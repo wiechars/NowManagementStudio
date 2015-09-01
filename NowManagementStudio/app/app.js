@@ -67,6 +67,37 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyL
                 deps: function ($ocLazyLoad) {
                     return $ocLazyLoad.load([
                         ASSETS.tables.rwd,
+                         ASSETS.forms.dropzone,
+                        //ASSETS.contacts.controller,
+                       // ASSETS.contacts.dataService,
+                    ]);
+                }
+            }
+        }).
+                // Reports
+
+        state('app.reports', {
+            url: '/reports',
+            templateUrl: appHelper.templatePath('reports/reports'),
+            resolve: {
+                deps: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        ASSETS.tables.rwd,
+                        //ASSETS.contacts.controller,
+                       // ASSETS.contacts.dataService,
+                    ]);
+                }
+            }
+        }).
+
+        state('app.inventory', {
+            url: '/inventory',
+            templateUrl: appHelper.templatePath('inventory/inventory'),
+            resolve: {
+                deps: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        ASSETS.tables.rwd,
+                         ASSETS.forms.dropzone,
                         //ASSETS.contacts.controller,
                        // ASSETS.contacts.dataService,
                     ]);
