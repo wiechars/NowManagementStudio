@@ -87,7 +87,7 @@ namespace NowManagementStudio.DAL
         /// <param name="lot"></param>
         /// <param name="propValsId"></param>
         /// <param name="propVals"></param>
-        public void UpdateLot(Lots lot,string propValsId, string propVals)
+        public void UpdateLot(Lots lot, string propValsId, string propVals)
         {
             try
             {
@@ -164,12 +164,11 @@ namespace NowManagementStudio.DAL
         /// <param name="propValsId"></param>
         /// <param name="propVals"></param>
         /// <param name="notes"></param>
-        public void InsertLot(string serialNo, string price, string dateAdded, string expirationDate, string propValsId, string propVals, string notes)
+        public string InsertLot(string serialNo, string price, string dateAdded, string expirationDate, string propValsId, string propVals, string notes)
         {
             try
             {
                 StoredProcedure sproc = new StoredProcedure();
-                MySqlDataReader rdr = null;
                 var list = new List<KeyValuePair<string, string>>();
 
                 //Add Parameters
@@ -190,12 +189,11 @@ namespace NowManagementStudio.DAL
                 list.Add(new KeyValuePair<string, string>("@userNotes", "Added"));
                 list.Add(new KeyValuePair<string, string>("@propValsID", propValsId));
                 list.Add(new KeyValuePair<string, string>("@propVals", propVals));
-                MySqlCommand cmd = sproc.Command("INV_UpdateLot", list, null);
-
                 string outputParam = "@insertID";
-                cmd = sproc.Command("INV_InsertLot", list, outputParam);
+                MySqlCommand cmd = sproc.Command("INV_InsertLot", list, outputParam);
                 // execute the command
                 cmd.ExecuteNonQuery();
+                return Convert.ToString(cmd.Parameters[outputParam].Value);
             }
             catch (Exception ex)
             {
@@ -243,7 +241,7 @@ namespace NowManagementStudio.DAL
             list.Add(new KeyValuePair<string, string>("@brandIDs", Convert.ToString(brandID)));
             MySqlCommand cmd = sproc.Command("INV_GetMatTypesInBrands", list, null);
             rdr = cmd.ExecuteReader();
-            List<MatType> results = new List<MatType>();  
+            List<MatType> results = new List<MatType>();
 
             // iterate through results, printing each to console
             while (rdr.Read())
@@ -252,6 +250,61 @@ namespace NowManagementStudio.DAL
                 type.Id = Convert.ToInt32(rdr["id"]);
                 type.type = rdr["type"].ToString();
                 results.Add(type);
+            }
+            return results;
+        }
+
+        /// <summary>
+        /// Takes an uploaded image and maps it to a lot
+        /// </summary>
+        /// <param name="lotId"></param>
+        /// <param name="filePath"></param>
+        public void InsertImageMapping(string lotId, string filePath)
+        {
+            try
+            {
+                StoredProcedure sproc = new StoredProcedure();
+                var list = new List<KeyValuePair<string, string>>();
+
+                //Add Parameters
+                list.Add(new KeyValuePair<string, string>("@lotID", lotId));
+                list.Add(new KeyValuePair<string, string>("@fileName", filePath));
+                MySqlCommand cmd = sproc.Command("INV_InsertImageMapping", list, null);
+                // execute the command
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+
+        }
+
+        /// <summary>
+        /// Returns a list of images for a given lot
+        /// </summary>
+        /// <param name="lot"></param>
+        /// <returns></returns>
+        public List<ImageMapping> GetImagesByLot(int id)
+        {
+            StoredProcedure sproc = new StoredProcedure();
+            MySqlDataReader rdr = null;
+            var list = new List<KeyValuePair<string, string>>();
+            //Add Parameters
+            //TODO - for the current implementation, we don't need the Brand Category
+            //So its current hardcoded as a value of 1
+            list.Add(new KeyValuePair<string, string>("@lotID", Convert.ToString(id)));
+            MySqlCommand cmd = sproc.Command("INV_GetImageMapping", list, null);
+            rdr = cmd.ExecuteReader();
+            List<ImageMapping> results = new List<ImageMapping>();
+
+            // iterate through results, printing each to console
+            while (rdr.Read())
+            {
+                ImageMapping image = new ImageMapping();
+                image.Id = Convert.ToInt32(rdr["id"]);
+                image.fileName = rdr["file_path"].ToString();
+                results.Add(image);
             }
             return results;
         }

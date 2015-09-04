@@ -71,15 +71,15 @@ namespace NowManagementStudio.Inventory.Controllers
 
         [Authorize]
         [Route("AddLot")]
-        public IHttpActionResult AddLot(string _Lot)
+        public IHttpActionResult AddLot(Lots _Lot)
         {
-            int newID;
             try
             {
-              // _inventoryDB.AddLot(_Lot);
+                 _Lot.Id  =Convert.ToInt32(_inventoryDB.AddLot(_Lot));
+             
                 //var subscribed = Hub.Clients.Group("contact");
                 //subscribed.addItem(_Contact);
-                return Ok();
+                return Ok(_Lot);
             }
             catch (Exception ex)
             {
@@ -118,6 +118,22 @@ namespace NowManagementStudio.Inventory.Controllers
                 log.Error("Error Getting Material Types : ", ex);
                 return NotFound();
             }
+        }
+
+        [Route("Images/{id}")]
+        public IHttpActionResult GetLotImages(int id)
+        {
+            try
+            {
+                var images = _inventoryDB.GetImagesByLot(id);
+                return Ok(images);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error Getting Images : ", ex);
+                return NotFound();
+            }
+
         }
 
       

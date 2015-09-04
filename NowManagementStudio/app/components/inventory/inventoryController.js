@@ -5,6 +5,7 @@ app.controller('inventoryController',
     ['$scope', 'inventoryDataService', '$location',
     function categoryController($scope, inventoryDataService) {
         $scope.lots = [];
+        $scope.images = [];
         $scope.locations = [];
         $scope.locationSelected = [];
         $scope.types = [];
@@ -12,11 +13,13 @@ app.controller('inventoryController',
         $scope.alerts = [];
         $scope.message = "";
         $scope.showEditForm = false;
-
+        $scope.formTitle = "";
 
         loadInventory();
         getLocations();
         getMatTypes();
+
+
 
 
 
@@ -55,16 +58,25 @@ app.controller('inventoryController',
         ***        Edit Lot                 ***
         **************************************/
         $scope.edit = function (id) {
+            $scope.formTitle = "Edit Lot";
             showButtons();
             $scope.lot = [];
+            $scope.images = [];
             $scope.isEdit = true;
             $scope.showEditForm = true;
+            $scope.showImageForm = false;
 
             var lFirstChange = true;
 
             if (id) {
 
                 $scope.lot = inventoryDataService.findLotById(id);
+                $scope.formTitle = $scope.formTitle + ": " + $scope.lot.serialNo;
+                inventoryDataService.findImagesByLotId($scope.lot)
+                    .then(function () {
+                        $scope.images = inventoryDataService.images;
+
+                    });
                 setSelectedOptions();
                 var editWatch = $scope.$watchCollection('lot', function () {
                     if (!lFirstChange) {
@@ -83,8 +95,10 @@ app.controller('inventoryController',
         ***        Add Lot             ***
         **************************************/
         $scope.add = function () {
+            $scope.formTitle = "Add Inventory Item"
             showButtons();
-            $scope.lot = {};
+            $scope.lot = [];
+            $scope.lot = { price: 0, weight: 0, volume: 0, height: 0, width: 0 }
             $scope.isEdit = false;
             $scope.showEditForm = true;
             $('#deleteButton').hide();
@@ -93,31 +107,49 @@ app.controller('inventoryController',
         };
 
         /**************************************
+        ***        Add Images             ***
+        **************************************/
+        $scope.addImages = function (id) {
+            $scope.lot = [];
+            $scope.showImageForm = true;
+            $scope.showEditForm = false;
+            if (id) {
+                $scope.lot = inventoryDataService.findLotById(id);
+            }
+        };
+
+
+        /**************************************
         ***        Save Lot                 ***
         **************************************/
         $scope.saveLot = function () {
             // if ($scope.editForm.$invalid) return;
             if ($scope.isEdit) {
                 inventoryDataService.updateLot($scope.lot)
-                .then(function () {
-                    $scope.alerts.push({ type: 'success', msg: 'Successfully updated lot: ' + $scope.lot.serialNo });
-                    $scope.showEditForm = false;
-                },
-                function () {
-                    $scope.alerts.push({ type: 'danger', msg: 'Failed to edit lot: ' + $scope.lot.serialNo });
-                })
+            .then(function () {
+                $scope.alerts.push({ type: 'success', msg: 'Successfully updated lot: ' + $scope.lot.serialNo });
+                $scope.showEditForm = false;
+            },
+            function () {
+                $scope.alerts.push({ type: 'danger', msg: 'Failed to edit lot: ' + $scope.lot.serialNo });
+            })
             }
 
             if (!$scope.isEdit) {
                 inventoryDataService.addLot($scope.lot)
-                .then(function () {
-                    $scope.alerts.push({ type: 'success', msg: 'Successfully added lot: ' + $scope.lot.serialNo });
-                    loadInventory();
-                    $scope.showEditForm = false;
-                },
-                function () {
-                    $scope.alerts.push({ type: 'danger', msg: 'Failed to create lot: ' + $scope.lot.serialNo });
-                })
+              .then(function () {
+                  $scope.lot.id = inventoryDataService.getNewLotId()
+
+                  uploadImages();
+
+                  $scope.alerts.push({ type: 'success', msg: 'Successfully added lot: ' + $scope.lot.serialNo });
+                  $scope.showEditForm = false;
+                  $scope.lots.push($scope.lot);
+
+              },
+              function () {
+                  $scope.alerts.push({ type: 'danger', msg: 'Failed to create lot: ' + $scope.lot.serialNo });
+              })
             }
         }
 
@@ -198,7 +230,7 @@ app.controller('inventoryController',
         **************************************/
         function setSelectedOptions() {
             $scope.typeSelected = lookup($scope.types, 'id', parseInt($scope.lot.typeId));
-            $scope.locationSelected = lookup($scope.locations, 'id',parseInt($scope.lot.locationId));
+            $scope.locationSelected = lookup($scope.locations, 'id', parseInt($scope.lot.locationId));
         };
 
         /**************************************
@@ -207,6 +239,17 @@ app.controller('inventoryController',
         function lookup(array, prop, value) {
             for (var i = 0, len = array.length; i < len; i++)
                 if (array[i][prop] === value) return array[i];
+        };
+
+
+        /*************************************
+        ***     Upload Images              ***
+        *************************************/
+        function uploadImages() {
+            var dz = Dropzone.forElement("#dropzone");
+            dz.options
+            dz.options.url = "/api/Files/UploadInventory/" + $scope.lot.id;
+            dz.processQueue();
         };
 
     }]);

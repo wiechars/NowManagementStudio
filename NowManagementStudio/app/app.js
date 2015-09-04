@@ -97,7 +97,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyL
                 deps: function ($ocLazyLoad) {
                     return $ocLazyLoad.load([
                         ASSETS.tables.rwd,
-                         ASSETS.forms.dropzone,
+                        ASSETS.forms.dropzone,
                         //ASSETS.contacts.controller,
                        // ASSETS.contacts.dataService,
                     ]);

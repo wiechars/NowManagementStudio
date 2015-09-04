@@ -37,13 +37,13 @@ namespace NowManagementStudio.Models.Inventory
 
         }
 
-        public void AddLot(Lots lot)
+        public string AddLot(Lots lot)
         {
             InventorySprocs sproc = new InventorySprocs();
             //Build customProp Ids and Values
-            string propValsId = lot.weightId + "," + lot.widthId + "," + lot.heightId + "," + lot.volumeId + "," + lot.nextInvDateId + "," + lot.lastInvDateId;
+            string propValsId = "1,2,3,4,5,6";
             string propVals = lot.weight + "," + lot.width + "," + lot.height + "," + lot.volume + "," + lot.nextInvDate + "," + lot.lastInvDate;
-            sproc.InsertLot(lot.serialNo, lot.price.ToString(),
+            return sproc.InsertLot(lot.serialNo,lot.price.ToString(),
                     lot.purchaseDate, lot.expirationDate, propValsId, propVals, lot.notes);
 
         }
@@ -59,6 +59,20 @@ namespace NowManagementStudio.Models.Inventory
         {
             InventorySprocs sproc = new InventorySprocs();
             return sproc.GetMatTypesByCategories(brandID);
+
+        }
+
+        public void InsertImageMapping(string id, string fileName)
+        {
+            InventorySprocs sproc = new InventorySprocs();
+            sproc.InsertImageMapping(id, fileName);
+
+        }
+
+        public List<ImageMapping> GetImagesByLot(int lotID)
+        {
+            InventorySprocs sproc = new InventorySprocs();
+            return sproc.GetImagesByLot(lotID);
 
         }
 

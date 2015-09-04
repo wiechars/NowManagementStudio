@@ -2,7 +2,7 @@
 <div class="panel panel-default" ng-controller="inventoryController">
     <div id="screenTop"></div>
     <div class="panel-heading">
-        <h3 class="panel-title">Material Categories</h3>
+        <h3 class="panel-title">Inventory Management</h3>
 
         <div class="panel-options">
             <a href="#" data-toggle="panel">
@@ -34,15 +34,15 @@
 						</alert>
         </div>
         <div class="loadingIndicator col-md-4" ng-show="loading"></div>
-        <div class="table-responsive" data-pattern="priority-columns" data-focus-btn-icon="fa-asterisk" data-sticky-table-header="true" data-add-display-all-btn="true" data-add-focus-btn="true" ng-hide="loading">
-
+        <div class="table-responsive" data-pattern="priority-columns" data-sticky-table-header="true" data-add-display-all-btn="true" data-add-focus-btn="false" ng-hide="loading">
             <table id="lotsTable" datatable="ng" class="hover table table-small-font table-bordered table-striped" cellspacing="0" width="100%">
                 <thead>
                     <tr role="row">
+                        <th>ID</th>
                         <th data-priority="1">ID Tag</th>
-                        <th data-priority="1">Category</th>
-                        <th data-priority="1">Price</th>
-                        <th data-priority="1">Location</th>
+                        <th data-priority="3">Category</th>
+                        <th data-priority="3">Price</th>
+                        <th data-priority="3">Location</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -50,11 +50,14 @@
                 </tfoot>
                 <tbody>
                     <tr ng-repeat="lot in lots | filter:search_txt " scroll-to="screenEdit">
+                        <td>{{lot.id}}</td>
                         <td>{{lot.serialNo}}</td>
                         <td>{{lot.type}}</td>
                         <td>{{lot.price}}</td>
                         <td>{{lot.location}}</td>
-                        <td><a class="btn btn-primary" ng-click="edit(lot.id)" scroll-to="screenEdit"><i class="fa-user"></i>&nbsp;Edit</a></td>
+                        <td><a class="btn btn-primary" ng-click="edit(lot.id)" scroll-to="screenEdit"><i class="fa-user"></i>&nbsp;Edit</a>
+                            &nbsp;<a class="btn btn-primary" ng-click="addImages(lot.id)" scroll-to="addImages"><i class="fa-user"></i>&nbsp;Images</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -64,7 +67,7 @@
     <!-- Edit Form -->
     <div class="panel-heading" ng-show="showEditForm">
         <div id="screenEdit"></div>
-        <h3 class="panel-title">Edit Inventory Item</h3>
+        <h3 class="panel-title">{{formTitle}}</h3>
         <div class="panel-options">
             <a href="#" data-toggle="panel">
                 <span class="collapse-icon">&ndash;</span>
@@ -190,18 +193,42 @@
                         ng-model="lot.purchaseDate" placeholder="Purchase Date" />
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-4 col-md-offset-3 col-sm-3 col-sm-offset-3 ">
-                    <button type="button" id="cancelSave" name="cancelSave" class="btn btn-warning"
-                        ng-click="cancel()" scroll-to="screenTop" ng-style="disableTagButton">
-                        <i class="fa-ban"></i>&nbsp;Cancel</button>
-                    <button id="submitButton" name="submitButton" class="btn btn-primary"
-                        ng-click="saveLot()" scroll-to="screenTop" ng-style="disableTagButton">
-                        <i class="fa-save"></i>&nbsp;Save</button>
-                    <button id="deleteButton" name="submitForm" class="btn btn-danger"
-                        ng-click="modalDelete('md',contact)" ng-style="disableTagButton">
-                        <i class="fa-trash-o"></i>&nbsp;Delete
-                    </button>
+            <div class="form-group col-sm-6">
+                <label for="images" class="col-sm-3 control-label">Uploaded Images</label>
+                <div class="col-sm-6">
+                    <ul>
+                        <li ng-repeat="image in images">{{image.fileName}}</li>
+                    </ul>
                 </div>
+            </div>
+
         </form>
+
+        <div id="dropZone" class="form-group col-sm-12">
+            <div class="form-group col-sm-10 col-md-10">
+                <form id="dropzone" action="/api/Files/UploadInventory"
+                    class="dropzone">
+                    <input type="hidden" name="id" id="lotId" value="{{lot.id}}"></input>
+                </form>
+            </div>
+            <div class="col-md-4 col-md-offset-3 col-sm-3 col-sm-offset-3 ">
+                <button type="button" id="cancelSave" name="cancelSave" class="btn btn-warning"
+                    ng-click="cancel()" scroll-to="screenTop" ng-style="disableTagButton">
+                    <i class="fa-ban"></i>&nbsp;Cancel</button>
+                <button id="submitButton" name="submitButton" class="btn btn-primary"
+                    ng-click="saveLot()" scroll-to="screenTop" ng-style="disableTagButton">
+                    <i class="fa-save"></i>&nbsp;Save</button>
+                <button id="deleteButton" name="submitForm" class="btn btn-danger"
+                    ng-click="modalDelete('md',contact)" ng-style="disableTagButton">
+                    <i class="fa-trash-o"></i>&nbsp;Delete
+                </button>
+            </div>
+        </div>
     </div>
+
+    <script type="text/javascript">
+        Dropzone.options.dropzone = {
+            maxFilesize: 2048, // MB,
+            autoProcessQueue: false
+        };
+    </script>
