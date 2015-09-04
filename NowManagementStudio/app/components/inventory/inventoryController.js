@@ -64,7 +64,6 @@ app.controller('inventoryController',
             $scope.images = [];
             $scope.isEdit = true;
             $scope.showEditForm = true;
-            $scope.showImageForm = false;
 
             var lFirstChange = true;
 
@@ -107,19 +106,6 @@ app.controller('inventoryController',
         };
 
         /**************************************
-        ***        Add Images             ***
-        **************************************/
-        $scope.addImages = function (id) {
-            $scope.lot = [];
-            $scope.showImageForm = true;
-            $scope.showEditForm = false;
-            if (id) {
-                $scope.lot = inventoryDataService.findLotById(id);
-            }
-        };
-
-
-        /**************************************
         ***        Save Lot                 ***
         **************************************/
         $scope.saveLot = function () {
@@ -127,6 +113,7 @@ app.controller('inventoryController',
             if ($scope.isEdit) {
                 inventoryDataService.updateLot($scope.lot)
             .then(function () {
+                uploadImages();
                 $scope.alerts.push({ type: 'success', msg: 'Successfully updated lot: ' + $scope.lot.serialNo });
                 $scope.showEditForm = false;
             },
