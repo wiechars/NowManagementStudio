@@ -1,8 +1,9 @@
 ﻿<!--- Inventory Table --->
 <div class="panel panel-default" ng-controller="inventoryController">
     <div id="screenTop"></div>
+
     <div class="panel-heading">
-        <h3 class="panel-title">Inventory Management</h3>
+        <h3 class="panel-title"><i class="fa-edit"></i>&nbsp;Inventory Management</h3>
 
         <div class="panel-options">
             <a href="#" data-toggle="panel">
@@ -26,16 +27,17 @@
                 $('.table-responsive').responsiveTable();
             })(jQuery);
         </script>
-        <div class="col-md-6">
-            <a class="btn btn-primary" ng-click="add()" scroll-to="screenEdit"><i class="fa-user"></i>&nbsp;Add Inventory</a>
-        </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
 						</alert>
         </div>
+
+        <a class="btn btn-primary pull-right" ng-click="add()" scroll-to="screenEdit"><i class="fa-edit"></i>&nbsp;Add Inventory</a>
+
+
         <div class="loadingIndicator col-md-4" ng-show="loading"></div>
         <div class="table-responsive" data-pattern="priority-columns" data-sticky-table-header="true" data-add-display-all-btn="true" data-add-focus-btn="false" ng-hide="loading">
-            <table id="lotsTable" datatable="ng" class="hover table table-small-font table-bordered table-striped" cellspacing="0" width="100%">
+            <table id="lotsTable" datatable="ng" class="hover table table-small-font table-bordered table-striped" cellspacing="0" width="100%" ng-click="edit(lot.id)" scroll-to="screenEdit">
                 <thead>
                     <tr role="row">
                         <th>ID</th>
@@ -43,7 +45,6 @@
                         <th data-priority="3">Category</th>
                         <th data-priority="3">Price</th>
                         <th data-priority="3">Location</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -55,8 +56,6 @@
                         <td>{{lot.type}}</td>
                         <td>{{lot.price}}</td>
                         <td>{{lot.location}}</td>
-                        <td><a class="btn btn-primary" ng-click="edit(lot.id)" scroll-to="screenEdit"><i class="fa-user"></i>&nbsp;Edit</a>                          
-                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -207,7 +206,6 @@
             <div class="form-group col-sm-10 col-md-10">
                 <form id="dropzone" action="/api/Files/UploadInventory"
                     class="dropzone">
-                    <input type="hidden" name="id" id="lotId" value="{{lot.id}}"></input>
                 </form>
             </div>
             <div class="col-md-4 col-md-offset-3 col-sm-3 col-sm-offset-3 ">
@@ -243,3 +241,11 @@
             }
         };
     </script>
+    <style>
+        .dropzone-previews {
+            height: 100px;
+            width: 500px;
+            border: dashed 1px red;
+            background-color: lightblue;
+        }
+    </style>
