@@ -84,12 +84,13 @@ angular.module('xenon.services', []).
 		this.prepareSidebarMenu = function()
 		{
 		
-		    var contacts = this.addItem('Contacts', '/app/contacts', 'fa-user');
+		    //var contacts = this.addItem('Contacts', '/app/contacts', 'fa-user');
 		    var reports = this.addItem('Reports', '/app/reports', 'linecons-note');
 		    var inventory = this.addItem('Inventory', '/app/inventory', 'fa-edit');
+		    if (false) {
 		    var useraccounts = this.addItem('User Accounts', '/app/admin-users', 'fa-book');
 		    var dashboard = this.addItem('Dashboard', '/app/dashboard', 'linecons-cog');
-		    if (false) {
+
 		        var layouts = this.addItem('Layout & Skins', '/app/layout-and-skins', 'linecons-desktop');
 		        var ui_elements = this.addItem('UI Elements', '/app/ui', 'linecons-note');
 		        var widgets = this.addItem('Widgets', '/app/widgets', 'linecons-star');
@@ -99,11 +100,11 @@ angular.module('xenon.services', []).
 		        var extra = this.addItem('Extra', '/app/extra', 'linecons-beaker').setLabel('New Items', 'purple');
 		        var charts = this.addItem('Charts', '/app/charts', 'linecons-globe');
 		        var menu_lvls = this.addItem('Menu Levels', '', 'linecons-cloud');
-		    }
+
 
 		    // Subitems of Dashboard
 		    dashboard.addItem('BHS Now DashBoard', '-/bhs');
-		    if (false) {
+		
 		        dashboard.addItem('Dashboard 1', '-/variant-1'); // "-/" will append parents link
 		        dashboard.addItem('Dashboard 2', '-/variant-2');
 		        dashboard.addItem('Dashboard 3', '-/variant-3');
