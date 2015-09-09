@@ -1,17 +1,14 @@
 ﻿<div class="panel-group" ng-controller="inventoryController">
     <!--- Inventory Table --->
-    <div class="panel panel-default" >
+    <div class="panel panel-default">
         <div id="screenTop"></div>
-
-        <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa-edit"></i>&nbsp;Inventory Management</h3>
-            <div class="panel-options">
-                <a href="#" data-toggle="panel">
-                    <span class="collapse-icon">&ndash;</span>
-                    <span class="expand-icon">+</span>
-                </a>
-                <a href="#" data-toggle="remove">&times;
-                </a>
+        <br />
+        <div class="panel-heading col-xs-12">
+            <div class="col-xs-8">
+                <h3 class="panel-title"><i class="fa-edit"></i>&nbsp;Inventory</h3>
+            </div>
+            <div class="col-xs-4">
+                <a class="btn btn-primary pull-right" ng-click="add()" scroll-to="screenEdit">Add</a>
             </div>
         </div>
         <div class="panel-body">
@@ -19,7 +16,7 @@
                 jQuery(document).ready(function ($) {
                     $("#lotsTable").dataTable({
                         aLengthMenu: [
-                            [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]
+                            [5, 10, 50, 100, -1], [5, 10, 50, 100, "All"]
                         ]
                     });
                 });
@@ -27,37 +24,30 @@
                     $('.table-responsive').responsiveTable();
                 })(jQuery);
             </script>
+            <br />
             <div class="col-md-12">
                 <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
 						</alert>
             </div>
-
-            <a class="btn btn-primary pull-right" ng-click="add()" scroll-to="screenEdit"><i class="fa-edit"></i>&nbsp;Add Inventory</a>
-
-
             <div class="loadingIndicator col-md-4" ng-show="loading"></div>
-            <div class="table-responsive" data-pattern="priority-columns" data-sticky-table-header="true" data-add-display-all-btn="true" data-add-focus-btn="false" ng-hide="loading">
-                <table id="lotsTable" datatable="ng" class="hover table table-small-font table-bordered table-striped" cellspacing="0" width="100%" ng-click="edit(lot.id)" scroll-to="screenEdit">
+            <div class="table-responsive" data-pattern="priority-columns" data-sticky-table-header="true" data-add-display-all-btn="false" data-add-focus-btn="false" ng-hide="loading">
+                <table id="lotsTable" datatable="ng" class="table table-striped table-hover" cellspacing="0" width="100%">
                     <thead>
                         <tr role="row">
-                            <th>ID</th>
                             <th data-priority="1">ID Tag</th>
                             <th data-priority="3">Category</th>
                             <th data-priority="3">Price</th>
                             <th data-priority="3">Location</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tfoot>
                     </tfoot>
                     <tbody>
-                        <tr ng-repeat="lot in lots | filter:search_txt " scroll-to="screenEdit">
-                            <td>{{lot.id}}</td>
+                        <tr ng-repeat="lot in lots | filter:search_txt " scroll-to="screenEdit" ng-click="edit(lot.id)">
                             <td>{{lot.serialNo}}</td>
                             <td>{{lot.type}}</td>
                             <td>{{lot.price}}</td>
                             <td>{{lot.location}}</td>
-                            <td><a class="btn btn-primary" ng-click="edit(lot.id)" scroll-to="screenEdit"><i class="fa-user"></i>&nbsp;Edit</a>
                         </tr>
                     </tbody>
                 </table>
@@ -65,65 +55,72 @@
         </div>
     </div>
     <!-- Edit Form -->
-    <div class="panel panel-default">
-        <div class="panel-heading" ng-show="showEditForm">
-            <div id="screenEdit"></div>
-            <h3 class="panel-title">{{formTitle}}</h3>
-            <div class="panel-options">
-                <a href="#" data-toggle="panel">
-                    <span class="collapse-icon">&ndash;</span>
-                    <span class="expand-icon">+</span>
-                </a>
-                <a href="#" data-toggle="remove">&times;
-                </a>
+
+    <div class="panel panel-default" ng-style="hideEditForm">
+        <div id="screenEdit"></div>
+        <br />
+        <div class="panel-heading col-xs-12">
+            <div class="col-xs-12 col-md-6">
+                <h3 class="panel-title">{{formTitle}}</h3>
+            </div>
+
+                <div class="col-xs-12 col-md-6">
+                <div class="pull-right ">
+                    <button type="button" id="cancelSave" name="cancelSave" class="btn btn-warning"
+                        ng-click="cancel()" scroll-to="screenTop" ng-style="disableTagButton">Cancel</button>
+                    <button id="submitButton" name="submitButton" class="btn btn-primary"
+                        ng-click="saveLot()" scroll-to="screenTop" ng-style="disableTagButton">Save</button>
+                    <button id="deleteButton" name="submitForm" class="btn btn-danger"
+                        ng-click="modalDelete('md',contact)" ng-style="disableTagButton">Delete
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="panel-body" ng-show="showEditForm">
+
+        <br />
+        <br />
+        <div class="panel-body">
             <form class="form-horizontal" role="form" id="editForm" name="editForm">
                 <div class="form-group col-sm-6">
-                    <label for="category" class="col-sm-3 control-label">Category</label>
+                    <label for="category" class="col-sm-4 control-label">Category</label>
                     <div class="col-sm-6">
                         <select class="form-control" ng-model="typeSelected" ng-options="type.type for type in types track by type.id" ng-change="updateType()">
                         </select>
                     </div>
                 </div>
                 <div class="form-group col-sm-6">
-                    <label for="location" class="col-sm-3 control-label">Location</label>
+                    <label for="location" class="col-sm-4 control-label">Location</label>
                     <div class="col-sm-6">
                         <select class="form-control" ng-model="locationSelected" ng-options="location.location for location in locations track by location.id " ng-change="updateLocation()">
                         </select>
                     </div>
                 </div>
                 <div class="form-group col-sm-6">
-                    <label for="id_tag" class="col-sm-3 control-label">ID Tag (CODE-128)</label>
+                    <label for="id_tag" class="col-sm-4 control-label">ID Tag (CODE-128)</label>
                     <div class="col-sm-6">
                         <input type="text" id="id_tag" name="id_tag" class="form-control"
                             ng-model="lot.serialNo" ng-required="true" placeholder="ID Tag (CODE-128)" />
                     </div>
                 </div>
-
                 <div class="form-group col-sm-6">
-                    <label for="notes" class="col-sm-3 control-label">Description</label>
+                    <label for="notes" class="col-sm-4 control-label">Description</label>
                     <div class="col-sm-6">
                         <input type="text" id="notes" name="notes" class="form-control"
                             ng-model="lot.notes" placeholder="Description" />
                     </div>
                 </div>
-
                 <div class="form-group col-sm-6">
-
-                    <label for="price" class="col-sm-3 control-label">Price</label>
+                    <label for="price" class="col-sm-4 control-label">Price</label>
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span class="input-group-addon">$</span>
-                            <input type="number" id="price" name="price" class="form-control"
-                                ng-model="lot.price" placeholder="Price" min="0" />
+                            <input type="text" id="price" name="price" class="form-control"
+                                ng-model="lot.price" placeholder="Price" min="0" inputmask data-mask="currency" data-sign="$">
                         </div>
                     </div>
                 </div>
-
                 <div class="form-group col-sm-6">
-                    <label for="weight" class="col-sm-3 control-label">Weight</label>
+                    <label for="weight" class="col-sm-4 control-label">Weight</label>
                     <div class="col-sm-6">
                         <div class="input-group">
 
@@ -133,9 +130,8 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="form-group col-sm-6">
-                    <label for="width" class="col-sm-3 control-label">Width</label>
+                    <label for="width" class="col-sm-4 control-label">Width</label>
                     <div class="col-sm-6">
                         <div class="input-group">
 
@@ -145,10 +141,8 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="form-group col-sm-6">
-                    <label for="height" class="col-sm-3 control-label">Height</label>
+                    <label for="height" class="col-sm-4 control-label">Height</label>
                     <div class="col-sm-6">
                         <div class="input-group">
 
@@ -159,98 +153,75 @@
                     </div>
                 </div>
                 <div class="form-group col-sm-6">
-                    <label for="volume" class="col-sm-3 control-label">Volume </label>
+                    <label for="volume" class="col-sm-4 control-label">Volume </label>
                     <div class="col-sm-6">
                         <input type="number" id="volume" name="volume" class="form-control"
                             ng-model="lot.volume" placeholder="Volume" min="0" />
                     </div>
                 </div>
-
                 <div class="form-group col-sm-6">
-                    <label for="nextInvDate" class="col-sm-3 control-label">Next Inventory Date</label>
+                    <label for="nextInvDate" class="col-sm-4 control-label">Next Inventory Date</label>
                     <div class="col-sm-6">
                         <input type="date" id="nextInvDate" name="nextInvDate" class="form-control"
                             ng-model="lot.nextInvDate" placeholder="Next Inventory Date" />
                     </div>
                 </div>
                 <div class="form-group col-sm-6">
-                    <label for="lastInvDate" class="col-sm-3 control-label">Last Inventory Date</label>
+                    <label for="lastInvDate" class="col-sm-4 control-label">Last Inventory Date</label>
                     <div class="col-sm-6">
                         <input type="date" id="lastInvDate" name="lastInvDate" class="form-control"
                             ng-model="lot.lastInvDate" placeholder="Last Inventory Date" />
                     </div>
                 </div>
                 <div class="form-group col-sm-6">
-                    <label for="expirationDate" class="col-sm-3 control-label">Expiry Date</label>
+                    <label for="expirationDate" class="col-sm-4 control-label">Expiry Date</label>
                     <div class="col-sm-6">
                         <input type="date" id="expirationDate" name="expirationDate" class="form-control"
                             ng-model="lot.expirationDate" placeholder="expiry Date" />
                     </div>
                 </div>
                 <div class="form-group col-sm-6">
-                    <label for="purchaseDate" class="col-sm-3 control-label">Purchase Date</label>
+                    <label for="purchaseDate" class="col-sm-4 control-label">Purchase Date</label>
                     <div class="col-sm-6">
                         <input type="date" id="purchaseDate" name="purchaseDate" class="form-control"
                             ng-model="lot.purchaseDate" placeholder="Purchase Date" />
                     </div>
                 </div>
                 <div class="form-group col-sm-6">
-                    <label for="images" class="col-sm-3 control-label">Uploaded Images</label>
+                    <label for="images" class="col-sm-4 control-label">Uploaded Images</label>
                     <div class="col-sm-6">
                         <ul>
                             <li ng-repeat="image in images">{{image.fileName}}</li>
                         </ul>
                     </div>
                 </div>
-
             </form>
-
             <div id="dropZone" class="form-group col-sm-12">
-                <div class="form-group col-sm-10 col-md-10">
+                <div class="form-group col-sm-12 col-md-12">
                     <form id="dropzone" action="/api/Files/UploadInventory"
                         class="dropzone">
                     </form>
-                </div>
-                <div class="col-md-4 col-md-offset-3 col-sm-3 col-sm-offset-3 ">
-                    <button type="button" id="cancelSave" name="cancelSave" class="btn btn-warning"
-                        ng-click="cancel()" scroll-to="screenTop" ng-style="disableTagButton">
-                        <i class="fa-ban"></i>&nbsp;Cancel</button>
-                    <button id="submitButton" name="submitButton" class="btn btn-primary"
-                        ng-click="saveLot()" scroll-to="screenTop" ng-style="disableTagButton">
-                        <i class="fa-save"></i>&nbsp;Save</button>
-                    <button id="deleteButton" name="submitForm" class="btn btn-danger"
-                        ng-click="modalDelete('md',contact)" ng-style="disableTagButton">
-                        <i class="fa-trash-o"></i>&nbsp;Delete
-                    </button>
                 </div>
             </div>
         </div>
 
         <script type="text/javascript">
-        Dropzone.options.dropzone = {
-            maxFilesize: 2048, // MB,
-            autoProcessQueue: false,
-
-            init: function () {
-                // Execute when file uploads are complete
-                this.on("complete", function () {
-                    // If all files have been uploaded
-                    if (this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0) {
-                        var _this = this;
-                        // Remove all files
-                        _this.removeAllFiles();
-                    }
-                });
-            }
-        };
+            Dropzone.options.dropzone = {
+                maxFilesize: 2048, // MB,
+                autoProcessQueue: false,
+                dictDefaultMessage: "<h3>Drag Files <br/> (or Click) <br/> to Upload Images</h3>",
+                init: function () {
+                    // Execute when file uploads are complete
+                    this.on("complete", function () {
+                        // If all files have been uploaded
+                        if (this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0) {
+                            var _this = this;
+                            // Remove all files
+                            _this.removeAllFiles();
+                        }
+                    });
+                }
+            };
         </script>
-        <style>
-        .dropzone-previews {
-            height: 100px;
-            width: 500px;
-            border: dashed 1px red;
-            background-color: lightblue;
-        }
-    </style>
     </div>
 </div>

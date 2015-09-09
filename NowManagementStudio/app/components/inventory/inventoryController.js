@@ -12,16 +12,13 @@ app.controller('inventoryController',
         $scope.typeSelected = [];
         $scope.alerts = [];
         $scope.message = "";
-        $scope.showEditForm = false;
+        $scope.hideEditForm = "";
         $scope.formTitle = "";
-
         loadInventory();
         getLocations();
         getMatTypes();
-
-
-
-
+        hideEditForm();
+        
 
         /**************************************
         ***        Hide Buttons              ***
@@ -51,7 +48,7 @@ app.controller('inventoryController',
             $scope.lot = [];
             $scope.isEdit = false;
             $scope.editForm.$setPristine();
-            $scope.showEditForm = false;
+            hideEditForm();
         };
 
         /**************************************
@@ -64,8 +61,7 @@ app.controller('inventoryController',
             $scope.lot = [];
             $scope.images = [];
             $scope.isEdit = true;
-            $scope.showEditForm = true;
-
+            showEditForm();
             var lFirstChange = true;
 
             if (id) {
@@ -79,9 +75,11 @@ app.controller('inventoryController',
 
                     });
                 setSelectedOptions();
-                var editWatch = $scope.$watchCollection('lot', function () {
+                $scope.$watchCollection('lot', function () {
                     if (!lFirstChange) {
                         $('#deleteButton').hide(400);
+                    } else {
+                        $('#deleteButton').show();
                     }
                     lFirstChange = false;
 
@@ -103,7 +101,7 @@ app.controller('inventoryController',
             setSelectedOptions();
             $scope.lot = { price: 0, weight: 0, volume: 0, height: 0, width: 0, lastInvDate:'',nextInvDate:'',expirationDate:'',purchaseDate:'' }
             
-            $scope.showEditForm = true;
+            showEditForm();
             $('#deleteButton').hide();
 
 
@@ -119,7 +117,7 @@ app.controller('inventoryController',
             .then(function () {
                 uploadImages();
                 $scope.alerts.push({ type: 'success', msg: 'Successfully updated lot: ' + $scope.lot.serialNo });
-                $scope.showEditForm = false;
+                hideEditForm();
             },
             function () {
                 $scope.alerts.push({ type: 'danger', msg: 'Failed to edit lot: ' + $scope.lot.serialNo });
@@ -133,7 +131,7 @@ app.controller('inventoryController',
                   uploadImages();
 
                   $scope.alerts.push({ type: 'success', msg: 'Successfully added lot: ' + $scope.lot.serialNo });
-                  $scope.showEditForm = false;
+                  hideEditForm();
                   $scope.lots.push($scope.lot);
 
               },
@@ -236,10 +234,19 @@ app.controller('inventoryController',
         *************************************/
         function uploadImages() {
             var dz = Dropzone.forElement("#dropzone");
-            dz.options
-            dz.options.url = "/api/Files/UploadInventory/" + $scope.lot.id;
+              dz.options.url = "/api/Files/UploadInventory/" + $scope.lot.id;
             dz.processQueue();
         };
+
+        function hideEditForm() {
+            $scope.hideEditForm = { 'visibility': 'hidden' };
+            hideButtons();
+        }
+
+        function showEditForm() {
+            $scope.hideEditForm = { 'visibility': 'visible' };
+            showButtons();
+        }
 
     }]);
 
