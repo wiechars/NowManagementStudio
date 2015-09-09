@@ -107,7 +107,7 @@ namespace NowManagementStudio.DAL
                 list.Add(new KeyValuePair<string, string>("@matTypeID", lot.typeId));
                 list.Add(new KeyValuePair<string, string>("@propValsID", propValsId));
                 list.Add(new KeyValuePair<string, string>("@propVals", propVals));
-                list.Add(new KeyValuePair<string, string>("@userNotes", lot.notes));
+                list.Add(new KeyValuePair<string, string>("@userNotes", String.IsNullOrEmpty(lot.notes)?"":lot.notes));
 
 
                 MySqlCommand cmd = sproc.Command("INV_UpdateLot", list, null);
@@ -116,7 +116,10 @@ namespace NowManagementStudio.DAL
                 cmd.ExecuteNonQuery();
 
                 //Update Lot Location in case there was a change
-                MoveLot(lot, "RSW");
+                if (!String.IsNullOrEmpty(lot.locationId))
+                {
+                    MoveLot(lot, "RSW");
+                }
             }
             catch (Exception ex)
             {

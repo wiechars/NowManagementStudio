@@ -58,7 +58,8 @@ app.controller('inventoryController',
         ***        Edit Lot                 ***
         **************************************/
         $scope.edit = function (id) {
-            $scope.formTitle = "Edit Lot";
+            $scope.alerts = [];
+            $scope.formTitle = "Edit Inventory Item";
             showButtons();
             $scope.lot = [];
             $scope.images = [];
@@ -72,6 +73,7 @@ app.controller('inventoryController',
                 $scope.lot = inventoryDataService.findLotById(id);
                 $scope.formTitle = $scope.formTitle + ": " + $scope.lot.serialNo;
                 inventoryDataService.findImagesByLotId($scope.lot)
+
                     .then(function () {
                         $scope.images = inventoryDataService.images;
 
@@ -80,8 +82,6 @@ app.controller('inventoryController',
                 var editWatch = $scope.$watchCollection('lot', function () {
                     if (!lFirstChange) {
                         $('#deleteButton').hide(400);
-                        $scope.isEdit = true;
-
                     }
                     lFirstChange = false;
 
@@ -94,11 +94,15 @@ app.controller('inventoryController',
         ***        Add Lot             ***
         **************************************/
         $scope.add = function () {
-            $scope.formTitle = "Add Inventory Item"
+            $scope.alerts = [];
+            $scope.formTitle = "Add Inventory Item:"
+            $scope.isEdit = false;
+            $scope.images = [];
             showButtons();
             $scope.lot = [];
-            $scope.lot = { price: 0, weight: 0, volume: 0, height: 0, width: 0 }
-            $scope.isEdit = false;
+            setSelectedOptions();
+            $scope.lot = { price: 0, weight: 0, volume: 0, height: 0, width: 0, lastInvDate:'',nextInvDate:'',expirationDate:'',purchaseDate:'' }
+            
             $scope.showEditForm = true;
             $('#deleteButton').hide();
 
@@ -125,8 +129,7 @@ app.controller('inventoryController',
             if (!$scope.isEdit) {
                 inventoryDataService.addLot($scope.lot)
               .then(function () {
-                  $scope.lot.id = inventoryDataService.getNewLotId()
-
+                  $scope.lot.id = inventoryDataService.getNewLotId();
                   uploadImages();
 
                   $scope.alerts.push({ type: 'success', msg: 'Successfully added lot: ' + $scope.lot.serialNo });
@@ -194,7 +197,6 @@ app.controller('inventoryController',
                     $scope.isBusy = false;
                 });
         };
-
 
         /**************************************
         ***        Update Location Select   ***
