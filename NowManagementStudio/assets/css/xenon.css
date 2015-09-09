@@ -356,7 +356,7 @@
 
 .table-responsive {
     border-radius: 0;
-    border: 1px solid #eee;
+    /*border: 1px solid #eee;*/
     margin-bottom: 18px;
 }
 
@@ -388,7 +388,7 @@
         overflow-x: auto;
         -ms-overflow-style: -ms-autohiding-scrollbar;
         border-radius: 0;
-        border: 1px solid #eee;
+        /*border: 1px solid #eee;*/
         -webkit-overflow-scrolling: touch;
     }
 
