@@ -19,7 +19,7 @@ app.controller('loginController', ['$scope', '$location', 'authService', functio
     $scope.login = function () {
      
         authService.login($scope.loginData).then(function (response) {
-            $location.path('/app/contacts');
+            $location.path('/app/inventory');
             //Remove Light theme - this is a hack due to our custom login screen
             //instead of burying this deep in the xenon controller.js
             $('body').removeClass('login-page login-light');
