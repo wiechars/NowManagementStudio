@@ -87,10 +87,14 @@ angular.module('xenon.services', []).
 		    //var contacts = this.addItem('Contacts', '/app/contacts', 'fa-user');
 		    var reports = this.addItem('Reports', '/app/reports', 'linecons-note');
 		    var inventory = this.addItem('Inventory', '/app/inventory', 'fa-edit');
+
+		    //Subitems of Reports
+		    reports.addItem('Inventory Report', 'app/inventory-report');
+
 		    if (false) {
 		    var useraccounts = this.addItem('User Accounts', '/app/admin-users', 'fa-book');
 		    var dashboard = this.addItem('Dashboard', '/app/dashboard', 'linecons-cog');
-
+	
 		        var layouts = this.addItem('Layout & Skins', '/app/layout-and-skins', 'linecons-desktop');
 		        var ui_elements = this.addItem('UI Elements', '/app/ui', 'linecons-note');
 		        var widgets = this.addItem('Widgets', '/app/widgets', 'linecons-star');
@@ -100,7 +104,7 @@ angular.module('xenon.services', []).
 		        var extra = this.addItem('Extra', '/app/extra', 'linecons-beaker').setLabel('New Items', 'purple');
 		        var charts = this.addItem('Charts', '/app/charts', 'linecons-globe');
 		        var menu_lvls = this.addItem('Menu Levels', '', 'linecons-cloud');
-
+	
 
 		    // Subitems of Dashboard
 		    dashboard.addItem('BHS Now DashBoard', '-/bhs');
@@ -110,7 +114,6 @@ angular.module('xenon.services', []).
 		        dashboard.addItem('Dashboard 3', '-/variant-3');
 		        dashboard.addItem('Dashboard 4', '-/variant-4');
 		        dashboard.addItem('Update Hightlights', '/app/update-highlights').setLabel('v1.3', 'pink');
-
 
 		        // Subitems of UI Elements
 		        ui_elements.addItem('Panels', '-/panels');

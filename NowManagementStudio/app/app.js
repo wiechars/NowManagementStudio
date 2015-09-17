@@ -74,21 +74,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyL
                 }
             }
         }).
-                // Reports
 
-        state('app.reports', {
-            url: '/reports',
-            templateUrl: appHelper.templatePath('reports/reports'),
-            resolve: {
-                deps: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        ASSETS.tables.rwd,
-                        //ASSETS.contacts.controller,
-                       // ASSETS.contacts.dataService,
-                    ]);
-                }
-            }
-        }).
 
         state('app.inventory', {
             url: '/inventory',
@@ -103,6 +89,20 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyL
                     ]);
                 }
             }
+        }).
+
+                        // Reports
+
+        state('app.inventory-report', {
+            url: '/inventory-report',
+            templateUrl: appHelper.templatePath('reports/inventory'),
+            resolve: {
+                select2: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([ASSETS.forms.select2, ]);
+                }
+
+            }
+
         }).
         //Admin Users
         state('app.admin-users', {
@@ -134,20 +134,20 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyL
 		// Dashboards
         state('app.dashboard-bhs', {
             url: '/dashboard-bhs',
-        	templateUrl: appHelper.templatePath('dashboards/bhs-dashboard'),
-        	resolve: {
-        		resources: function ($ocLazyLoad) {
-        		    return $ocLazyLoad.load([
+            templateUrl: appHelper.templatePath('dashboards/bhs-dashboard'),
+            resolve: {
+                resources: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
                         ASSETS.charts.dxGlobalize,
                         ASSETS.extra.toastr,
-        		    ]);
-        		},
-        		dxCharts: function ($ocLazyLoad) {
-        		    return $ocLazyLoad.load([
+                    ]);
+                },
+                dxCharts: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
                         ASSETS.charts.dxCharts,
-        		    ]);
-        		},
-        	}
+                    ]);
+                },
+            }
         }).
 		state('app.dashboard-variant-1', {
 		    url: '/dashboard-variant-1',

@@ -9,12 +9,12 @@ namespace NowManagementStudio
         public static void RegisterBundles(BundleCollection bundles)
         {
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+            bundles.Add(new Bundle("~/bundles/bootstrap").Include(
                       "~/assets/js/bootstrap.min.js"                
                       
                       ));
 
-            bundles.Add(new ScriptBundle("~/bundles/angularApp").Include(
+            bundles.Add(new Bundle("~/bundles/angularApp").Include(
                         "~/assets/js/jquery-1.11.1.min.js",
                         "~/assets/js/jquery.signalR-2.2.0.min.js",
                        // "~/signalr/hubs",
@@ -45,15 +45,18 @@ namespace NowManagementStudio
                         "~/app/shared/xenon/factory.js",
                         "~/app/shared/xenon/angular-fullscreen.js",
                         "~/app/shared/xenon/angular-local-storage.min.js",
-                        "~/assets/js/TweenMax.min.js",
+                         "~/assets/js/TweenMax.min.js",
                         "~/assets/js/TweenLite.min.js",
                         "~/assets/js/TweenMax.min.js",
                         "~/assets/js/resizeable.js",
                         "~/assets/js/xenon-api.js",
                         "~/assets/js/xenon-toggles.js",
                         "~/assets/js/joinable.js",
+                        "~/assets/js/jsPDF/*.js",
                         "~/app/components/contacts/*.js",
                         "~/app/components/login/*.js",
+                        "~/app/components/inventory/*.js",
+                         "~/app/components/reports/*.js",
                         "~/app/shared/authentication/*.js",
                         "~/app/shared/scrolling/*.js"
                       ));
@@ -70,6 +73,14 @@ namespace NowManagementStudio
                       "~/assets/css/fonts/fontawesome/css/font-awesome.min.css",
                       "~/assets/js/datatables/css/jquery.dataTables.min.css"
                      ));
+
+            //Below will prevent minification.
+            foreach (var bundle in BundleTable.Bundles)
+            {
+                bundle.Transforms.Clear();
+            }
         }
+
+
     }
 }

@@ -1,0 +1,155 @@
+﻿<div class="panel-group" ng-controller="inventoryReportController">
+    <!--- Inventory Table --->
+    <div class="panel panel-default">
+        <div id="screenTop"></div>
+        <br />
+        <div class="col-md-12">
+             <div class="pull-right"><a class="btn btn-primary" ng-click="reportPDF()"><i class="fa fa-edit"></i>&nbsp;&nbsp;ReportPDF</a></div>
+            <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
+						</alert>
+        </div>
+        <div class="panel-heading col-xs-12">
+            <h3 class="panel-title"><i class="fa-edit"></i>&nbsp;Inventory Report</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <br />
+            <form class="form-horizontal" role="form" id="reportForm" name="reportForm">
+                <div class="form-group col-sm-12">
+                    <label for="serial-no" class="col-xs-2 control-label">ID Tag</label>
+                    <div class="col-xs-6">
+                        <input type="hidden" name="serial-no" id="serial-no" />
+                    </div>
+                    <div class="row">
+                        <div class="pull-right">
+                            <a class="btn btn-primary" ng-click="generateReport()">Generate Report</a>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default" ng-style="hideReportRender">
+        <div id="report"></div>
+        <br />
+     <!--   <div class="col-xs-12 pull-right"><a class="btn btn-primary pull-right" ng-click="generatePDF()" scroll-to="report">Export PDF</a></div>-->
+        <div id="reportRender">
+            <div class="panel-heading col-xs-8">
+                <h3>{{lot.location}}</h3>
+              
+
+            </div>
+
+            <br />
+
+            <div class="panel-body">
+                  <div class="pull-right"><label class="control-label">Report Generated : {{timeGenerated}}</label></div>
+                <br /><br />
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">Category</label>
+                    <div class="col-sm-6">{{lot.type}}</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">Description</label>
+                    <div class="col-sm-6">{{lot.notes}}</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">ID Tag (CODE-128)</label>
+                    <div class="col-sm-6">{{lot.serialNo}}</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">Price</label>
+                    <div class="col-sm-6">{{lot.price}}</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">Total Value</label>
+                    <div class="col-sm-6"></div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">Weight</label>
+                    <div class="col-sm-6">{{lot.weight}}</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">Total Weight</label>
+                    <div class="col-sm-6"></div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">Width</label>
+                    <div class="col-sm-6">{{lot.width}}</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">Length</label>
+                    <div class="col-sm-6">{{lot.length}}</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">Height</label>
+                    <div class="col-sm-6">{{lot.height}}</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">Volume</label>
+                    <div class="col-sm-6">{{lot.volume}}</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">Total Volume</label>
+                    <div class="col-sm-6"></div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">Next Inventory Date</label>
+                    <div class="col-sm-6">{{lot.nextInvDate}}</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">Last Inventory Date</label>
+                    <div class="col-sm-6">{{lot.lastInvDate}}</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">Expiry Date</label>
+                    <div class="col-sm-6">{{lot.expirationDate}}</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">Purchase Date</label>
+                    <div class="col-sm-6">{{lot.purchaseDate}}</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label">Images</label>
+                    <img ng-src="http://www.gravatar.com/avatar/{{hash}}" alt="Description" />
+                    <img ng-src="http://www.gravatar.com/avatar/{{hash}}" alt="Description" />
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $("#serial-no").select2({
+                minimumInputLength: 1,
+                placeholder: 'Search',
+                ajax: {
+                    url: "api/Inventory/SearchSerialNo",
+                    dataType: 'json',
+                    quietMillis: 100,
+                    data: function (term, page) {
+                        return {
+                            serialNo: term
+                        };
+                    },
+                    results: function (data) {
+                        return { results: data }
+                    }
+                },
+                formatResult: function (serialNo) {
+                    return "<div class='select2-user-result'>" + serialNo.serialNo + "</div>";
+                },
+                formatSelection: function (serialNo) {
+                    return serialNo.serialNo;
+                }
+            });
+        });
+</script>
+</div>
+
+
