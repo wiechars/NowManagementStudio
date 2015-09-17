@@ -248,5 +248,12 @@ app.controller('inventoryController',
             showButtons();
         }
 
+        /**************************************
+        ***             Scanner             ***
+       **************************************/
+        $scope.scan = function () {
+            alert("scan time");
+        };
+
     }]);
 

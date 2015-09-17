@@ -64,14 +64,17 @@
                 <h3 class="panel-title">{{formTitle}}</h3>
             </div>
 
-                <div class="col-xs-12 col-md-6">
+            <div class="col-xs-12 col-md-6">
                 <div class="pull-right ">
                     <button type="button" id="cancelSave" name="cancelSave" class="btn btn-warning"
-                        ng-click="cancel()" scroll-to="screenTop" ng-style="disableTagButton">Cancel</button>
+                        ng-click="cancel()" scroll-to="screenTop" ng-style="disableTagButton">
+                        Cancel</button>
                     <button id="submitButton" name="submitButton" class="btn btn-primary"
-                        ng-click="saveLot()" scroll-to="screenTop" ng-style="disableTagButton">Save</button>
+                        ng-click="saveLot()" scroll-to="screenTop" ng-style="disableTagButton">
+                        Save</button>
                     <button id="deleteButton" name="submitForm" class="btn btn-danger"
-                        ng-click="modalDelete('md',contact)" ng-style="disableTagButton">Delete
+                        ng-click="modalDelete('md',contact)" ng-style="disableTagButton">
+                        Delete
                     </button>
                 </div>
             </div>
@@ -97,10 +100,15 @@
                 </div>
                 <div class="form-group col-sm-6">
                     <label for="id_tag" class="col-sm-4 control-label">ID Tag (CODE-128)</label>
+
                     <div class="col-sm-6">
-                        <input type="text" id="id_tag" name="id_tag" class="form-control"
-                            ng-model="lot.serialNo" ng-required="true" placeholder="ID Tag (CODE-128)" />
-                    </div>
+                        <div class="input-group">
+                            <input type="text" id="id_tag" name="id_tag" class="form-control"
+                                ng-model="lot.serialNo" ng-required="true" placeholder="ID Tag (CODE-128)" />
+                            <span class="input-group-addon"><input type="button" ng-click="scan()" /></span>
+                        </div>
+                </div>
+
                 </div>
                 <div class="form-group col-sm-6">
                     <label for="notes" class="col-sm-4 control-label">Description</label>
@@ -209,7 +217,7 @@
             Dropzone.options.dropzone = {
                 maxFilesize: 2048, // MB,
                 autoProcessQueue: false,
-                dictDefaultMessage: "<h3>Drag Files <br/> (or Click) <br/> to Upload Images</h3>",
+                dictDefaultMessage: "<h3>Drag Files <br/> (or Click) <br/> to <br/>Upload Images</h3>",
                 init: function () {
                     // Execute when file uploads are complete
                     this.on("complete", function () {

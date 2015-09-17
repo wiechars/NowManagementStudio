@@ -76,6 +76,18 @@ namespace NowManagementStudio.Models.Inventory
 
         }
 
+        public List<Lots> SearchSerialNo(string serialNo)
+        {
+            InventorySprocs sproc = new InventorySprocs();
+            return sproc.SearchSerialNo(serialNo);
+        }
+
+        public List<Lots> GetInventoryReport(string serialNo)
+        {
+            InventorySprocs sproc = new InventorySprocs();
+            return sproc.GetInventoryReport(serialNo);
+        }
+
 
 
     }

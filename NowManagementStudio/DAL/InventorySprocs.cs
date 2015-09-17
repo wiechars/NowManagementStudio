@@ -313,6 +313,84 @@ namespace NowManagementStudio.DAL
         }
 
 
+        /// <summary>
+        /// Return a list of Serial Numbers based on a search parameter
+        /// </summary>
+        /// <param name="serialNo"></param>
+        /// <returns></returns>
+        public List<Lots> SearchSerialNo(String serialNo)
+        {
+            StoredProcedure sproc = new StoredProcedure();
+            MySqlDataReader rdr = null;
+            var list = new List<KeyValuePair<string, string>>();
+            //Add Parameters
+            serialNo = String.IsNullOrEmpty(serialNo) ? null : serialNo+"*"; //Need to concatenate a wild card for full text serach
+            list.Add(new KeyValuePair<string, string>("@serialSearchTerm",serialNo)); 
+            MySqlCommand cmd = sproc.Command("INV_SearchSerialNo", list, null);
+            rdr = cmd.ExecuteReader();
+            List<Lots> results = new List<Lots>();
+
+            // iterate through results, printing each to console
+            while (rdr.Read())
+            {
+                Lots lot = new Lots();
+                lot.Id = Convert.ToInt32(rdr["id"]);
+                lot.serialNo = rdr["serial_no"].ToString();
+                results.Add(lot);
+            }
+            return results;
+        }
+
+
+        public List<Lots> GetInventoryReport(string lotId)
+        {
+            StoredProcedure sproc = new StoredProcedure();
+            MySqlDataReader rdr = null;
+            var list = new List<KeyValuePair<string, string>>();
+            double val;
+            //Add Parameters
+            list.Add(new KeyValuePair<string, string>("@lotID", lotId));
+            MySqlCommand cmd = sproc.Command("INV_GetInventoryReport", list, null);
+            rdr = cmd.ExecuteReader();
+            List<Lots> results = new List<Lots>();
+
+            // iterate through results, printing each to console
+            while (rdr.Read())
+            {
+                Lots lot = new Lots();
+                lot.Id = Convert.ToInt32(rdr["id"]);
+                lot.serialNo = Convert.ToString(rdr["serial_no"]);
+                lot.brand = Convert.ToString(rdr["brand"]);
+                lot.type = Convert.ToString(rdr["type"]);
+                lot.typeId = Convert.ToString(rdr["typeID"]);
+                lot.location = Convert.ToString(rdr["location"]);
+                lot.locationId = Convert.ToString(rdr["locationID"]);
+                lot.price = Double.TryParse(Convert.ToString(rdr["price"]), out val) ? val : Double.NaN;
+                lot.weightId = Convert.ToString(rdr["weight_id"]);
+                lot.weight = Double.TryParse(Convert.ToString(rdr["weight"]), out val) ? val : Double.NaN;
+                lot.widthId = Convert.ToString(rdr["width_id"]);
+                lot.width = Double.TryParse(Convert.ToString(rdr["width"]), out val) ? val : Double.NaN;
+                lot.heightId = Convert.ToString(rdr["height_id"]);
+                lot.height = Double.TryParse(Convert.ToString(rdr["height"]), out val) ? val : Double.NaN;
+                lot.volumeId = Convert.ToString(rdr["volume_id"]);
+                lot.volume = Double.TryParse(Convert.ToString(rdr["volume"]), out val) ? val : Double.NaN;
+                lot.purchaseDate = Convert.ToString(rdr["purchase_date"]);
+                lot.expirationDate = Convert.ToString(rdr["expiration_date"]);
+                lot.nextInvDateId = Convert.ToString(rdr["last_inv_date_id"]);
+                lot.nextInvDate = Convert.ToString(rdr["last_inv_date"]);
+                lot.lastInvDateId = Convert.ToString(rdr["next_inv_date_id"]);
+                lot.lastInvDate = Convert.ToString(rdr["next_inv_date"]);
+                lot.notes = Convert.ToString(rdr["notes"]);
+                results.Add(lot);
+            }
+            return results;
+        }
+
+
+
+
+
+
 
 
     }

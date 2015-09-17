@@ -75,8 +75,8 @@ namespace NowManagementStudio.Inventory.Controllers
         {
             try
             {
-                 _Lot.Id  =Convert.ToInt32(_inventoryDB.AddLot(_Lot));
-             
+                _Lot.Id = Convert.ToInt32(_inventoryDB.AddLot(_Lot));
+
                 //var subscribed = Hub.Clients.Group("contact");
                 //subscribed.addItem(_Contact);
                 return Ok(_Lot);
@@ -136,6 +136,39 @@ namespace NowManagementStudio.Inventory.Controllers
 
         }
 
-      
+        [Route("SearchSerialNo")]
+        [AcceptVerbs("GET", "POST")]
+        public IHttpActionResult SearchSerialNo(String serialNo)
+        {
+            try
+            {
+                //Hardcoded brand Id of one, as there is currently only one for this demo
+                var lots = _inventoryDB.SearchSerialNo(serialNo);
+                return Ok(lots);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error Searching for Serial Numbers: ", ex);
+                return NotFound();
+            }
+        }
+
+        [Route("Report/{lotId}")]
+        [AcceptVerbs("GET", "POST")]
+        public IHttpActionResult GetInventoryReport(String lotId)
+        {
+            try
+            {
+                var lots = _inventoryDB.GetInventoryReport(lotId);
+                return Ok(lots);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error Searching for Serial Numbers: ", ex);
+                return NotFound();
+            }
+        }
+
+
     }
 }
