@@ -8,12 +8,12 @@ namespace NowManagementStudio.Models
 {
     public class UserContext : DbContext
     {
-        public List<Contact> Contacts
+        public List<UserModel> Users
         {
             get
             {
-                ContactSprocs sproc = new ContactSprocs();
-                return sproc.GetContacts();
+                UserSprocs sproc = new UserSprocs();
+                return sproc.GetUsers();
             }
         }
 

@@ -107,7 +107,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyL
         //Admin Users
         state('app.admin-users', {
             url: '/admin-users',
-            templateUrl: appHelper.templatePath('xenon/admin/users'),
+            templateUrl: appHelper.templatePath('admin/users'),
             resolve: {
                 jQueryValidate: function ($ocLazyLoad) {
                     return $ocLazyLoad.load([ASSETS.forms.jQueryValidate, ]);

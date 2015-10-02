@@ -17,10 +17,24 @@ namespace NowManagementStudio.DAL
             //Here is the once-per-class call to initialize the log object
             private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private void Connection()
+        /// <summary>
+        /// Determine which database to connect to
+        /// </summary>
+        /// <param name="securityDB"></param>
+        private void Connection(bool isSecurityDB)
         {
-            string constr = ConfigurationManager.ConnectionStrings["NMS"].ToString();
-            nmsConnection = new MySqlConnection(constr);
+            string constr = "";
+            if (!isSecurityDB)
+            {
+                constr = ConfigurationManager.ConnectionStrings["NMS"].ToString();
+                nmsConnection = new MySqlConnection(constr);
+            }
+            else
+            {
+
+                constr = ConfigurationManager.ConnectionStrings["AuthContext"].ToString();
+                nmsSecurity = new MySqlConnection(constr);
+            }
 
         }
 
@@ -29,21 +43,37 @@ namespace NowManagementStudio.DAL
         /// </summary>
         /// <param name="sprocName"></param>
         /// <param name="inputParameters"></param>
+        /// <param name="outputParameter"></param>
+        /// <param name="isSecurityDB">True if it uses the security Database</param>
         /// <returns></returns>
-        public MySqlCommand Command(string sprocName, List<KeyValuePair<string,string>> inputParameters, string outputParameter)
+        public MySqlCommand Command(string sprocName, List<KeyValuePair<string,string>> inputParameters, string outputParameter, bool isSecurityDB)
         {
             MySqlCommand cmd = new MySqlCommand();
             try
             {
-                if (nmsConnection != null)
+                //Determine which Database to connect to
+                if (!isSecurityDB)
                 {
-                    Connection();
+                    if (nmsConnection != null)
+                    {
+                        Connection(false);
+                    }
+                    nmsConnection.Open();
+                    cmd = new MySqlCommand(sprocName, nmsConnection);
                 }
-                nmsConnection.Open();
-                cmd = new MySqlCommand(sprocName, nmsConnection);
-                cmd.CommandType = CommandType.StoredProcedure;
-                //Add parameters to Sproc 
+                else
+                {
+                    if (nmsSecurity != null)
+                    {
+                        Connection(true);
+                    }
+                    nmsSecurity.Open();
+                    cmd = new MySqlCommand(sprocName, nmsSecurity);
+                }
 
+                cmd.CommandType = CommandType.StoredProcedure;
+                
+                //Add parameters to Sproc 
                 if (inputParameters != null)
                 {
                     foreach (var item in inputParameters)

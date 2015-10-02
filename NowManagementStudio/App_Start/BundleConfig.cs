@@ -53,6 +53,7 @@ namespace NowManagementStudio
                         "~/assets/js/xenon-toggles.js",
                         "~/assets/js/joinable.js",
                         "~/assets/js/jsPDF/*.js",
+                         "~/app/components/admin/*.js",
                         "~/app/components/contacts/*.js",
                         "~/app/components/login/*.js",
                         "~/app/components/inventory/*.js",

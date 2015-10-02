@@ -6,7 +6,7 @@ using System.Web.Http;
 [RoutePrefix("api/Users")]
 public class UserController : ApiController
 {
-    private ContactContext ContactsDB = new ContactContext();
+    private UserContext userDB = new UserContext();
 
     /// <summary>
     /// Retrive list of users in the system for admin screen
@@ -16,8 +16,8 @@ public class UserController : ApiController
     [Route("")]
     public IHttpActionResult Get()
     {
-        List<Contact> result = new List<Contact>();
-        return Ok(ContactsDB.Contacts);
+        List<UserModel> result = new List<UserModel>();
+        return Ok(userDB.Users);
     }
 
 }

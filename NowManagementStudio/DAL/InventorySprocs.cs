@@ -21,7 +21,7 @@ namespace NowManagementStudio.DAL
         public List<Lots> GetLots()
         {
             StoredProcedure sproc = new StoredProcedure();
-            MySqlCommand cmd = sproc.Command("INV_GetLots", null, null);
+            MySqlCommand cmd = sproc.Command("INV_GetLots", null, null, false);
             MySqlDataReader rdr = null;
             double val;
             rdr = cmd.ExecuteReader();
@@ -65,7 +65,7 @@ namespace NowManagementStudio.DAL
         public List<Location> GetLocations()
         {
             StoredProcedure sproc = new StoredProcedure();
-            MySqlCommand cmd = sproc.Command("INV_GetLocations", null, null);
+            MySqlCommand cmd = sproc.Command("INV_GetLocations", null, null, false);
             MySqlDataReader rdr = null;
             double val;
             rdr = cmd.ExecuteReader();
@@ -110,7 +110,7 @@ namespace NowManagementStudio.DAL
                 list.Add(new KeyValuePair<string, string>("@userNotes", String.IsNullOrEmpty(lot.notes)?"":lot.notes));
 
 
-                MySqlCommand cmd = sproc.Command("INV_UpdateLot", list, null);
+                MySqlCommand cmd = sproc.Command("INV_UpdateLot", list, null, false);
 
                 // execute the command
                 cmd.ExecuteNonQuery();
@@ -145,7 +145,7 @@ namespace NowManagementStudio.DAL
                 list.Add(new KeyValuePair<string, string>("@lotIDs", Convert.ToString(lot.Id)));
                 list.Add(new KeyValuePair<string, string>("@newValue", lot.locationId));
                 list.Add(new KeyValuePair<string, string>("@user", userName));
-                MySqlCommand cmd = sproc.Command("INV_UpdateLotLocation", list, null);
+                MySqlCommand cmd = sproc.Command("INV_UpdateLotLocation", list, null, false);
 
                 // execute the command
                 cmd.ExecuteNonQuery();
@@ -193,7 +193,7 @@ namespace NowManagementStudio.DAL
                 list.Add(new KeyValuePair<string, string>("@propValsID", propValsId));
                 list.Add(new KeyValuePair<string, string>("@propVals", propVals));
                 string outputParam = "@insertID";
-                MySqlCommand cmd = sproc.Command("INV_InsertLot", list, outputParam);
+                MySqlCommand cmd = sproc.Command("INV_InsertLot", list, outputParam, false);
                 // execute the command
                 cmd.ExecuteNonQuery();
                 return Convert.ToString(cmd.Parameters[outputParam].Value);
@@ -212,7 +212,7 @@ namespace NowManagementStudio.DAL
         public List<MatCategory> GetMatCategories()
         {
             StoredProcedure sproc = new StoredProcedure();
-            MySqlCommand cmd = sproc.Command("INV_GetMatCategories", null, null);
+            MySqlCommand cmd = sproc.Command("INV_GetMatCategories", null, null, false);
             MySqlDataReader rdr = null;
 
             rdr = cmd.ExecuteReader();
@@ -242,7 +242,7 @@ namespace NowManagementStudio.DAL
             //TODO - for the current implementation, we don't need the Brand Category
             //So its current hardcoded as a value of 1
             list.Add(new KeyValuePair<string, string>("@brandIDs", Convert.ToString(brandID)));
-            MySqlCommand cmd = sproc.Command("INV_GetMatTypesInBrands", list, null);
+            MySqlCommand cmd = sproc.Command("INV_GetMatTypesInBrands", list, null, false);
             rdr = cmd.ExecuteReader();
             List<MatType> results = new List<MatType>();
 
@@ -272,7 +272,7 @@ namespace NowManagementStudio.DAL
                 //Add Parameters
                 list.Add(new KeyValuePair<string, string>("@lotID", lotId));
                 list.Add(new KeyValuePair<string, string>("@fileName", filePath));
-                MySqlCommand cmd = sproc.Command("INV_InsertImageMapping", list, null);
+                MySqlCommand cmd = sproc.Command("INV_InsertImageMapping", list, null, false);
                 // execute the command
                 cmd.ExecuteNonQuery();
             }
@@ -297,7 +297,7 @@ namespace NowManagementStudio.DAL
             //TODO - for the current implementation, we don't need the Brand Category
             //So its current hardcoded as a value of 1
             list.Add(new KeyValuePair<string, string>("@lotID", Convert.ToString(id)));
-            MySqlCommand cmd = sproc.Command("INV_GetImageMapping", list, null);
+            MySqlCommand cmd = sproc.Command("INV_GetImageMapping", list, null, false);
             rdr = cmd.ExecuteReader();
             List<ImageMapping> results = new List<ImageMapping>();
 
@@ -326,7 +326,7 @@ namespace NowManagementStudio.DAL
             //Add Parameters
             serialNo = String.IsNullOrEmpty(serialNo) ? null : serialNo+"*"; //Need to concatenate a wild card for full text serach
             list.Add(new KeyValuePair<string, string>("@serialSearchTerm",serialNo)); 
-            MySqlCommand cmd = sproc.Command("INV_SearchSerialNo", list, null);
+            MySqlCommand cmd = sproc.Command("INV_SearchSerialNo", list, null, false);
             rdr = cmd.ExecuteReader();
             List<Lots> results = new List<Lots>();
 
@@ -350,7 +350,7 @@ namespace NowManagementStudio.DAL
             double val;
             //Add Parameters
             list.Add(new KeyValuePair<string, string>("@lotID", lotId));
-            MySqlCommand cmd = sproc.Command("INV_GetInventoryReport", list, null);
+            MySqlCommand cmd = sproc.Command("INV_GetInventoryReport", list, null, false);
             rdr = cmd.ExecuteReader();
             List<Lots> results = new List<Lots>();
 

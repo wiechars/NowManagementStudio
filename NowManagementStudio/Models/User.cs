@@ -16,4 +16,8 @@ public class UserModel
     [Display(Name = "Confirm password")]
     [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
     public string ConfirmPassword { get; set; }
+
+    public string Id { get; set; }
+    public string PhoneNumber { get; set; }
+    public string Email { get; set; }
 }

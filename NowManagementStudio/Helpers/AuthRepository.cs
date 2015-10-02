@@ -32,7 +32,9 @@ public class AuthRepository : IDisposable
     {
         IdentityUser user = new IdentityUser
         {
-            UserName = userModel.UserName
+            UserName = userModel.UserName,
+            Email = userModel.Email,
+            PhoneNumber = userModel.PhoneNumber,
         };
 
         var result = await _userManager.CreateAsync(user, userModel.Password);

@@ -20,7 +20,7 @@ namespace NowManagementStudio.DAL
         public List<Contact> GetContacts()
         {
             StoredProcedure sproc = new StoredProcedure();
-            MySqlCommand cmd = sproc.Command("NMS_GetContacts", null, null);
+            MySqlCommand cmd = sproc.Command("NMS_GetContacts", null, null,false);
             MySqlDataReader rdr = null;
 
             rdr = cmd.ExecuteReader();
@@ -56,7 +56,7 @@ namespace NowManagementStudio.DAL
                 var list = new List<KeyValuePair<string, string>>();
                 //Add Parameters
                 list.Add(new KeyValuePair<string, string>("@contactID", id.ToString()));
-                MySqlCommand cmd = sproc.Command("NMS_UpdateContact", list, null);
+                MySqlCommand cmd = sproc.Command("NMS_UpdateContact", list, null, false);
                 // execute the command
                 rdr = cmd.ExecuteReader();
 
@@ -97,7 +97,7 @@ namespace NowManagementStudio.DAL
                 list.Add(new KeyValuePair<string, string>("@name", name));
                 list.Add(new KeyValuePair<string, string>("@email", email));
                 list.Add(new KeyValuePair<string, string>("@phoneNumber", phoneNumber));
-                MySqlCommand cmd = sproc.Command("NMS_UpdateContact", list, null);
+                MySqlCommand cmd = sproc.Command("NMS_UpdateContact", list, null, false);
                 // execute the command
                 cmd.ExecuteNonQuery();
             }
@@ -126,7 +126,7 @@ namespace NowManagementStudio.DAL
                 list.Add(new KeyValuePair<string, string>("@name", name));
                 list.Add(new KeyValuePair<string, string>("@email", email));
                 list.Add(new KeyValuePair<string, string>("@phoneNumber", phoneNumber));
-                MySqlCommand cmd = sproc.Command("NMS_InsertContact", list, outputParam);
+                MySqlCommand cmd = sproc.Command("NMS_InsertContact", list, outputParam, false);
 
                 // execute the command
                 cmd.ExecuteNonQuery();

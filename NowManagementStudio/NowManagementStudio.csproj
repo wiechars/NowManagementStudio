@@ -236,6 +236,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="DAL\UserSprocs.cs" />
     <Compile Include="DAL\ReportDataSets\nms.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -278,6 +279,8 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\ReportGenerator.cs" />
+    <Content Include="app\components\admin\adminController.js" />
+    <Content Include="app\components\admin\adminDataService.js" />
     <Content Include="app\components\inventory\inventoryController.js" />
     <Content Include="app\components\inventory\inventoryDataService.js" />
     <Content Include="app\components\inventory\inventory.html" />
@@ -1171,7 +1174,7 @@
     <Content Include="app\shared\xenon\xenon-custom.js" />
     <Content Include="app\shared\authentication\authService.js" />
     <Content Include="app\shared\scrolling\ngScrollToDirective.js" />
-    <Content Include="app\components\xenon\admin\users.html" />
+    <Content Include="app\components\admin\users.html" />
     <Content Include="app\components\xenon\charts\bar-gauges.html" />
     <Content Include="app\components\xenon\charts\bars.html" />
     <Content Include="app\components\xenon\charts\gauges-linear.html" />

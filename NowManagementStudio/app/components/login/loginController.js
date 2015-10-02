@@ -11,7 +11,11 @@ app.controller('loginController', ['$scope', '$location', 'authService', functio
     var user = authService.getCurrentUser();
     if (user) {
         $scope.currentUser = user.userName;
-        $scope.currentRole = user.role.toString();
+        if (user.role != null) {
+            $scope.currentRole = user.role.toString();
+        } else {
+            $scope.currentRole = "";
+        }
     }
 
     $scope.message = "";

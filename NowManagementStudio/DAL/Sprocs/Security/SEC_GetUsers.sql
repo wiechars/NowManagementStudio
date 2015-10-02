@@ -4,7 +4,8 @@ DELIMITER $$
 CREATE PROCEDURE `SEC_GetUsers` ()
 BEGIN
 	SELECT
-		aspnetusers.UserName
+		aspnetusers.Id
+		,aspnetusers.UserName
 		,aspnetusers.PhoneNumber
 		,aspnetusers.Email
 	FROM aspnetusers;

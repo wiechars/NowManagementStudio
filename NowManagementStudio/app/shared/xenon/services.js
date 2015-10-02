@@ -91,8 +91,9 @@ angular.module('xenon.services', []).
 		    //Subitems of Reports
 		    reports.addItem('Inventory Report', 'app/inventory-report');
 
-		    if (false) {
+		    
 		    var useraccounts = this.addItem('User Accounts', '/app/admin-users', 'fa-book');
+		    if (false) {
 		    var dashboard = this.addItem('Dashboard', '/app/dashboard', 'linecons-cog');
 	
 		        var layouts = this.addItem('Layout & Skins', '/app/layout-and-skins', 'linecons-desktop');
