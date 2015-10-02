@@ -42,6 +42,25 @@ public class AuthRepository : IDisposable
     }
 
     /// <summary>
+    /// Update the Identity user details
+    /// </summary>
+    /// <param name="userModel"></param>
+    /// <returns></returns>
+    public async Task<IdentityResult> EditUser(UserModel userModel)
+    {
+        var user = _userManager.FindByName(userModel.UserName);
+        if (!string.IsNullOrEmpty(userModel.Password))
+        {
+            user.PasswordHash = _userManager.PasswordHasher.HashPassword(userModel.Password);
+        }
+        user.Email = userModel.Email;
+        user.PhoneNumber = userModel.PhoneNumber;
+
+        var result = await _userManager.UpdateAsync(user);
+        return result;
+    }
+
+    /// <summary>
     /// Checks if logged in user exists in the system, and returns the found user
     /// </summary>
     /// <param name="userName"></param>

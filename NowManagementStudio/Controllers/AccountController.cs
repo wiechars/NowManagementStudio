@@ -34,6 +34,27 @@ public class AccountController : ApiController
         return Ok();
     }
 
+    [AllowAnonymous]
+    [Route("EditUser")]
+    public async Task<IHttpActionResult> EditUser(UserModel userModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        IdentityResult result = await _repo.EditUser(userModel);
+
+        IHttpActionResult errorResult = GetErrorResult(result);
+
+        if (errorResult != null)
+        {
+            return errorResult;
+        }
+
+        return Ok();
+    }
+
     protected override void Dispose(bool disposing)
     {
         if (disposing)

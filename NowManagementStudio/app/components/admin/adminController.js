@@ -9,7 +9,9 @@ app.controller('adminController',
         //$scope.message = "";
         //$scope.saveEditTitle = "Save/Edit Contact";
         // hideButtons();
+        $scope.formTitle = "";
         $scope.hideEditForm = "";
+        $scope.isEdit = false;
         hideEditForm();
         loadUserData();
 
@@ -34,58 +36,61 @@ app.controller('adminController',
         /**************************************
         ***        Alert Popup              ***
         **************************************/
-        //$scope.closeAlert = function (index) {
-        //    $scope.alerts.splice(index, 1);
-        //};
+        $scope.closeAlert = function (index) {
+            $scope.alerts.splice(index, 1);
+        };
 
         /**************************************
         ***        Add User                 ***
         **************************************/
         $scope.newUser = function () {
+            $scope.formTitle = "New User Information";
             showEditForm();
+            $scope.isEdit = false;
             $scope.user = {};
 
         };
 
         /**************************************
-        ***        Cancel Contact           ***
+        ***        Cancel User           ***
         **************************************/
-        //$scope.cancel = function () {
-        //    $scope.contact = [];
-        //    $scope.isEdit = false;
-        //    //When Cancelling reset form validation
-        //    $scope.contactForm.$setPristine();
-        //    lFirstChange = true;
-        //    hideButtons();
+        $scope.cancel = function () {
+            $scope.user = [];
+            hideEditForm();
+            //When Cancelling reset form validation
+            //$scope.contactForm.$setPristine();
+            //lFirstChange = true;
+            //hideButtons();
 
 
 
-        //};
+        };
 
 
         /**************************************
-        ***        Edit Contact             ***
+        ***        Edit user             ***
         **************************************/
-        //$scope.edit = function (id) {
+        $scope.edit = function (userName) {
         //    showButtons();
-        //    $scope.contact = {};  //Pre Edit
-        //    $scope.contactEdit = {}; //One that will be edited.
+            $scope.user = {};  //Pre Edit
+            showEditForm();
+            $scope.isEdit = true;
         //    $scope.isEdit = true;
         //    $scope.saveEditTitle = "Edit Contact";
         //    var lFirstChange = true;
 
-        //    if (id) {
+             if (userName) {
 
-        //        $scope.contact = contactDataService.findContactById(id);
-        //        $scope.contactEdit = $scope.contact;
-        //        $scope.$watchCollection('contact', function () {
-        //            if (!lFirstChange) {
-        //                $('#deleteButton').hide(400);
-        //            }
-        //            lFirstChange = false;
-        //        });
-        //    }
-        //};
+                 $scope.user = adminDataService.findUserByName(userName);
+                 $scope.formTitle = "Edit User Information : " + $scope.user.userName;
+                //$scope.$watchCollection('user', function () {
+                //    if (!lFirstChange) {
+                //        $('#deleteButton').hide(400);
+                //    }
+                //    lFirstChange = false;
+                //});
+            }
+        };
 
         /**************************************
         ***        Save User                ***
@@ -93,14 +98,28 @@ app.controller('adminController',
         $scope.saveUser = function () {
             //if ($scope.contactForm.$invalid) return;
 
-            adminDataService.addUser($scope.user)
-            .then(function () {
-                $scope.alerts.push({ type: 'success', msg: 'Successfully updated contact: ' + $scope.user.userName });
-            },
-            function () {
-                $scope.alerts.push({ type: 'danger', msg: 'Failed to edit contact: ' + $scope.user.userName });
-            })
+            if (!$scope.isEdit) {
+                adminDataService.addUser($scope.user)
+                .then(function () {
+
+                    $scope.alerts.push({ type: 'success', msg: 'Successfully created user: ' + $scope.user.userName });
+                },
+                function () {
+                    $scope.alerts.push({ type: 'danger', msg: 'Failed to create user: ' + $scope.user.userName });
+                })
+            } else {
+                adminDataService.editUser($scope.user)
+               .then(function () {
+
+                   $scope.alerts.push({ type: 'success', msg: 'Successfully edited user: ' + $scope.user.userName });
+               },
+               function () {
+                   $scope.alerts.push({ type: 'danger', msg: 'Failed to edit user: ' + $scope.user.userName });
+               })
+            }
         }
+
+
 
 
 
