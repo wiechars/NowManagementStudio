@@ -135,18 +135,24 @@ public class AuthRepository : IDisposable
     /// <returns></returns>
     public async Task<IdentityResult> EditUserRoles(string userID, List<Roles> roles)
     {
-        IdentityResult result = new IdentityResult();
+        IdentityResult result = IdentityResult.Success;
         try
         {
             foreach (Roles role in roles)
             {
                 if (role.isMember)
                 {
-                    result = await _userManager.AddToRoleAsync(userID, role.Name);
+                    if (!_userManager.IsInRole(userID, role.Name))
+                    {
+                        result = await _userManager.AddToRoleAsync(userID, role.Name);
+                    }
                 }
                 else
                 {
-                    result = await _userManager.RemoveFromRoleAsync(userID, role.Name);
+                    if (_userManager.IsInRole(userID, role.Name))
+                    {
+                        result = await _userManager.RemoveFromRoleAsync(userID, role.Name);
+                    }
                 }
             }
         }
