@@ -7,6 +7,7 @@ BEGIN
 		aspnetusers.Id
 		,aspnetusers.UserName
 		,aspnetusers.PhoneNumber
+        ,aspnetusers.PasswordHash
 		,aspnetusers.Email
 	FROM aspnetusers;
 END

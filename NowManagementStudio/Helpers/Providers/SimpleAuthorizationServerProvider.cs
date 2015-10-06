@@ -9,6 +9,7 @@ using System.Linq;
 using Microsoft.AspNet.Identity;
 using NowManagementStudio.Models;
 using System;
+using NowManagementStudio.Models.Security;
 
 namespace NowManagementStudio.Helpers.Providers
 {
@@ -45,7 +46,7 @@ namespace NowManagementStudio.Helpers.Providers
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
                 }
-                var roles = _repo.GetUserRoles(user);
+                IList<string> roles = _repo.GetUserRoles(context.UserName);
 
                 // If valid - create a "ClaimsIdentity" and pass authentication type to it.
                 // In our case "bearer token"
@@ -87,12 +88,12 @@ namespace NowManagementStudio.Helpers.Providers
         /// <param name="userName"></param>
         /// <param name="Roles"></param>
         /// <returns></returns>
-        public static AuthenticationProperties CreateProperties(string userName, string Roles)
+        public static AuthenticationProperties CreateProperties(string userName, string roles)
         {
             IDictionary<string, string> data = new Dictionary<string, string>
         {
             { "userName", userName },
-            {"roles",Roles}
+            {"roles",roles}
         };
             return new AuthenticationProperties(data);
         }

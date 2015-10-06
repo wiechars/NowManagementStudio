@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
+using NowManagementStudio.Models.Security;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -38,11 +40,6 @@ public class AccountController : ApiController
     [Route("EditUser")]
     public async Task<IHttpActionResult> EditUser(UserModel userModel)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
         IdentityResult result = await _repo.EditUser(userModel);
 
         IHttpActionResult errorResult = GetErrorResult(result);
@@ -52,6 +49,21 @@ public class AccountController : ApiController
             return errorResult;
         }
 
+        return Ok();
+    }
+
+    [AllowAnonymous]
+    [Route("EditRoles/{userID}/{roles}")]
+    public async Task<IHttpActionResult> EditUserRoles(string userID, List<Roles> roles)
+    {
+
+        IdentityResult result = await _repo.EditUserRoles(userID, roles);
+        IHttpActionResult errorResult = GetErrorResult(result);
+
+        if (errorResult != null)
+        {
+            return errorResult;
+        }
         return Ok();
     }
 

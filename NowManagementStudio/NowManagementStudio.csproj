@@ -274,9 +274,10 @@
     <Compile Include="Models\Inventory\Lots.cs" />
     <Compile Include="Models\Inventory\InventoryContext.cs" />
     <Compile Include="Models\Inventory\MatCategory.cs" />
+    <Compile Include="Models\Security\Roles.cs" />
     <Compile Include="Models\UploadFiles\UploadFiles.cs" />
-    <Compile Include="Models\UserContext.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Security\SecurityContext.cs" />
+    <Compile Include="Models\Security\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\ReportGenerator.cs" />
     <Content Include="app\components\admin\adminController.js" />
@@ -290,6 +291,7 @@
     <Content Include="app\components\reports\inventory.html" />
     <Content Include="assets\js\jsPDF\html2canvas.js" />
     <Content Include="assets\js\jsPDF\jspdf.debug.js" />
+    <Content Include="DAL\Sprocs\Security\SEC_GetUserRoles.sql" />
     <Content Include="Views\Chat\index.html" />
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,8 @@ app.controller('adminController',
     ['$scope', 'adminDataService', '$location',
     function categoryController($scope, adminDataService) {
         $scope.users = [];
+        //$scope.roles = [];
+        $scope.rolesByUser = [];
         $scope.alerts = [];
         //$scope.message = "";
         //$scope.saveEditTitle = "Save/Edit Contact";
@@ -14,6 +16,7 @@ app.controller('adminController',
         $scope.isEdit = false;
         hideEditForm();
         loadUserData();
+       // loadUserRoles();
 
 
 
@@ -71,18 +74,29 @@ app.controller('adminController',
         ***        Edit user             ***
         **************************************/
         $scope.edit = function (userName) {
-        //    showButtons();
+            //    showButtons();
             $scope.user = {};  //Pre Edit
             showEditForm();
             $scope.isEdit = true;
-        //    $scope.isEdit = true;
-        //    $scope.saveEditTitle = "Edit Contact";
-        //    var lFirstChange = true;
+            //    $scope.isEdit = true;
+            //    $scope.saveEditTitle = "Edit Contact";
+            //    var lFirstChange = true;
 
-             if (userName) {
+            if (userName) {
 
-                 $scope.user = adminDataService.findUserByName(userName);
-                 $scope.formTitle = "Edit User Information : " + $scope.user.userName;
+                $scope.user = adminDataService.findUserByName(userName);
+                $scope.formTitle = "Edit User Information : " + $scope.user.userName;
+
+                adminDataService.getRolesByUser($scope.user)
+                 .then(function () {
+                     $scope.rolesByUser = adminDataService.rolesByUser;
+                 },
+                     function () {
+                         $scope.alerts.push({ type: 'danger', msg: 'Error Retrieving User Security Groups.' });
+                     })
+                     .then(function () {
+                         $scope.isBusy = false;
+                     });
                 //$scope.$watchCollection('user', function () {
                 //    if (!lFirstChange) {
                 //        $('#deleteButton').hide(400);
@@ -103,6 +117,7 @@ app.controller('adminController',
                 .then(function () {
 
                     $scope.alerts.push({ type: 'success', msg: 'Successfully created user: ' + $scope.user.userName });
+                    editUserRoles();
                 },
                 function () {
                     $scope.alerts.push({ type: 'danger', msg: 'Failed to create user: ' + $scope.user.userName });
@@ -112,11 +127,25 @@ app.controller('adminController',
                .then(function () {
 
                    $scope.alerts.push({ type: 'success', msg: 'Successfully edited user: ' + $scope.user.userName });
+                   editUserRoles();
                },
                function () {
                    $scope.alerts.push({ type: 'danger', msg: 'Failed to edit user: ' + $scope.user.userName });
                })
             }
+        };
+
+        /**************************************
+       ***        Edit User Roles           ***
+       **************************************/
+        function editUserRoles() {
+            adminDataService.editUserRoles($scope.rolesByUser,$scope.user.id)
+            .then(function () {
+               // $scope.alerts.push({ type: 'success', msg: 'Successfully edited user group membership'  });
+            },
+            function () {
+                $scope.alerts.push({ type: 'danger', msg: 'Failed to edit group membership for user: ' + $scope.user.userName });
+            })
         }
 
 
@@ -171,7 +200,28 @@ app.controller('adminController',
                 .then(function () {
                     $scope.isBusy = false;
                 });
+
         };
+
+
+        /**************************************
+        ***        Get User Roles           ***
+        **************************************/
+        //function loadUserRoles() {
+
+        //    adminDataService.getUserRoles()
+        //    .then(function () {
+        //        $scope.roles = adminDataService.roles;
+
+        //    },
+        //        function () {
+        //            $scope.alerts.push({ type: 'danger', msg: 'Error Retrieving User Roles.' });
+        //        })
+        //        .then(function () {
+        //            $scope.isBusy = false;
+        //        });
+        //};
+
 
         /**************************************
          ***  Signalr Push Updated Contact  ***

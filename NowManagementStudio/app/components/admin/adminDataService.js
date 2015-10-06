@@ -1,7 +1,8 @@
 ﻿app.factory('adminDataService', ['$http', '$q',
 function ($http, $q) {
     var _users = [];
-
+    //var _roles = [];
+    var _rolesByUser = [];
 
     /**************************************
     ***        Get Users                ***
@@ -14,6 +15,44 @@ function ($http, $q) {
           .then(function (result) {
               // Successful
               angular.copy(result.data, _users);
+              deferred.resolve();
+          },
+          function (error) {
+              // Error
+              deferred.reject();
+          });
+        return deferred.promise;
+    }
+
+    /**************************************
+     ***        Get User Roles          ***
+     **************************************/
+    //var _getUserRoles = function () {
+    //    var deferred = $q.defer();
+    //    var controllerQuery = "api/Users/Roles";
+    //    $http.get(controllerQuery)
+    //      .then(function (result) {
+    //          // Successful
+    //          angular.copy(result.data, _roles);
+    //          deferred.resolve();
+    //      },
+    //      function (error) {
+    //          // Error
+    //          deferred.reject();
+    //      });
+    //    return deferred.promise;
+    //}
+
+    /**************************************
+   ***        Get Roles By User         ***
+   **************************************/
+    var _getRolesByUser = function (_user) {
+        var deferred = $q.defer();
+        var controllerQuery = "api/Users/RolesByUser/"+_user.userName;
+        $http.get(controllerQuery)
+          .then(function (result) {
+              // Successful
+              angular.copy(result.data, _rolesByUser);
               deferred.resolve();
           },
           function (error) {
@@ -58,7 +97,26 @@ function ($http, $q) {
           },
           function (error) {
               // Error
-              alert(error.statusText);
+              deferred.reject();
+          });
+        return deferred.promise;
+
+    };
+
+    /**************************************
+    ***        Edit  User Roles         ***
+    **************************************/
+    var _editUserRoles = function (roles, userId) {
+        var deferred = $q.defer();
+        var controllerQuery = "api/Account/EditRoles/" + userId +"/"+roles;
+
+        $http.post(controllerQuery, roles)
+          .then(function (result) {
+              //Success
+              deferred.resolve();
+          },
+          function (error) {
+              // Error
               deferred.reject();
           });
         return deferred.promise;
@@ -84,8 +142,13 @@ function ($http, $q) {
     return {
         users: _users,
         getUsers: _getUsers,
+        //roles: _roles,
+        rolesByUser: _rolesByUser,
+        //getUserRoles: _getUserRoles,
+        getRolesByUser: _getRolesByUser,
         addUser: _addUser,
         editUser: _editUser,
+        editUserRoles: _editUserRoles,
         findUserByName: _findUserByName
 
     }
