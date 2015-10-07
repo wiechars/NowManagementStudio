@@ -1,8 +1,8 @@
 
-DROP procedure IF EXISTS `NMS_GetContacts`;
+DROP procedure IF EXISTS `NMS_GetContact`;
 
 DELIMITER $$
-CREATE PROCEDURE `NMS_GetContacts` ()
+CREATE PROCEDURE `NMS_GetContact` (IN contactID INT)
 BEGIN
 	SELECT `id`,
 `name`,
@@ -10,7 +10,7 @@ BEGIN
 `phone_number`,
 `last_modified`
 FROM `nms_cur_contacts`
-WHERE `is_deleted` = 0 Limit 1000;
+WHERE id = contactID;
 END
 
 $$
