@@ -22,15 +22,11 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <br />
-            <div class="col-md-12">
-                <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
-						</alert>
-            </div>
+
             <h3 class="panel-title"><i class="fa-users"></i>&nbsp&nbspUsers</h3>
             <!--<div class="pull-right isn-panel-pull-right" ng-show="checkPolicy('/app/admin-users',1,1,1,1)"> CHECK POLICY-->
             <div class="pull-right">
-                <div class="btn btn-secondary" ng-click="newUser()" scroll-to="screenEdit">New</div>
+                <div class="btn btn-secondary" ng-click="newUser()">New</div>
             </div>
         </div>
         <div class="panel-body">
@@ -60,72 +56,76 @@
 
     <div class="panel panel-default" ng-style="hideEditForm">
         <div id="screenEdit"></div>
-        <form role="form" id="new_users_form" class="form-horizontal validate" ng-show="selectedUser.id==null">
+        <form role="form" id="userForm" name="userForm" class="form-horizontal validate">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">{{formTitle}}</h3>
-
+                    <br />
+                    <h3 class="panel-title">Dirty : {{userForm.$dirty}}</h3>
                     <div class="pull-right isn-panel-pull-right">
-                        <div class="btn btn-white" ng-click="cancel()" scroll-to="screenTop">Cancel</div>
+                        <div class="btn btn-white" ng-click="cancel()">Cancel</div>
                     </div>
                     <div class="pull-right isn-panel-pull-right pull-right-stack">
-                        <div type="submit" class="btn btn-primary" ng-class="{true: 'disabled', false: ''}[user_modified == false]" ng-click="saveUser()" scroll-to="screenTop">Save<span ng-show="user.is_saving">&nbsp&nbsp<i class=""><span class="fa fa-spin fa-cog"></span></i></span></div>
+                        <div type="submit" class="btn btn-primary" ng-class="{true: 'disabled', false: ''}[user_modified == false]" ng-click="saveUser()">Save<span ng-show="user.is_saving">&nbsp&nbsp<i class=""><span class="fa fa-spin fa-cog"></span></i></span></div>
                     </div>
-                    <div ng-show="user_modified" class="control-label changes-pending pull-right pull-right-stack isn-panel-pull-right">
-                        Changes Pending
+                    <div ng-show="userForm.$dirty" class="control-label">
+                        Changes Pending... 
                     </div>
+                    {{userForm.email.$dirty}}
                 </div>
                 <div class="panel-body">
-                    <alert type="success" ng-show="updateUserSuccess" close="updateUserSuccess = false">
-						<strong>Success!</strong> {{updateUserSuccessMessage}}
-					</alert>
-                    <alert type="danger" ng-show="updateUserPasswordMatchError" close="updateUserPasswordMatchError = false">
-						<strong>Error!</strong> Password Fields Must Match!
-					</alert>
+                    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
+						</alert>
+
                     <div class="form-group">
-                        <label class="col-sm-5 control-label" for="user_username">Username:</label>
+                        <label class="col-sm-5 control-label" for="userName">Username:</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" name="user_username" ng-model="user.userName" data-validate="required" placeholder="Username. Required for login.">
+                            <input type="text" class="form-control" name="userName" ng-model="user.userName" data-validate="required" placeholder="Username. Required for login.">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-5 control-label" for="user_password">Password:</label>
+
+  
+                        <label class="col-sm-5 control-label" for="password">Password:</label>
                         <div class="col-sm-7">
-                            <input type="password" class="form-control" name="user_password" ng-model="user.password" data-validate="required" placeholder="Password field is required.">
+                            <input type="password" class="form-control" name="password" ng-model="user.password" data-validate="required" placeholder="Password field is required.">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-5 control-label" for="user_confirm_password">Confirm Password:</label>
+                        <label class="col-sm-5 control-label" for="confirmPassword">Confirm Password:</label>
                         <div class="col-sm-7">
-                            <input type="password" class="form-control" name="user_confirm_password" ng-model="user.confirmPassword" data-validate="required" placeholder="Confirm Password field is required.">
+                            <input type="password" class="form-control" name="confirmPassword" ng-model="user.confirmPassword" data-validate="required" placeholder="Confirm Password field is required." data-message-required="Passwords don't match" novalidate="novalidate">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-5 control-label" for="user_email">Email:</label>
+                        <label class="col-sm-5 control-label" for="userEmail">Email:</label>
 
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" name="user_email" ng-model="user.email" data-validate="email" placeholder="Email Field">
+                            <input type="email" class="form-control" name="userEmail" ng-model="user.email" data-validate="email" placeholder="Email Field" novalidate="novalidate">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-5 control-label" for="user_active">active:</label>
+
+                        <label class="col-sm-5 control-label" for="user_phone">Phone Number:</label>
                         <div class="col-sm-7">
-                            <input type="checkbox" class="form-control iswitch-secondary" name="user_active" ng-checked="user.active" ng-model="user.active">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="linecons-mobile" /></span>
+                                <input type="text" class="form-control" name="user_phone" ng-model="user.phoneNumber" inputmask data-mask="phone">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Security Groups</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group" ng-repeat="role in rolesByUser">
+                            <label class="col-sm-5 control-label" for="group_{{role.name}}">{{role.name}}</label>
+                            <div class="col-sm-7">
+                                <input type="checkbox" id="group_{{role.name}}" class="form-control iswitch-secondary" name="role.name" ng-checked="role.isMember" ng-model="role.isMember">
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="panel-heading">
-                    <h3 class="panel-title">Security Groups</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="form-group" ng-repeat="role in rolesByUser">
-                        <label class="col-sm-5 control-label" for="group_{{role.name}}">{{role.name}}</label>
-                        <div class="col-sm-7">
-                             <input type="checkbox" id="group_{{role.name}}" class="form-control iswitch-secondary" name="role.name" ng-checked="role.isMember" ng-model="role.isMember">
-                        </div>
-                    </div>
-                </div>
-            </div>
         </form>
     </div>
 </div>

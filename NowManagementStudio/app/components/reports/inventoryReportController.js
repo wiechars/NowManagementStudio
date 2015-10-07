@@ -44,8 +44,8 @@ function inventoryReportController($scope, reportDataService, $http, $q) {
 
     $scope.reportPDF = function reportPDF() {
         var deferred = $q.defer();
-        $http.get('/api/Reports/ContactsReport').success(function (results) {
-            window.open('/api/Reports/ContactsReport', '_self', '');
+        $http.get('/api/Reports/InventoryReport/' + $scope.lot.id).success(function (results) {
+            window.open('/api/Reports/InventoryReport/' + $scope.lot.id, '_self', '');
             deferred.resolve(results);
         }).error(function (data, status, headers, config) {
             deferred.reject('Failed generate pdf');
