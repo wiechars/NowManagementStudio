@@ -131,6 +131,11 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyL
                 }
             }
         }).
+        //401 - Unauthorized
+        state('app.page-401', {
+        	url: '/page-401',
+        	templateUrl: appHelper.templatePath('admin/page-401')
+        }).
 		// Dashboards
         state('app.dashboard-bhs', {
             url: '/dashboard-bhs',
