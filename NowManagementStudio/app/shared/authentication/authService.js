@@ -1,7 +1,8 @@
 ﻿'use strict';
 app.factory('authService', ['$http', '$q', 'localStorageService', function ($http, $q, localStorageService) {
 
-    var serviceBase = 'http://localhost:14855/';
+    //var serviceBase = 'http://bhsnow.isystemsnow.com:8080/';
+    var serviceBase = 'http://localhost:8080/';
     var authServiceFactory = {};
 
     var _authentication = {
@@ -23,7 +24,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', function ($htt
 
         _logOut();
 
-        return $http.post(serviceBase + 'api/account/register', registration).then(function (response) {
+        return $http.post(serviceBase + 'api/Users/register', registration).then(function (response) {
             return response;
         });
 

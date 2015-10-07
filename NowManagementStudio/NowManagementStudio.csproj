@@ -242,13 +242,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>nms.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApiControllerWithHub.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Inventory\InventoryController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\Admin\UserController.cs" />
     <Compile Include="Controllers\Utilities\CustomMultipartFormDataStreamProvider.cs" />
     <Compile Include="Controllers\Utilities\FilesController.cs" />
     <Compile Include="DAL\ContactSprocs.cs" />

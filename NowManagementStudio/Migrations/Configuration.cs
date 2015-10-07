@@ -16,20 +16,20 @@ namespace NowManagementStudio.Migrations
 
         protected override void Seed(NowManagementStudio.Models.AuthContext context)
         {
-            if (!context.Roles.Any(r => r.Name == "SuperAdmin"))
+            if (!context.Roles.Any(r => r.Name == "Administrator"))
             {
                 var store = new RoleStore<IdentityRole>(context);
                 var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole { Name = "SuperAdmin" };
+                var role = new IdentityRole { Name = "Administrator" };
 
                 manager.Create(role);
             }
 
-            if (!context.Roles.Any(r => r.Name == "AppAdmin"))
+            if (!context.Roles.Any(r => r.Name == "Client"))
             {
                 var store = new RoleStore<IdentityRole>(context);
                 var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole { Name = "AppAdmin" };
+                var role = new IdentityRole { Name = "Client" };
 
                 manager.Create(role);
             }

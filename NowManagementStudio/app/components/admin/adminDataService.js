@@ -68,7 +68,7 @@ function ($http, $q) {
     **************************************/
     var _addUser = function (_user) {
         var deferred = $q.defer();
-        var controllerQuery = "api/Account/Register";
+        var controllerQuery = "api/Users/Register";
 
         $http.post(controllerQuery, _user)
           .then(function (result) {
@@ -88,7 +88,7 @@ function ($http, $q) {
     **************************************/
     var _editUser = function (_user) {
         var deferred = $q.defer();
-        var controllerQuery = "api/Account/EditUser";
+        var controllerQuery = "api/Users/EditUser";
 
         $http.post(controllerQuery, _user)
           .then(function (result) {
@@ -108,7 +108,7 @@ function ($http, $q) {
     **************************************/
     var _editUserRoles = function (roles, userId) {
         var deferred = $q.defer();
-        var controllerQuery = "api/Account/EditRoles/" + userId +"/"+roles;
+        var controllerQuery = "api/Users/EditRoles/" + userId + "/" + roles;
 
         $http.post(controllerQuery, roles)
           .then(function (result) {

@@ -52,6 +52,12 @@ namespace NowManagementStudio.Helpers.Providers
                 // In our case "bearer token"
                 var identity = new ClaimsIdentity(context.Options.AuthenticationType);
                 identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
+                //Add roles to claims identity to be used when authorizing 
+                //Admin screens.
+                foreach (string role in roles)
+                {
+                    identity.AddClaim(new Claim(ClaimTypes.Role, role));
+                }
 
 
 
